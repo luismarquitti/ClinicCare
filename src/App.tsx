@@ -32,8 +32,16 @@ function ProtectedRoute({ children, allowedRoles, useLayout = true }: { children
 }
 
 export default function App() {
-  const { notifications, user, initializeListeners } = useAppStore();
+  const { notifications, user, initializeListeners, theme } = useAppStore();
   const prevNotificationsLength = useRef(notifications.length);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   useEffect(() => {
     // Start listening to Firebase real-time snapshot events

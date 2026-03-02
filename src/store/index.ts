@@ -13,6 +13,7 @@ export interface Notification {
 }
 
 interface AppState {
+  theme: 'light' | 'dark';
   user: User | null;
   residents: Resident[];
   vitalSigns: VitalSign[];
@@ -35,6 +36,8 @@ interface AppState {
   initializeListeners: () => () => void; // Returns an unsubscribe function
 
   // Actions
+  setTheme: (theme: 'light' | 'dark') => void;
+  toggleTheme: () => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 
@@ -76,6 +79,7 @@ interface AppState {
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
 export const useAppStore = create<AppState>((set, get) => ({
+  theme: (localStorage.getItem('theme') as 'light' | 'dark') || 'light',
   user: null, // Start unauthenticated
   residents: [],
   vitalSigns: [],
@@ -199,6 +203,16 @@ export const useAppStore = create<AppState>((set, get) => ({
       unsubEmployees();
       unsubSalaryAdvances();
     };
+  },
+
+  setTheme: (theme) => {
+    localStorage.setItem('theme', theme);
+    set({ theme });
+  },
+  toggleTheme: () => {
+    const newTheme = get().theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    set({ theme: newTheme });
   },
 
   login: async (email, password) => {

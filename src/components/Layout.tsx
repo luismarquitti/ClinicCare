@@ -13,7 +13,9 @@ import {
   Menu,
   X,
   Package,
-  BadgePercent
+  BadgePercent,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -27,7 +29,7 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
-  const { user, logout } = useAppStore();
+  const { user, logout, theme, toggleTheme } = useAppStore();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -105,6 +107,13 @@ export function Layout({ children }: LayoutProps) {
           <LogOut size={18} />
           Sair
         </button>
+        <button
+          onClick={toggleTheme}
+          className="flex items-center gap-2 w-full px-3 py-2 mt-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          {theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+        </button>
       </div>
     </>
   );
@@ -120,12 +129,20 @@ export function Layout({ children }: LayoutProps) {
           </div>
           <span className="font-bold text-lg">Vitalis</span>
         </div>
-        <button
-          onClick={() => setIsMobileMenuOpen(true)}
-          className="text-gray-300 hover:text-white p-2"
-        >
-          <Menu size={24} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="text-gray-300 hover:text-white p-2"
+          >
+            {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
+          </button>
+          <button
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="text-gray-300 hover:text-white p-2"
+          >
+            <Menu size={24} />
+          </button>
+        </div>
       </div>
 
       {/* Mobile Sidebar Overlay */}
