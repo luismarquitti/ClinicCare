@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Funções utilitárias assumindo o uso de Custom Claims
+    function isAuthenticated() { return request.auth != null; }
+    function getUserRole() {
+      // Como o requirement pede todo usuário novo como admin:
+      // se a role não existir no token, assumimos admin.
+      return request.auth.token.role != null ? request.auth.token.role : 'admin';
+    }
+    function isAdmin() { return isAuthenticated() && getUserRole() == 'admin'; }
+    function isSaude() { return isAuthenticated() && getUserRole() == 'saude'; }
+    function isFinanceiro() { return isAuthenticated() && getUserRole() == 'financeiro'; }
+    function isManutencao() { return isAuthenticated() && getUserRole() == 'manutencao'; }
+
+    // Regras por coleção
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      // O admin pode alterar qualquer info, o própio usuário pode editar o própio perfil
+      allow write: if isAdmin() || request.auth.uid == userId;
+    }
+    
+    match /residents/{document=**} {
+      allow read: if isAuthenticated() && (isAdmin() || isSaude() || isFinanceiro());
+      allow write: if isAdmin() || isSaude();
+    }
+
+    match /vitalSigns/{document=**} {
+      allow read, write: if isAdmin() || isSaude();
+    }
+    
+    match /evolutionRecords/{document=**} {
+      allow read, write: if isAdmin() || isSaude();
+    }
+
+    match /medications/{document=**} {
+      allow read, write: if isAdmin() || isSaude();
+    }
+
+    match /administrations/{document=**} {
+      allow read, write: if isAdmin() || isSaude();
+    }
+
+    match /billingItems/{document=**} {
+      allow read, write: if isAdmin() || isFinanceiro();
+    }
+
+    match /maintenanceLogs/{document=**} {
+      allow read, write: if isAdmin() || isManutencao();
+    }
+
+    match /notifications/{document=**} {
+      // Todos podem ler, sistemas criam.
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || isSaude() || isManutencao() || isFinanceiro();
+    }
+  }
+}
