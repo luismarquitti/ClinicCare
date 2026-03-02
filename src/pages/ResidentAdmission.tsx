@@ -1,272 +1,288 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../store';
+import { Resident } from '../types';
 
 export function ResidentAdmission() {
   const navigate = useNavigate();
+  const { addResident } = useAppStore();
+  const [activeStep, setActiveStep] = useState(1);
+  const [formData, setFormData] = useState<Partial<Resident>>({
+    name: '',
+    cpf: '',
+    birthDate: '',
+    emergencyContact: '',
+    room: '',
+    status: 'ativo',
+    allergies: [],
+    comorbidities: [],
+    bloodType: ''
+  });
+
+  const [allergyInput, setAllergyInput] = useState('');
+  const [comorbidityInput, setComorbidityInput] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleAddAllergy = () => {
+    if (allergyInput.trim() && !formData.allergies?.includes(allergyInput.trim())) {
+      setFormData(prev => ({ ...prev, allergies: [...(prev.allergies || []), allergyInput.trim()] }));
+      setAllergyInput('');
+    }
+  };
+
+  const handleRemoveAllergy = (allergy: string) => {
+    setFormData(prev => ({ ...prev, allergies: prev.allergies?.filter(a => a !== allergy) }));
+  };
+
+  const handleAddComorbidity = () => {
+    if (comorbidityInput.trim() && !formData.comorbidities?.includes(comorbidityInput.trim())) {
+      setFormData(prev => ({ ...prev, comorbidities: [...(prev.comorbidities || []), comorbidityInput.trim()] }));
+      setComorbidityInput('');
+    }
+  };
+
+  const handleRemoveComorbidity = (comorbidity: string) => {
+    setFormData(prev => ({ ...prev, comorbidities: prev.comorbidities?.filter(c => c !== comorbidity) }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // In a real app, this would use Firebase.
+      // Here we simulate the logic assuming the store addResident handles it.
+      const newResident: Resident = {
+        ...formData,
+        id: crypto.randomUUID(), // Mock ID generation
+        admissionDate: new Date().toISOString(),
+      } as Resident;
+
+      await addResident(newResident);
+      navigate('/residents');
+    } catch (error) {
+      console.error('Error adding resident:', error);
+      alert('Erro ao adicionar residente.');
+    }
+  };
 
   return (
-    <div className="bg-background-light dark:bg-background-dark font-sans text-text-main dark:text-slate-100 antialiased h-screen flex flex-col overflow-hidden">
+    <div className="max-w-4xl mx-auto h-full flex flex-col bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
+
       {/* Header */}
-      <header className="flex-none flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-700 bg-surface-light dark:bg-surface-dark px-10 py-3 z-20 shadow-sm">
-        <div className="flex items-center gap-4 text-text-main dark:text-white">
-          <div className="size-8 flex items-center justify-center text-primary">
-            <span className="material-symbols-outlined text-[32px]">health_and_safety</span>
+      <div className="px-8 py-6 border-b border-gray-200 dark:border-gray-700 bg-background-light/30 dark:bg-background-dark/30">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate('/residents')}
+            className="w-10 h-10 rounded-lg flex items-center justify-center text-text-muted hover:bg-white dark:hover:bg-surface-dark transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-700"
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <div>
+            <h2 className="text-2xl font-bold text-text-main dark:text-white">Admissão de Residente</h2>
+            <p className="text-sm text-text-muted mt-1">Cadastre um novo morador na clínica.</p>
           </div>
-          <h2 className="text-text-main dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Senior Care Clinic - Admission</h2>
         </div>
-        <div className="flex gap-3">
-          <button className="flex items-center justify-center rounded-xl size-10 bg-background-light dark:bg-slate-700 hover:bg-slate-200 text-text-main dark:text-white transition-colors">
-            <span className="material-symbols-outlined">notifications</span>
-          </button>
-          <button className="flex items-center justify-center rounded-xl size-10 bg-background-light dark:bg-slate-700 hover:bg-slate-200 text-text-main dark:text-white transition-colors">
-            <span className="material-symbols-outlined">chat_bubble</span>
-          </button>
-          <button className="flex items-center justify-center rounded-xl size-10 bg-primary text-white hover:bg-purple-800 transition-colors">
-            <span className="material-symbols-outlined">account_circle</span>
-          </button>
-        </div>
-      </header>
-
-      {/* Main Content Area (Split View) */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar: Progress & Tips */}
-        <aside className="w-80 flex-none bg-background-light dark:bg-background-dark border-r border-slate-200 dark:border-slate-700 flex flex-col p-6 overflow-y-auto">
-          <div className="mb-8">
-            <h1 className="text-text-main dark:text-white text-xl font-bold leading-tight mb-1">New Resident Admission</h1>
-            <p className="text-text-secondary dark:text-slate-400 text-sm">Step 2 of 5: Clinical Profile</p>
-          </div>
-
-          {/* Vertical Stepper */}
-          <nav className="flex flex-col gap-2 mb-8">
-            {/* Completed Step */}
-            <div className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-              <div className="flex items-center justify-center size-8 rounded-full bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
-                <span className="material-symbols-outlined text-[20px]">check</span>
-              </div>
-              <div>
-                <p className="text-slate-700 dark:text-slate-300 text-sm font-semibold">Patient Info</p>
-                <p className="text-slate-500 dark:text-slate-500 text-xs">Personal details &amp; ID</p>
-              </div>
-            </div>
-
-            {/* Active Step */}
-            <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-primary-light dark:bg-primary/20 border border-primary/20 shadow-sm relative overflow-hidden">
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
-              <div className="flex items-center justify-center size-8 rounded-full bg-primary text-white shadow-md">
-                <span className="material-symbols-outlined text-[20px]">stethoscope</span>
-              </div>
-              <div>
-                <p className="text-primary dark:text-primary-content text-sm font-bold">Clinical Profile</p>
-                <p className="text-text-secondary dark:text-slate-300 text-xs">History &amp; Vitals</p>
-              </div>
-            </div>
-
-            {/* Upcoming Step */}
-            <div className="flex items-center gap-3 px-3 py-3 rounded-lg opacity-60">
-              <div className="flex items-center justify-center size-8 rounded-full bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
-                <span className="material-symbols-outlined text-[20px]">pill</span>
-              </div>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Medication</p>
-            </div>
-
-            {/* Upcoming Step */}
-            <div className="flex items-center gap-3 px-3 py-3 rounded-lg opacity-60">
-              <div className="flex items-center justify-center size-8 rounded-full bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
-                <span className="material-symbols-outlined text-[20px]">phone</span>
-              </div>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Emergency Contacts</p>
-            </div>
-
-            {/* Upcoming Step */}
-            <div className="flex items-center gap-3 px-3 py-3 rounded-lg opacity-60">
-              <div className="flex items-center justify-center size-8 rounded-full bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
-                <span className="material-symbols-outlined text-[20px]">verified</span>
-              </div>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Review &amp; Admit</p>
-            </div>
-          </nav>
-
-          {/* Tip Card */}
-          <div className="mt-auto bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800">
-            <div className="flex gap-2 items-start mb-2">
-              <span className="material-symbols-outlined text-blue-600 dark:text-blue-400">lightbulb</span>
-              <span className="text-blue-800 dark:text-blue-300 font-semibold text-sm">Quick Tip</span>
-            </div>
-            <p className="text-blue-700 dark:text-blue-200 text-xs leading-relaxed">
-              Ensure all allergies are documented precisely. If "None Known" is selected, other allergy fields will be disabled automatically.
-            </p>
-          </div>
-        </aside>
-
-        {/* Right Content: Form Area */}
-        <main className="flex-1 bg-slate-50 dark:bg-black/20 p-6 md:p-10 overflow-hidden flex flex-col relative">
-          {/* Scrollable Paper Container */}
-          <div className="bg-surface-light dark:bg-surface-dark rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex-1 overflow-y-auto custom-scrollbar relative max-w-4xl mx-auto w-full">
-            {/* Form Header */}
-            <div className="sticky top-0 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-sm z-10 px-8 py-6 border-b border-slate-100 dark:border-slate-700">
-              <h2 className="text-2xl font-bold text-text-main dark:text-white">Clinical Profile</h2>
-              <p className="text-slate-500 dark:text-slate-400 mt-1">Please detail the resident's medical history, including allergies and existing conditions.</p>
-            </div>
-
-            <div className="p-8 space-y-8 pb-32">
-              {/* Section: Vital Signs */}
-              <section>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="material-symbols-outlined text-primary">monitor_heart</span>
-                  <h3 className="text-lg font-semibold text-text-main dark:text-white">Base Vitals</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* Field: Weight */}
-                  <div className="relative">
-                    <input className="peer floating-input block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-transparent px-3 py-3 text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary placeholder-transparent" id="weight" placeholder="Weight" type="number" />
-                    <label className="absolute left-3 top-3 text-slate-500 dark:text-slate-400 transition-all cursor-text pointer-events-none" htmlFor="weight">Weight (kg)</label>
-                    <span className="absolute right-3 top-3 text-slate-400 text-sm">kg</span>
-                  </div>
-                  {/* Field: Height */}
-                  <div className="relative">
-                    <input className="peer floating-input block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-transparent px-3 py-3 text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary placeholder-transparent" id="height" placeholder="Height" type="number" />
-                    <label className="absolute left-3 top-3 text-slate-500 dark:text-slate-400 transition-all cursor-text pointer-events-none" htmlFor="height">Height (cm)</label>
-                    <span className="absolute right-3 top-3 text-slate-400 text-sm">cm</span>
-                  </div>
-                  {/* Field: Blood Type */}
-                  <div className="relative">
-                    <select className="peer floating-input block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-transparent px-3 py-3 text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary appearance-none" id="bloodtype" defaultValue="">
-                      <option className="dark:bg-surface-dark" disabled value="">Select Type</option>
-                      <option className="dark:bg-surface-dark" value="A+">A+</option>
-                      <option className="dark:bg-surface-dark" value="A-">A-</option>
-                      <option className="dark:bg-surface-dark" value="B+">B+</option>
-                      <option className="dark:bg-surface-dark" value="B-">B-</option>
-                      <option className="dark:bg-surface-dark" value="O+">O+</option>
-                      <option className="dark:bg-surface-dark" value="O-">O-</option>
-                      <option className="dark:bg-surface-dark" value="AB+">AB+</option>
-                      <option className="dark:bg-surface-dark" value="AB-">AB-</option>
-                    </select>
-                    <label className="absolute -top-2 left-2 bg-white dark:bg-surface-dark px-1 text-xs text-primary" htmlFor="bloodtype">Blood Type</label>
-                    <span className="material-symbols-outlined absolute right-3 top-3 text-slate-400 pointer-events-none">arrow_drop_down</span>
-                  </div>
-                </div>
-              </section>
-
-              <hr className="border-slate-100 dark:border-slate-700" />
-
-              {/* Section: Allergies (Tag Cloud) */}
-              <section>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary">coronavirus</span>
-                    <h3 className="text-lg font-semibold text-text-main dark:text-white">Allergies &amp; Sensitivities</h3>
-                  </div>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input className="form-checkbox text-primary rounded border-slate-300 focus:ring-primary size-4" type="checkbox" />
-                    <span className="text-sm text-slate-600 dark:text-slate-300">No known allergies (NKA)</span>
-                  </label>
-                </div>
-
-                <div className="bg-slate-50 dark:bg-black/10 rounded-xl p-4 border border-slate-200 dark:border-slate-700 mb-4">
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Common Allergens (Click to add)</p>
-                  <div className="flex flex-wrap gap-2">
-                    <button className="px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-primary hover:text-primary transition-all flex items-center gap-1 group">
-                      <span className="material-symbols-outlined text-[16px] group-hover:text-primary">add</span> Penicillin
-                    </button>
-                    <button className="px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-primary hover:text-primary transition-all flex items-center gap-1 group">
-                      <span className="material-symbols-outlined text-[16px] group-hover:text-primary">add</span> Sulfa
-                    </button>
-                    <button className="px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-primary hover:text-primary transition-all flex items-center gap-1 group">
-                      <span className="material-symbols-outlined text-[16px] group-hover:text-primary">add</span> Latex
-                    </button>
-                    <button className="px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-primary hover:text-primary transition-all flex items-center gap-1 group">
-                      <span className="material-symbols-outlined text-[16px] group-hover:text-primary">add</span> Peanuts
-                    </button>
-                    <button className="px-3 py-1.5 rounded-full border border-slate-300 dark:border-slate-600 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-primary hover:text-primary transition-all flex items-center gap-1 group">
-                      <span className="material-symbols-outlined text-[16px] group-hover:text-primary">add</span> Shellfish
-                    </button>
-                  </div>
-                </div>
-
-                {/* Active Tags */}
-                <div className="flex flex-wrap gap-2 items-center">
-                  <div className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-sm font-medium">
-                    Lactose
-                    <button className="hover:bg-primary/20 rounded-full p-0.5"><span className="material-symbols-outlined text-[16px]">close</span></button>
-                  </div>
-                  <div className="relative flex-grow max-w-xs">
-                    <input className="w-full bg-transparent border-b border-slate-300 dark:border-slate-600 focus:border-primary focus:outline-none py-1 text-sm text-text-main dark:text-white placeholder-slate-400" placeholder="Add other allergy..." type="text" />
-                    <button className="absolute right-0 top-1 text-primary hover:text-primary-dark">
-                      <span className="material-symbols-outlined text-[20px]">add_circle</span>
-                    </button>
-                  </div>
-                </div>
-              </section>
-
-              <hr className="border-slate-100 dark:border-slate-700" />
-
-              {/* Section: Conditions & History */}
-              <section>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="material-symbols-outlined text-primary">history_edu</span>
-                  <h3 className="text-lg font-semibold text-text-main dark:text-white">Medical Conditions &amp; History</h3>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  {/* Multi-Select Condition (Mockup) */}
-                  <div className="relative">
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Existing Conditions</label>
-                    <div className="p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-transparent min-h-[50px] flex flex-wrap gap-2">
-                      <div className="flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
-                        Hypertension <button><span className="material-symbols-outlined text-[14px]">close</span></button>
-                      </div>
-                      <div className="flex items-center gap-1 px-2 py-1 rounded bg-slate-100 dark:bg-slate-700 text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-600">
-                        Diabetes Type 2 <button><span className="material-symbols-outlined text-[14px]">close</span></button>
-                      </div>
-                    </div>
-                    <p className="text-xs text-slate-500 mt-1">Select from common list or type to search</p>
-                  </div>
-
-                  {/* Diet */}
-                  <div className="relative">
-                    <select className="peer floating-input block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-transparent px-3 py-3 text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary appearance-none mt-7" id="diet" defaultValue="Regular">
-                      <option className="dark:bg-surface-dark" disabled value="">Select Diet Type</option>
-                      <option className="dark:bg-surface-dark" value="Regular">Regular</option>
-                      <option className="dark:bg-surface-dark" value="Low Sodium">Low Sodium</option>
-                      <option className="dark:bg-surface-dark" value="Diabetic">Diabetic</option>
-                      <option className="dark:bg-surface-dark" value="Pureed">Pureed</option>
-                    </select>
-                    <label className="absolute top-5 left-2 bg-white dark:bg-surface-dark px-1 text-xs text-primary" htmlFor="diet">Dietary Restrictions</label>
-                    <span className="material-symbols-outlined absolute right-3 top-10 text-slate-400 pointer-events-none">arrow_drop_down</span>
-                  </div>
-                </div>
-
-                {/* Notes Area */}
-                <div className="relative">
-                  <textarea className="peer floating-input block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-transparent px-3 py-3 text-sm text-text-main dark:text-white focus:border-primary focus:ring-1 focus:ring-primary placeholder-transparent" id="notes" placeholder="Notes" rows={4}></textarea>
-                  <label className="absolute left-3 top-3 text-slate-500 dark:text-slate-400 transition-all cursor-text pointer-events-none bg-surface-light dark:bg-surface-dark px-1" htmlFor="notes">Additional Medical Notes / Observations</label>
-                </div>
-              </section>
-            </div>
-          </div>
-
-          {/* Floating Action Buttons Container */}
-          <div className="absolute bottom-6 right-6 md:right-10 flex gap-3 z-20">
-            <button 
-              onClick={() => navigate('/residents')}
-              className="px-6 py-3 rounded-xl bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-600 text-text-main dark:text-white font-semibold shadow-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center gap-2"
-            >
-              <span className="material-symbols-outlined">arrow_back</span>
-              Back
-            </button>
-            <button 
-              onClick={() => navigate('/residents')}
-              className="px-6 py-3 rounded-xl bg-primary text-white font-semibold shadow-lg shadow-primary/30 hover:bg-purple-800 hover:shadow-primary/50 transition-all flex items-center gap-2"
-            >
-              Next Step
-              <span className="material-symbols-outlined">arrow_forward</span>
-            </button>
-          </div>
-
-          {/* Fade overlay for bottom of scroll area */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-50 to-transparent dark:from-[#1e1e24] pointer-events-none z-10 w-full md:w-[calc(100%-40px)] mx-auto rounded-b-2xl"></div>
-        </main>
       </div>
+
+      {/* Main Form Area */}
+      <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+        <div className="space-y-8 max-w-3xl mx-auto pb-20">
+
+          {/* Section 1: Personal Info */}
+          <section className="space-y-4">
+            <h3 className="text-lg font-semibold text-text-main dark:text-white flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+              <span className="material-symbols-outlined text-primary text-[20px]">person</span>
+              Informações Pessoais
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Nome Completo *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                  placeholder="Nome do residente"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">CPF *</label>
+                <input
+                  type="text"
+                  name="cpf"
+                  value={formData.cpf}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                  placeholder="000.000.000-00"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Data de Nascimento *</label>
+                <input
+                  type="date"
+                  name="birthDate"
+                  value={formData.birthDate}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Quarto/Leito *</label>
+                <input
+                  type="text"
+                  name="room"
+                  value={formData.room}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                  placeholder="Ex: 101-A"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Section 2: Contact Info */}
+          <section className="space-y-4">
+            <h3 className="text-lg font-semibold text-text-main dark:text-white flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+              <span className="material-symbols-outlined text-primary text-[20px]">contact_phone</span>
+              Contato de Emergência
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1 md:col-span-2">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Telefone / Nome do Contato *</label>
+                <input
+                  type="text"
+                  name="emergencyContact"
+                  value={formData.emergencyContact}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                  placeholder="Ex: (11) 99999-9999 - João (Filho)"
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* Section 3: Clinical Profile */}
+          <section className="space-y-4">
+            <h3 className="text-lg font-semibold text-text-main dark:text-white flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 pb-2">
+              <span className="material-symbols-outlined text-primary text-[20px]">medical_information</span>
+              Perfil Clínico
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Tipo Sanguíneo</label>
+                <select
+                  name="bloodType"
+                  value={formData.bloodType}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                >
+                  <option value="">Selecione...</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+
+              {/* Allergies */}
+              <div className="md:col-span-2 space-y-3">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Alergias</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={allergyInput}
+                    onChange={(e) => setAllergyInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddAllergy())}
+                    className="flex-1 px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                    placeholder="Adicionar alergia..."
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddAllergy}
+                    className="px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors text-sm font-medium"
+                  >
+                    Add
+                  </button>
+                </div>
+                {formData.allergies && formData.allergies.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {formData.allergies.map(allergy => (
+                      <span key={allergy} className="px-3 py-1 rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-800/30 text-xs font-semibold flex items-center gap-1">
+                        {allergy}
+                        <button type="button" onClick={() => handleRemoveAllergy(allergy)} className="hover:text-red-800 dark:hover:text-red-200 ml-1">
+                          <span className="material-symbols-outlined text-[14px]">close</span>
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Comorbidities */}
+              <div className="md:col-span-2 space-y-3">
+                <label className="text-sm font-medium text-text-main dark:text-slate-300">Comorbidades (Doenças Pré-existentes)</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={comorbidityInput}
+                    onChange={(e) => setComorbidityInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddComorbidity())}
+                    className="flex-1 px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all dark:text-white"
+                    placeholder="Adicionar comorbidade (ex: Hipertensão, Diabetes)..."
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddComorbidity}
+                    className="px-4 py-2 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-lg transition-colors text-sm font-medium"
+                  >
+                    Add
+                  </button>
+                </div>
+                {formData.comorbidities && formData.comorbidities.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {formData.comorbidities.map(comorbidity => (
+                      <span key={comorbidity} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-semibold flex items-center gap-1">
+                        {comorbidity}
+                        <button type="button" onClick={() => handleRemoveComorbidity(comorbidity)} className="hover:text-slate-900 dark:hover:text-white ml-1">
+                          <span className="material-symbols-outlined text-[14px]">close</span>
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      {/* Footer Footer */}
+      <div className="border-t border-gray-200 dark:border-gray-700 p-6 flex justify-end gap-3 bg-background-light/30 dark:bg-background-dark/30 mt-auto">
+        <button
+          onClick={() => navigate('/residents')}
+          className="px-6 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-text-main dark:text-white font-medium hover:bg-gray-50 dark:hover:bg-surface-dark transition-colors"
+        >
+          Cancelar
+        </button>
+        <button
+          onClick={handleSubmit}
+          className="px-6 py-2.5 rounded-lg bg-primary text-white font-medium hover:bg-primary/90 transition-colors shadow-sm"
+        >
+          Salvar Morador
+        </button>
+      </div>
+
     </div>
   );
 }

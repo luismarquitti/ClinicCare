@@ -10,7 +10,9 @@ import { ResidentAdmission } from './pages/ResidentAdmission';
 import { EPrescription } from './pages/EPrescription';
 import { Nursing } from './pages/Nursing';
 import { Financial } from './pages/Financial';
+import { Inventory } from './pages/Inventory';
 import { Maintenance } from './pages/Maintenance';
+import { HR } from './pages/HR';
 import { Documentation } from './pages/Documentation';
 import { Toaster, toast } from 'react-hot-toast';
 import React, { useEffect, useRef } from 'react';
@@ -30,8 +32,14 @@ function ProtectedRoute({ children, allowedRoles, useLayout = true }: { children
 }
 
 export default function App() {
-  const { notifications, user } = useAppStore();
+  const { notifications, user, initializeListeners } = useAppStore();
   const prevNotificationsLength = useRef(notifications.length);
+
+  useEffect(() => {
+    // Start listening to Firebase real-time snapshot events
+    const unsubscribe = initializeListeners();
+    return () => unsubscribe();
+  }, [initializeListeners]);
 
   useEffect(() => {
     if (notifications.length > prevNotificationsLength.current) {
@@ -52,13 +60,13 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        
+
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         } />
-        
+
         <Route path="/residents" element={
           <ProtectedRoute allowedRoles={['admin', 'saude']}>
             <Residents />
@@ -88,16 +96,28 @@ export default function App() {
             <Nursing />
           </ProtectedRoute>
         } />
-        
+
         <Route path="/financial" element={
           <ProtectedRoute allowedRoles={['admin', 'financeiro']}>
             <Financial />
           </ProtectedRoute>
         } />
-        
+
+        <Route path="/inventory" element={
+          <ProtectedRoute allowedRoles={['admin', 'financeiro', 'saude', 'manutencao']}>
+            <Inventory />
+          </ProtectedRoute>
+        } />
+
         <Route path="/maintenance" element={
           <ProtectedRoute allowedRoles={['admin', 'manutencao']}>
             <Maintenance />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/hr" element={
+          <ProtectedRoute allowedRoles={['admin', 'rh']}>
+            <HR />
           </ProtectedRoute>
         } />
 

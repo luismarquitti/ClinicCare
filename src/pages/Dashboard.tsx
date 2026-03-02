@@ -1,12 +1,12 @@
 import { useAppStore } from '../store';
 import { Users, Pill, DollarSign, Wrench, Bell, Check } from 'lucide-react';
-import { 
+import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line
 } from 'recharts';
 
 export function Dashboard() {
-  const { residents, administrations, billingItems, maintenanceLogs, notifications, user, markNotificationAsRead } = useAppStore();
+  const { residents, administrations, billingItems, maintenanceLogs, notifications, user, inventory, employees, markNotificationAsRead } = useAppStore();
 
   const userNotifications = notifications.filter(n => n.targetRole === 'all' || n.targetRole === user?.role);
   const unreadNotifications = userNotifications.filter(n => !n.read);
@@ -82,7 +82,7 @@ export function Dashboard() {
           <h1 className="text-2xl font-bold text-slate-900">Dashboard Analítico</h1>
           <p className="text-slate-500">Visão geral e métricas da clínica.</p>
         </div>
-        
+
         {/* Notifications Dropdown */}
         <div className="relative group">
           <button className="relative p-2 bg-white rounded-full shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors">
@@ -113,7 +113,7 @@ export function Dashboard() {
                       </span>
                     </div>
                     {!notif.read && (
-                      <button 
+                      <button
                         onClick={() => markNotificationAsRead(notif.id)}
                         className="text-blue-600 hover:text-blue-800 p-1"
                         title="Marcar como lida"
@@ -143,9 +143,70 @@ export function Dashboard() {
         ))}
       </div>
 
+      {/* Quick Views: Staff Status & Critical Inventory */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        {/* Staff Status Widget */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-slate-900">Status da Equipe</h2>
+            <span className="text-sm font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+              {employees.filter(e => e.status === 'on_duty').length} em plantão
+            </span>
+          </div>
+          <div className="space-y-3">
+            {employees.slice(0, 4).map(emp => (
+              <div key={emp.id} className="flex justify-between items-center p-3 hover:bg-slate-50 rounded-xl border border-transparent hover:border-slate-100 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className={`w-2 h-2 rounded-full ${emp.status === 'on_duty' ? 'bg-emerald-500' : emp.status === 'off_duty' ? 'bg-slate-300' : 'bg-amber-500'}`} />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">{emp.name}</p>
+                    <p className="text-xs text-slate-500">{emp.role}</p>
+                  </div>
+                </div>
+                <span className="text-xs font-medium text-slate-500">
+                  {emp.status === 'on_duty' ? 'Trabalhando' : emp.status === 'off_duty' ? 'Folga' : 'Férias'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Critical Inventory Widget */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-bold text-slate-900">Estoque Crítico</h2>
+            <span className="text-sm font-medium text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
+              {inventory.filter(i => i.quantity <= i.minQuantity).length} itens críticos
+            </span>
+          </div>
+          <div className="space-y-3">
+            {inventory.filter(i => i.quantity <= i.minQuantity).slice(0, 4).map(item => (
+              <div key={item.id} className="flex justify-between items-center p-3 hover:bg-slate-50 rounded-xl border border-transparent hover:border-slate-100 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+                    <span className="material-symbols-outlined text-[18px]">warning</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">{item.name}</p>
+                    <p className="text-xs text-slate-500">{item.category === 'medication' ? 'Medicamento' : item.category === 'kitchen' ? 'Cozinha' : 'Insumo'}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-bold text-rose-600">{item.quantity} {item.unit}</p>
+                  <p className="text-xs text-slate-500">Mín: {item.minQuantity}</p>
+                </div>
+              </div>
+            ))}
+            {inventory.filter(i => i.quantity <= i.minQuantity).length === 0 && (
+              <p className="text-sm text-slate-500 text-center py-4">Estoque regularizado.</p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-        
+
         {/* Occupancy Pie Chart */}
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col">
           <h2 className="text-lg font-bold text-slate-900 mb-4">Taxa de Ocupação</h2>
@@ -166,7 +227,7 @@ export function Dashboard() {
                   ))}
                 </Pie>
                 <RechartsTooltip />
-                <Legend verticalAlign="bottom" height={36}/>
+                <Legend verticalAlign="bottom" height={36} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -179,10 +240,10 @@ export function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={costsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} tickFormatter={(value) => `R$${value}`} />
-                <RechartsTooltip 
-                  cursor={{fill: '#f8fafc'}}
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(value) => `R$${value}`} />
+                <RechartsTooltip
+                  cursor={{ fill: '#f8fafc' }}
                   formatter={(value: number) => [new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value), 'Custo']}
                 />
                 <Bar dataKey="custo" fill="#005ac2" radius={[4, 4, 0, 0]} barSize={40} />
@@ -198,12 +259,12 @@ export function Dashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={maintenanceData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <RechartsTooltip />
                 <Legend />
-                <Line type="monotone" dataKey="preventivas" name="Preventivas" stroke="#005ac2" strokeWidth={3} dot={{r: 4}} activeDot={{r: 6}} />
-                <Line type="monotone" dataKey="corretivas" name="Corretivas" stroke="#006874" strokeWidth={3} dot={{r: 4}} activeDot={{r: 6}} />
+                <Line type="monotone" dataKey="preventivas" name="Preventivas" stroke="#005ac2" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                <Line type="monotone" dataKey="corretivas" name="Corretivas" stroke="#006874" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>

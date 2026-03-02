@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppStore } from '../store';
+import { ExpenseItem } from '../types';
 
 export function Financial() {
-  const { residents, billingItems, addBillingItem } = useAppStore();
-  const [activeTab, setActiveTab] = useState<'faturas' | 'despesas' | 'relatorios'>('faturas');
+  const { residents, billingItems, expenses, addBillingItem, addExpense } = useAppStore();
+  const [activeTab, setActiveTab] = useState<'faturas' | 'lancamentos' | 'despesas' | 'relatorios'>('faturas');
+
+  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [newExpense, setNewExpense] = useState<Partial<ExpenseItem>>({
+    date: new Date().toISOString().split('T')[0],
+    description: '',
+    category: 'operacional',
+    amount: 0,
+    status: 'pendente'
+  });
 
   const pendingBillingItems = billingItems.filter(b => b.status === 'pendente');
-  const totalPending = pendingBillingItems.reduce((acc, curr) => acc + curr.amount, 0);
 
   const getResidentName = (id: string) => residents.find(r => r.id === id)?.name || 'Desconhecido';
 
@@ -14,9 +23,24 @@ export function Financial() {
     alert(`Fatura gerada para o residente ${getResidentName(residentId)} com sucesso! (Mock)`);
   };
 
-  // Calculate some mock summary data
-  const receitasPrevistas = 145000;
-  const despesasOperacionais = 82350;
+  const handleAddExpense = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newExpense.description && newExpense.amount) {
+      await addExpense(newExpense as Omit<ExpenseItem, 'id'>);
+      setIsExpenseModalOpen(false);
+      setNewExpense({
+        date: new Date().toISOString().split('T')[0],
+        description: '',
+        category: 'operacional',
+        amount: 0,
+        status: 'pendente'
+      });
+    }
+  };
+
+  // Calculate some mock summary data based on real data where possible
+  const receitasPrevistas = 145000 + billingItems.reduce((acc, curr) => acc + curr.amount, 0);
+  const despesasOperacionais = 82350 + expenses.reduce((acc, curr) => acc + curr.amount, 0);
   const fluxoCaixa = receitasPrevistas - despesasOperacionais;
 
   return (
@@ -91,24 +115,31 @@ export function Financial() {
 
       {/* Tabs Navigation */}
       <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
-        <nav aria-label="Tabs" className="flex space-x-8">
-          <button 
+        <nav aria-label="Tabs" className="flex space-x-8 overflow-x-auto custom-scrollbar">
+          <button
             onClick={() => setActiveTab('faturas')}
-            className={`py-4 px-1 inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'faturas' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
+            className={`py-4 px-1 whitespace-nowrap inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'faturas' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
           >
             <span className="material-symbols-outlined mr-2 text-[20px]">receipt_long</span>
             Faturamento de Residentes
           </button>
-          <button 
+          <button
+            onClick={() => setActiveTab('lancamentos')}
+            className={`py-4 px-1 whitespace-nowrap inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'lancamentos' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
+          >
+            <span className="material-symbols-outlined mr-2 text-[20px]">list_alt</span>
+            Lançamentos / Variáveis
+          </button>
+          <button
             onClick={() => setActiveTab('despesas')}
-            className={`py-4 px-1 inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'despesas' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
+            className={`py-4 px-1 whitespace-nowrap inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'despesas' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
           >
             <span className="material-symbols-outlined mr-2 text-[20px]">shopping_bag</span>
             Despesas da Clínica
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab('relatorios')}
-            className={`py-4 px-1 inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'relatorios' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
+            className={`py-4 px-1 whitespace-nowrap inline-flex items-center text-sm font-bold border-b-[3px] transition-all ${activeTab === 'relatorios' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-text-main hover:border-gray-300'}`}
           >
             <span className="material-symbols-outlined mr-2 text-[20px]">analytics</span>
             Relatórios
@@ -151,7 +182,7 @@ export function Financial() {
                     const mensalidadeBase = 4500; // Mock base value
                     const total = mensalidadeBase + custosVariaveis;
                     const status = total > 5000 ? 'Pendente' : 'Pago'; // Mock status logic
-                    const statusColor = status === 'Pago' 
+                    const statusColor = status === 'Pago'
                       ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
                       : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300';
 
@@ -183,7 +214,7 @@ export function Financial() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <button 
+                          <button
                             onClick={() => handleGenerateInvoice(resident.id)}
                             className="text-text-muted hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10"
                             title="Gerar Fatura"
@@ -237,7 +268,7 @@ export function Financial() {
           </>
         )}
 
-        {activeTab === 'despesas' && (
+        {activeTab === 'lancamentos' && (
           <div className="p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold text-text-main dark:text-white">Lançamentos Variáveis</h2>
@@ -290,6 +321,56 @@ export function Financial() {
           </div>
         )}
 
+        {activeTab === 'despesas' && (
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-text-main dark:text-white">Despesas da Clínica</h2>
+              <button
+                onClick={() => setIsExpenseModalOpen(true)}
+                className="text-primary hover:text-primary/80 font-medium text-sm transition-colors"
+              >
+                + Nova Despesa
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-200 dark:border-gray-700 text-sm font-medium text-text-muted">
+                    <th className="pb-3 font-medium">Data</th>
+                    <th className="pb-3 font-medium">Descrição</th>
+                    <th className="pb-3 font-medium">Categoria</th>
+                    <th className="pb-3 font-medium text-right">Valor</th>
+                    <th className="pb-3 font-medium text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm">
+                  {expenses.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(item => (
+                    <tr key={item.id} className="border-b border-gray-100 dark:border-gray-800 hover:bg-surface-light dark:hover:bg-surface-dark transition-colors">
+                      <td className="py-3 text-text-muted">{new Date(item.date).toLocaleDateString('pt-BR')}</td>
+                      <td className="py-3 font-medium text-text-main dark:text-white">{item.description}</td>
+                      <td className="py-3 capitalize text-text-muted">{item.category}</td>
+                      <td className="py-3 text-right font-medium text-text-main dark:text-white">
+                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.amount)}
+                      </td>
+                      <td className="py-3 text-center">
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${item.status === 'pago' ? 'bg-success/10 text-success' : 'bg-yellow-100 text-yellow-800'}`}>
+                          {item.status === 'pago' ? <span className="material-symbols-outlined text-[12px]">check_circle</span> : <span className="material-symbols-outlined text-[12px]">schedule</span>}
+                          {item.status === 'pago' ? 'Pago' : 'Pendente'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  {expenses.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="py-8 text-center text-text-muted">Nenhuma despesa encontrada.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'relatorios' && (
           <div className="p-12 text-center">
             <span className="material-symbols-outlined text-[48px] text-text-muted/30 mb-4">analytics</span>
@@ -298,6 +379,105 @@ export function Financial() {
           </div>
         )}
       </div>
+      {/* Add Expense Modal */}
+      {isExpenseModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-surface-dark w-full max-w-md rounded-2xl shadow-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+              <h3 className="text-lg font-bold text-text-main dark:text-white">Registrar Nova Despesa</h3>
+              <button
+                onClick={() => setIsExpenseModalOpen(false)}
+                className="text-text-muted hover:text-text-main transition-colors"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            <form onSubmit={handleAddExpense} className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-text-main dark:text-white mb-1">Data</label>
+                <input
+                  type="date"
+                  required
+                  value={newExpense.date}
+                  onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none text-text-main dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-text-main dark:text-white mb-1">Descrição</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Ex: Conta de Luz"
+                  value={newExpense.description}
+                  onChange={(e) => setNewExpense({ ...newExpense, description: e.target.value })}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none text-text-main dark:text-white"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-text-main dark:text-white mb-1">Categoria</label>
+                  <select
+                    value={newExpense.category}
+                    onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value as ExpenseItem['category'] })}
+                    className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none text-text-main dark:text-white capitalize"
+                  >
+                    <option value="operacional">Operacional</option>
+                    <option value="manutencao">Manutenção</option>
+                    <option value="pessoal">Pessoal</option>
+                    <option value="impostos">Impostos</option>
+                    <option value="outros">Outros</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-main dark:text-white mb-1">Valor (R$)</label>
+                  <input
+                    type="number"
+                    required
+                    min="0.01"
+                    step="0.01"
+                    value={newExpense.amount || ''}
+                    onChange={(e) => setNewExpense({ ...newExpense, amount: Number(e.target.value) })}
+                    className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none text-text-main dark:text-white"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-text-main dark:text-white mb-1">Status</label>
+                <select
+                  value={newExpense.status}
+                  onChange={(e) => setNewExpense({ ...newExpense, status: e.target.value as 'pendente' | 'pago' })}
+                  className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none text-text-main dark:text-white"
+                >
+                  <option value="pendente">Pendente</option>
+                  <option value="pago">Pago</option>
+                </select>
+              </div>
+
+              <div className="pt-4 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsExpenseModalOpen(false)}
+                  className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 text-text-main dark:text-white rounded-lg transition-colors font-medium border border-gray-200 dark:border-gray-700"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                >
+                  Salvar Despesa
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

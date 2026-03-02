@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store';
-import { Role } from '../types';
-import { Activity, Lock, Mail } from 'lucide-react';
+import { Mail, Lock, AlertCircle } from 'lucide-react';
 
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<Role>('admin');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const login = useAppStore((state) => state.login);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock authentication
-    if (email && password) {
-      login(email, role);
-      navigate('/dashboard');
+    setError(null);
+    setIsLoading(true);
+    try {
+      if (email && password) {
+        await login(email, password);
+        navigate('/dashboard');
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError('Falha na autenticação. Verifique seu email e senha.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -32,6 +40,13 @@ export function Login() {
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-lg flex items-center gap-2 text-sm">
+              <AlertCircle size={18} />
+              <span>{error}</span>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-text-main dark:text-gray-300 mb-2">Email</label>
             <div className="relative">
@@ -62,25 +77,12 @@ export function Login() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-text-main dark:text-gray-300 mb-2">Simular Perfil (Mock)</label>
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value as Role)}
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-white dark:bg-surface-dark text-text-main dark:text-white"
-            >
-              <option value="admin">Administrador</option>
-              <option value="saude">Saúde (Médico/Enfermeiro)</option>
-              <option value="financeiro">Financeiro</option>
-              <option value="manutencao">Manutenção</option>
-            </select>
-          </div>
-
           <button
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2.5 rounded-lg transition-colors shadow-sm"
+            disabled={isLoading}
+            className="w-full bg-primary hover:bg-primary/90 disabled:opacity-70 text-white font-medium py-2.5 rounded-lg transition-colors shadow-sm"
           >
-            Entrar
+            {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
       </div>
