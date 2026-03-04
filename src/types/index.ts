@@ -170,3 +170,5 @@ export interface WorkOrder {
   cost?: number;
   partsUsed?: { inventoryItemId: string, quantity: number }[];
 }
+
+export * from './financial';
