@@ -46,6 +46,19 @@ service cloud.firestore {
       allow read, write: if isAdmin() || isFinanceiro();
     }
 
+    match /accounts/{document=**} {
+      allow read, write: if isAdmin() || isFinanceiro();
+    }
+
+    match /categories/{document=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() || isFinanceiro();
+    }
+
+    match /transactions/{document=**} {
+      allow read, write: if isAdmin() || isFinanceiro();
+    }
+
     match /maintenanceLogs/{document=**} {
       allow read, write: if isAdmin() || isManutencao();
     }
