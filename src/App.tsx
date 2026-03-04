@@ -9,7 +9,7 @@ import { ResidentDetails } from './pages/ResidentDetails';
 import { ResidentAdmission } from './pages/ResidentAdmission';
 import { EPrescription } from './pages/EPrescription';
 import { Nursing } from './pages/Nursing';
-import { Financial } from './pages/Financial';
+import { Financeiro } from './pages/Financeiro';
 import { Inventory } from './pages/Inventory';
 import { Maintenance } from './pages/Maintenance';
 import { HR } from './pages/HR';
@@ -107,7 +107,7 @@ export default function App() {
 
         <Route path="/financial" element={
           <ProtectedRoute allowedRoles={['admin', 'financeiro']}>
-            <Financial />
+            <Financeiro />
           </ProtectedRoute>
         } />
 
