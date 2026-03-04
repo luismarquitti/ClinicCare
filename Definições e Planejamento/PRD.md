@@ -39,6 +39,13 @@ Atualmente, muitas clínicas e Instituições de Longa Permanência lidam com fl
 - **Recursos Humanos (Básico):** Controle de escala de plantões, ponto eletrônico e gestão de adiantamentos salariais.
 - **Estoque/Farmácia:** Gestão de níveis mínimos, reposição automática e rastreabilidade de entrada/saída de insumos.
 
+### 4.4. Assistente Virtual de IA (Chatbot)
+
+- **Inserção e Consulta de Dados via IA:** Interface conversacional (Chatbot nativo e integração via WhatsApp) alimentado por LLMs.
+- **Entrada Multimodal:** Aceite de prompts em linguagem natural (ex: "apliquei a medicação X no paciente Y") e upload de imagens (anotações, caixas de remédios, notas fiscais).
+- **Validação e Ação:** O agente de IA interpretará o contexto, solicitará confirmação humana do entendimento e, após aprovado, fará as inserções/modificações no local correto do sistema.
+- **Relatórios e Insights:** Capacidade de gerar relatórios operacionais estruturados a partir de conversas.
+
 ## 5. Personas e Casos de Uso
 
 ### Persona 1: Profissional de Saúde (Médico / Enfermeiro)

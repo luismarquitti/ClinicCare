@@ -15,13 +15,18 @@ ClinicCare is a comprehensive clinic management system built with React, Firebas
 
 ## Project Structure
 
+A organização baseia-se em estrutura modular de negócios com isolamento para alta escalabilidade:
+
 ```
 ClinicCare/
+├── .agents/              # Regras, Workflows e Contextos padronizados para Agentes IA
+├── Definições e.../      # [Essencial] Diretório Central de Planejamento e Especificações (PRD, Specs_UX_UI, System_Design, Roadmap gerencial)
 ├── src/
 │   ├── components/       # Reusable UI components
 │   ├── contexts/         # React Context providers
 │   ├── hooks/            # Custom React hooks
-│   ├── pages/            # Page components
+│   ├── modules/          # Funcionalidades Isoladas de Negócio (ex: /PatientModule, /AuthModule)
+│   ├── pages/            # Page components and views
 │   ├── services/         # Firebase services
 │   ├── stores/           # Zustand stores
 │   ├── types/            # TypeScript type definitions
@@ -153,13 +158,21 @@ VITE_FIREBASE_APP_ID=your_app_id
 
 [MIT License](LICENSE)
 
-## Contributing
+## Contributing & Branching Strategy
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+A base fundamental adere aos princípios do Git Flow simplificados para manter a estabilidade da branch principal e previsibilidade de releases. O rastreio será integrado a _Boards de Gerenciamento Agile_, como o **GitHub Projects**.
+
+1. **Board de Tarefas:** Crie as tarefas primeiramente no Board do GitHub Projects. Todo PR e Branch deve referenciar a Issue da tarefa vinculada.
+2. Fork the repository (ou instancie no projeto principal)
+3. Crie e baseeie a _Feature Branch_ sempre a partir de `main` (ou da ramificação de _release_).  
+   Nomenclaturas padrão obrigatórias:
+   - `feature/NameOfFeature`: Funcionalidades novas.
+   - `fix/NameOfFix`: Correções a bugs não-críticos da sprint atual.
+   - `hotfix/NameOfFix`: Correção de emergência impactando o _main_ funcional.
+   - `docs/NameOfDocs`: Operações massivas em arquitetura e planejamento.
+4. Commit your changes com _Semantic Commits_ (`git commit -m 'feat: add some AmazingFeature'`)
+5. Push to the branch (`git push origin feature/AmazingFeature`)
+6. Open a Pull Request e aguarde Code Review conforme a Definition of Done (DoD).
 
 ## Support
 

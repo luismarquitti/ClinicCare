@@ -33,7 +33,9 @@ O núcleo do produto de saúde e o maior gerador de valor em segurança do pacie
 
 ### Fase 5: IA e Visão do Produto Escalável (Mês 6+)
 
-- Integração de modelos de linguagem para análise de notas médicas e sumarização da evolução diária.
+- **Módulo de Assistente Virtual de IA (Chatbot - MVP):** Integração com **Google Gemini** (via Firebase Extensions) aceitando inputs de texto natural e imagens para extrair informações (e.g. medicamentos aplicados, finanças).
+- **Integração WhatsApp:** Conexão com a WhatsApp Cloud API via webhooks enlaçados ao Firebase Auth corporativo para permitir operação remota.
+- **Análise e predição (LLMs):** Integração de modelos de linguagem para análise de notas médicas e sumarização da evolução diária.
 - Analytics avançado: predição de alta / predição de piora geriátrica baseada no declínio dos sinais vitais.
 - Portal Familiar (Read-Only) para acompanhamento dos parentes internados nas ILPIs.
 
