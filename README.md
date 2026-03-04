@@ -1,20 +1,57 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="200" alt="ClinicCare Logo" src="./public/assets/logo.jpg" />
+
+# 🏥 ClinicCare
+
+### *Sistema Inteligente de Gestão para Clínicas e Instituições de Longa Permanência*
+
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-BaaS-orange?logo=firebase)](https://firebase.google.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6-purple?logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+
 </div>
 
-# ClinicCare - Sistema de Gestão de Clínicas e Lares de Idosos
+---
 
-ClinicCare é um sistema compreensivo de gerenciamento clínico construído com React, Firebase e TypeScript. Ele fornece uma interface moderna e intuitiva para gerenciar informações de pacientes, agendamentos, finanças, manutenção e registros de saúde.
+## 🌟 Visão Geral
+
+O **ClinicCare** é uma solução completa e escalável voltada para a gestão de clínicas e lares de idosos. Desenvolvido com foco em **Performance**, **Segurança** e **UX Premium**, o sistema centraliza todas as operações administrativas e assistenciais em um único ecossistema serverless.
+
+> [!TIP]
+> **Público**: Desenvolvedores, Stakeholders e Clientes que buscam uma interface moderna e integração profunda com serviços de nuvem.
+
+---
+
+## 🏗️ Módulos do Sistema
+
+O ClinicCare foi projetado de forma modular, permitindo que cada área da instituição opere de forma isolada, mas conectada através de um banco de dados em tempo real.
+
+| Módulo | Descrição | Principais Recursos |
+| :--- | :--- | :--- |
+| **🏘️ Residentes** | Gestão de prontuários e admissões. | Cadastro completo, busca dinâmica, detalhes de saúde. |
+| **💉 Assistencial** | Controle de saúde e enfermagem. | Sinais vitais, evolução clínica, prescrição eletrônica. |
+| **💰 Financeiro** | Gestão de faturamento e contas. | Dashboard de métricas, controle de transações, filtros. |
+| **🛠️ Manutenção** | Gerenciamento de infraestrutura. | Abertura de chamados, logs de manutenção, histórico. |
+| **📦 Inventário** | Controle de suprimentos. | Gestão de estoque, alertas de reposição. |
+| **👥 RH** | Gestão de colaboradores. | Listagem de staff, cargos e permissões. |
+| **📊 Dashboard** | Analytics em tempo real. | Gráficos evolutivos, métricas de ocupação. |
+| **🤖 AI Lab** | Integração com IA. | Processamento de documentos e geração de insights (Beta). |
 
 ---
 
 ## 🚀 Tecnologias Essenciais
 
-- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS (v4)
-- **Backend/BaaS**: Firebase (Authentication, Firestore, Storage, Hosting)
-- **Gerenciamento de Estado**: Zustand
-- **Roteamento**: React Router v7
-- **UI Components**: Shadcn UI, Lucide React, Recharts, Framer Motion
+- **Core**: [React 19](https://reactjs.org/) + [Vite 6](https://vitejs.dev/)
+- **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
+- **BaaS (Backend as a Service)**: [Google Firebase](https://firebase.google.com/) (Auth, Firestore, Storage, Hosting)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) + [Shadcn UI](https://ui.shadcn.com/)
+- **Animações**: [Framer Motion](https://www.framer.com/motion/)
+- **Estado**: [Zustand](https://docs.pmnd.rs/zustand/)
+- **Gráficos**: [Recharts](https://recharts.org/)
+- **Testes**: [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/)
 
 ---
 
@@ -24,11 +61,11 @@ ClinicCare é um sistema compreensivo de gerenciamento clínico construído com 
 
 - Node.js 18+
 - npm ou yarn
-- Conta ativa no [Firebase](https://console.firebase.google.com/)
+- Firebase CLI (`npm install -g firebase-tools`)
 
 ### Instalação
 
-1. **Clone e Instale:**
+1. **Clone o Repositório:**
 
    ```bash
    git clone <seu-repo>
@@ -36,114 +73,86 @@ ClinicCare é um sistema compreensivo de gerenciamento clínico construído com 
    npm install
    ```
 
-2. **Configuração de Variáveis de Ambiente:**
-   Crie um arquivo `.env.local` na raiz do projeto contendo as chaves do SDK do Firebase do seu projeto (e a chave do Gemini, se utilizar os recursos de AI incluídos):
+2. **Configuração de Ambiente:**
+   Crie um arquivo `.env.local` na raiz e preencha com suas chaves:
 
    ```env
-   GEMINI_API_KEY="Sua_Chave_Gemini_Aqui"
-
-   VITE_FIREBASE_API_KEY="AIzaSySuaApiKey..."
-   VITE_FIREBASE_AUTH_DOMAIN="seu-projeto.firebaseapp.com"
-   VITE_FIREBASE_PROJECT_ID="seu-projeto"
-   VITE_FIREBASE_STORAGE_BUCKET="seu-projeto.appspot.com"
-   VITE_FIREBASE_MESSAGING_SENDER_ID="SENDER_ID"
-   VITE_FIREBASE_APP_ID="APP_ID"
+   VITE_FIREBASE_API_KEY="..."
+   VITE_FIREBASE_AUTH_DOMAIN="..."
+   VITE_FIREBASE_PROJECT_ID="..."
+   VITE_FIREBASE_STORAGE_BUCKET="..."
+   VITE_FIREBASE_MESSAGING_SENDER_ID="..."
+   VITE_FIREBASE_APP_ID="..."
+   GEMINI_API_KEY="..." # Opcional para módulos de IA
    ```
 
-3. **Executando o App de Desenvolvimento:**
+3. **Inicie o Servidor:**
 
    ```bash
    npm run dev
    ```
 
-   Acesse a aplicação operando localmente na porta de saída (geralmente [http://localhost:3000](http://localhost:3000)).
+   Acesse: `http://localhost:3000`
 
 ---
 
-## 🔥 Configuração e Uso do Firebase
+## 🔥 Configuração Firebase
 
-Este projeto foi projetado para atuar 100% serverless através do Google Firebase. Siga esses passos para configurar seu backend.
+O ClinicCare utiliza **RBAC (Role-Based Access Control)**. Certifique-se de configurar as regras de segurança para garantir a integridade dos dados.
 
-### 1. Inicializando Projetos Nuevos
-
-Se você não possui um projeto criado ainda, instale a Firebase CLI e siga o processo de login:
-
-```bash
-npm install -g firebase-tools
-firebase login
-```
-
-Para inicializar de zero a pasta e conectar ao Firebase, execute:
-
-```bash
-firebase init
-```
-
-- Selecione **Firestore**, **Authentication**, **Storage** e **Hosting**.
-- Selecione seu projeto existente ou crie um novo.
-- Para o **Hosting**, escolha o diretório `dist` como public root e responda **Yes** para Single Page App (spa).
-
-### 2. Autenticação e Usuários (Roles)
-
-O aplicativo possui as seguintes "Roles" (cargos) operacionais, definidas em Custom Claims pelo Auth ou mantidas na coleção `users`:
-
-- `admin`: Permissão total
-- `saude`: Acesso e edição nos residentes, medicamentos, prontuários.
-- `financeiro`: Acesso e edição em faturamentos e residentes (leitura).
-- `manutencao`: Acesso para visualizar e editar chamados/tickets.
-
-No Painel Web do Firebase, em **Authentication -> Sign-in method**, ative as opções **Email/Password** e (Opcional) **Google**.
-> **Nota:** Por definição deste projeto, todos os novos usuários criados pela plataforma recebem o acesso/claim `admin` inicialmente, para setup flexível. O administrador master deve rebaixar cargos nas ferramentas internas quando novos funcionários acessarem.
-
-### 3. Setup de Banco de Dados (Firestore) e Regras
-
-O schema central funciona nessas collections:
-
-- `users`, `residents`, `vitalSigns`, `evolutionRecords`, `medications`, `administrations`, `billingItems`, `maintenanceLogs` e `notifications`.
-
-As regras de segurança rigorosas (RBAC) definidas para estas coleções ficam armazenadas no arquivo local `firestore.rules`.
-Para mandá-las ou atualizá-las no servidor:
-
-```bash
-firebase deploy --only firestore:rules
-```
+- **Firestore**: Coleções estruturadas para alta performance.
+- **Rules**: Localizadas em `firestore.rules`. Deploy via `firebase deploy --only firestore:rules`.
+- **Claims**: Perfis suportados: `admin`, `saude`, `financeiro`, `manutencao`.
 
 ---
 
-## 📦 Scripts de Desenvolvimento (NPM)
+## 📈 Roadmap & Metodologia
 
-| Script | Descrição |
-|--------|-----------|
-| `npm run dev` | Inicia o servidor local com o Vite na porta 3000 gerando HMR.|
-| `npm run build` | Faz um build otimizado da aplicação na pasta `dist` rodando tsc antes.|
-| `npm run preview` | Pré-visualiza localmente a build feita pela pasta `dist`. |
-| `npm run clean` | Exclui a pasta `dist` atual para limpezas operacionais. |
-| `npm run lint` | Validador do Typescript para garantir Types de variáveis definidos.|
+Trabalhamos com metodologia **Agile** através do GitHub Projects.
 
----
+- [x] Arquitetura Base & Layout Premium
+- [x] Módulo Financeiro (Core)
+- [x] Módulo Assistencial (Evolução & Sinais Vitais)
+- [/] Integração AI (Gemini Flash 2.0)
+- [ ] Mobile App (PWA)
 
-## 🚀 Deploy para Produção (Firebase Hosting)
+### Estratégia de Branches
 
-Garantir que os arquivos estáticos de produção não causem erro no TypeScript é o primeiro passo:
-
-```bash
-npm run build
-```
-
-Uma vez com o diretório `dist` gerado com sucesso, efetue o deploy do Frontend (e regras do back-end se atualizadas) para seu app no Firebase com:
-
-```bash
-firebase deploy
-```
-
-Esse comando irá subir a aplicação e exibir no seu terminal as **Hosting URLs** finais de hospedagem do ClinicCare!
+- `main`: Versão estável em produção.
+- `feature/*`: Novas funcionalidades.
+- `fix/*`: Correções de bugs.
 
 ---
 
-## 📋 Arquitetura Adicional
+## 📋 Scripts Disponíveis
 
-**Módulos Firebase Independentes:** Note que a configuração principal ocorre em `src/services/firebase.ts`, exportando os objetos `auth`, `db` (Firestore), `storage` individualizados para o React carregar de forma mais limpa ao redor do App. Em caso de atualizações de chaves, os imports nativos por `import.meta.env` devem atualizar os instanciamentos em todo o local simultaneamente.
+| Comando | Ação |
+| :--- | :--- |
+| `npm run dev` | Inicia o ambiento de desenvolvimento. |
+| `npm run build` | Gera o bundle de produção em `/dist`. |
+| `npm run test` | Executa a suíte de testes unitários. |
+| `npm run lint` | Verifica erros de tipagem com TSC. |
+| `npm run deploy` | Build & Deploy para Firebase Hosting. |
 
-## 📝 Suporte
+---
 
-Qualquer erro ou solicitação, por favor utilize os canais Issue dentro da plataforma de origem.
+## 📝 Contribuição
+
+Contribuições são bem-vindas! Por favor, abra uma issue para discutir o que você deseja mudar.
+
+1. Faça o Fork do projeto.
+2. Crie uma Branch (`git checkout -b feature/AmazingFeature`).
+3. Commit suas mudanças (`git commit -m 'feat: Add AmazingFeature'`).
+4. Push para a Branch (`git push origin feature/AmazingFeature`).
+5. Abra um Pull Request.
+
+---
+
+## 📧 Suporte
+
+Dúvidas ou sugestões? [Abra uma Issue](https://github.com/luismarquitti/ClinicCare/issues).
+
+---
+<div align="center">
+Desenvolvido com ❤️ para transformar a gestão de saúde.
+</div>
