@@ -11,6 +11,7 @@ O ClinicCare utiliza uma arquitetura *Cloud-Native* e *Serverless* rodando puram
 - **Styling:** CSS puro, SCSS ou TailwindCSS (configurado no builder), priorizando componentização modular estrita.
 - **Roteamento:** React Router DOM (v6+).
 - **Build Tool:** Vite.js (Performance de build excelente).
+- **Arquitetura Modular (Feature-Sliced):** Códigos divididos por domínio/funcionalidade. Cada módulo gerencia suas próprias rotas, estados e componentes, visando alta coesão e baixo acoplamento para facilitar testes, reuso e provisionamento por "Feature Flags" baseados no tipo de usuário/cliente.
 
 ### 1.2. Backend Ecosystem (BaaS)
 
@@ -18,7 +19,20 @@ O ClinicCare utiliza uma arquitetura *Cloud-Native* e *Serverless* rodando puram
 - **Database:** Cloud Firestore (NoSQL, Serverless, Realtime-capable).
 - **Storage:** Firebase Cloud Storage (Armazenamento em buckets para anexos, exames PDF, fotos de patrimônio).
 - **Serverless Compute:** Firebase Cloud Functions (Node.js/TypeScript) para lógicas complexas de backend (ex: processamento de pagamentos, consolidação financeira noturna, envio de e-mails em massa, integrações externas).
+- **Integração de IA (LLMs):** Uso do Google Gemini, inicialmente implementado via Firebase Extensions nativas (MVP) para simplificar orquestração e acelerar o desenvolvimento, com avaliação futura para Cloud Functions customizadas caso a lógica exija maior precisão.
 - **Hosting:** Firebase Hosting (distribuição global estática e super veloz via CDN).
+
+### 1.3. Multi-tenancy e Customização Domiciliar
+
+- A aplicação suportará o conceito avançado de *Multi-tenancy* para prover diferentes versões ou features a múltiplas clínicas ou clientes.
+- Configurações por cliente (branding, feature flags, perfis de relatórios) serão suportadas gerando múltiplos sites ou ambientes no Firebase Hosting a partir do mesmo domínio base ou base code principal via `.env.cliente` (configurações em build time) associadas a checks em *runtime*.
+- **Avaliação de Ferramentas de Scaffolding/Orquestração:** No fluxo de build de novos ambientes ou processos complexos de integração, usaremos pipelines de CI/CD rigorosos e avaliaremos ferramentas complementares de mercado estruturadas para scaffolding ou orquestração (se aplicável ao escopo de microserviços/deploy as a service) como o "Conductor" para auxílio na gestão do ciclo de vida de deploys variados.
+
+### 1.4. Módulo de Chatbot e Integração Webhook (WhatsApp)
+
+- **Backend Webhook:** Cloud Functions atuando como endpoint para o Webhook oficial da WhatsApp Cloud API (Meta).
+- **Autenticação de Mensageria:** Para fins de RBAC, os usuários interagirão via WhatsApp. O sistema validará a identidade associando o número de telefone de origem do WhatsApp ao `phoneNumber` preestabelecido da conta do colaborador no Firebase Auth, cruzando as Custom Claims existentes para saber se o remetente tem permissão de executar comandos clínicos ou apenas financeiros.
+- **Fluxo Multimodal (Visão):** Imagens enviadas para o assistente (ex: faturas, remédios) são processadas pelo Gemini Vision. Após a confirmação e resposta da IA, a imagem é descartada temporalmente se não houver um requisito legal de armazenamento.
 
 ## 2. Esquema do Banco de Dados (Firestore NoSQL)
 
@@ -72,7 +86,9 @@ Tendo em vista o crescimento do sistema e complexidade relacional (como faturame
 
 O sistema de acesso determina fortemente os firewalls de proteção aos dados de saúde do paciente (LGPD). As *custom claims* do Firebase ID Token serão utilizadas para a definição dos roles.
 
-### Roles do Sistema
+### Roles do Sistema e Feature Flags
+
+Além dos acessos aos dados base (RBAC), empregaremos **Feature Flags**. As Flags definirão *"o que o usuário pode ver vs. o que ele pode fazer"* no nível da interface dependendo do plano do cliente (Clinic) ou permissão customizada de sua role.
 
 - **`SUPER_ADMIN`:** Controle total sobre parametrizações e permissões de usuários. Acesso financeiro geral.
 - **`HEALTH_PRO`:** Permissão de leitura/escrita em prontuários (EHR), sinais vitais, eMAR. Bloqueado para áreas financeiras ou de gestão estrutural não relacionadas ao cuidado.

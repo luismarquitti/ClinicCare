@@ -89,6 +89,12 @@ Sendo uma ferramenta de impacto operacional interno, a página inicial do Clinic
 - **Layout:** Board no estilo Kanban (para Desktop) e lista expansível com swipe actions (para Mobile).
 - **Elementos MD3:** Sistema de "Draggable Cards", identificando cores baseadas na urgência das Ordens de Serviço. Componente FAB ("Floating Action Button") posicionado à direita inferior no celular/tablet para os técnicos criarem o chamado instantaneamente tirando e anexando uma foto da evidência no Storage.
 
+### 5.6. Assistente de Inteligência Artificial (Chatbot)
+
+- **UX/UI In-App:** Acesso via um "Floating Action Button" (FAB) global com ícone de IA, abrindo um modal do tipo "Bottom Sheet" (Mobile) ou "Side Panel" (Desktop).
+- **Interação Conversacional:** Formato de chat tradicional (balões de mensagem). O sistema sempre deve devolver um "Card de Confirmação" (com botões de "Confirmar" ou "Editar") antes de alterar dados reais no banco.
+- **Integração Externa (WhatsApp):** A experiência via WhatsApp Business não possui UI própria, baseando-se em respostas textuais objetivas e botões interativos nativos do WhatsApp para confirmação das ações estruturadas.
+
 ## 6. Acessibilidade Absoluta e Conclusões Técnicas
 
 - **Contraste Rígido:** Todas as cores semânticas mapeadas nos tokens MD3 acima necessitam passar rotineiramente no teste de contraste WCAG AA mínimo (razão 4.5:1).

@@ -19,6 +19,11 @@ O ecossistema Cloud será parametrizado de modo que o Firestore e o Cloud Storag
 - **Proteção de Anexos e Documentos (Storage):** Resultados de exames em PDF ou imagens são transferidos para os buckets do Firebase Storage. As `Security Rules` do Storage garantirão que uma URL de arquivo seja renderizada unicamente se o token de acesso que a requisita for de um profissional de saúde autorizado formalmente no contexto do paciente associado.
 - Os "Rules" do Firebase (tanto Firestore quanto Storage) são testados obrigatoriamente em ambiente de emulador no workflow de CI, prevenindo o push acidental de regras permissivas para produção.
 
+### Cuidados com Provedores de IA
+
+- **Privacidade da Informação (Data Retention):** No lançamento do MVP com Google Gemini, o serviço de IA base será consumido de forma tradicional (sem contrato corporativo de Zero Data Retention imposto por default). Para o lançamento ao público geral definitivo, a política de retenção de dados da plataforma escolhida deverá ser reavaliada formalmente para atestar conformidade rigorosa com normas de dados sensíveis de saúde, ou adotar instâncias dedicadas.
+- **Descarte de Arquivos Temporários:** Imagens capturadas pelo Chatbot/WhatsApp para análise multimodal (ex: notas fiscais ou rascunhos médicos) devem possuir scripts automatizados de deleção imediata do Cloud Storage após a extração e confirmação da informação, evitando acúmulo de arquivos órfãos contendo PHI (Protected Health Information).
+
 ## 2. Trilhas de Auditoria (Logs)
 
 Não é aceitável a manipulação silenciosa de um registro clínico legal.
