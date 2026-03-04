@@ -11,11 +11,13 @@ O processamento de dados de saúde envolve regimentos legais estritos no âmbito
 - **Portabilidade Eletrônica:** Desenvolver features de "Exportar Histórico Completo do Paciente" nativamente para o usuário (em PDF tabulado / JSON criptografado) respeitando o direito legal à cópia de prontuário.
 - **Gestão de Exclusão (Privacy Right):** Política de Retenção de Dados. Enquanto normativas médicas brasileiras exigem retenção de prontuário por décadas, dados transacionais de currículos/funcionários rejeitados podem possuir deleção agendada.
 
-### Compartimentalização da Base de Dados (Privacy by Design)
+### Compartimentalização da Base de Dados (Privacy by Design) e Controle de Acesso (RBAC)
 
-O Firebase será parametrizado de modo que o Firestore isole fisicamente acessos. As sub-coleções de evolução clínica têm regras imutáveis impedindo letura pelas interfaces financeiras.
+O ecossistema Cloud será parametrizado de modo que o Firestore e o Cloud Storage isolem os acessos na ponta do cliente, baseados em regras rígidas:
 
-- Os "Rules" do Firebase são testados em ambiente de emulador no workflow de CI, prevenindo o push errôneo de regras permissivas.
+- **Separação Clínica/Administrativa:** O submódulo clínico (incluindo Histórico Médicos, Medicações e Alergias) não pode ser lido por perfis logísticos (Recepcionistas, Atendentes ou Financeiro). O acesso (leitura e gravação) é mascarado e bloqueado via *Custom Claims* do Firebase Auth, sendo restrito apenas à equipe assistencial (`HEALTH_PRO`, médicos, enfermeiros).
+- **Proteção de Anexos e Documentos (Storage):** Resultados de exames em PDF ou imagens são transferidos para os buckets do Firebase Storage. As `Security Rules` do Storage garantirão que uma URL de arquivo seja renderizada unicamente se o token de acesso que a requisita for de um profissional de saúde autorizado formalmente no contexto do paciente associado.
+- Os "Rules" do Firebase (tanto Firestore quanto Storage) são testados obrigatoriamente em ambiente de emulador no workflow de CI, prevenindo o push acidental de regras permissivas para produção.
 
 ## 2. Trilhas de Auditoria (Logs)
 

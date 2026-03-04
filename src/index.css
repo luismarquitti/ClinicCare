@@ -3,12 +3,17 @@
 @theme {
   --color-primary: #005ac2;
   --color-secondary: #006874;
+  --color-primary-container: #d8e2ff;
+  --color-on-primary-container: #001a41;
   --color-background-light: #FBFDF8;
   --color-background-dark: #0f1823;
   --color-surface-light: #F0F4F8;
   --color-surface-dark: #1a2634;
   --color-text-main: #191c20;
   --color-text-sub: #42474e;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-success: #146c2e;
 }
 
 /* Custom scrollbar for the right panel */

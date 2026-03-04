@@ -30,11 +30,13 @@ Por se tratar de NoSQL, o banco será estruturado com uso equilibrado de Sub-col
   - ID da clínica, razão social, CNPJ.
 - `users` / `employees`
   - Auth UID, nome, CRM/Coren, cargo, role, ativo/inativo.
-- `patients` / `residents`
-  - **Campos Base:** `id`, `fullName`, `birthDate`, `biologicalSex`, `bedId`, `status` (ACTIVE/DISCHARGED).
-  - Sub-coleção: `evolutions` (Anotações diárias. Campos: `timestamp`, `professionalRef`, `markdownText`).
-  - Sub-coleção: `eMAR_records` (Doses administradas. Campos: `medicationId`, `scheduledTime`, `administeredTime`, `professionalRef`, `status`).
-  - Sub-coleção: `vital_signs` (PA, temperatura, saturação. Campos: `timestamp`, `metrics_BP`, `metrics_HR`, `metrics_O2`).
+- `patients` / `residents` (Dados Demográficos e Administrativos)
+  - **Obrigatórios:** `id`, `fullName`, `birthDate`, `biologicalSex`, `status` (ACTIVE/DISCHARGED).
+  - **Opcionais:** `cpf`, `rg`, `address`, `contactPhone`, `emergencyContact`, `bedId` (caso internado/residente), `profilePictureUrl`.
+- `clinical_records` (Submódulo Clínico Separado)
+  - Isolado dos dados demográficos para garantir segurança e focado no cuidado de saúde.
+  - Coleção agrupando: `evolutions` (Anotações diárias), `eMAR_records` (Doses administradas), `vital_signs` (Sinais vitais), `allergies` (Alergias documentadas).
+  - Arquivos e anexos (PDFs, laudos médicos) são representados como referências de URL (armazenados de forma segura no Cloud Storage).
 - `prescriptions`
   - Documentos vinculados a `patientId` indicando a terapêutica ativa.
   - **Cloud Functions Alert:** Triggers na criação (`onCreate`) destas prescrições disparam filas assíncronas de agendamento (`eMAR_scheduled_tasks`), utilizando Google Cloud Tasks/Scheduler para gerar pendências ativas nos painéis móveis da enfermagem.
@@ -43,6 +45,28 @@ Por se tratar de NoSQL, o banco será estruturado com uso equilibrado de Sub-col
 - `maintenance_orders` / `assets` (Manutenção)
   - Equipamentos cadastrados, QR Codes vinculados.
   - Ordens de serviço: Reclamante, equipamento, tipo de defeito, status de calibração, prioridade.
+
+### 2.2. Detalhamento de Estrutura dos Pacientes (MVP NoSQL)
+
+- **Pacientes (Demográfico):** Campos baseados primordialmente em Strings (IDs, Nomes, Documentos, Contatos), Timestamp (Datas de Nascimento) e Enums (Status).
+- **Módulo Clínico:** Estrutura altamente aninhada (sub-coleções do Firestore) documentando o estado histórico do paciente, com arrays para informações simples (tipo sanguíneo, tags de alerta). O schema do Firestore foca em otimizar a leitura sequencial do prontuário por linha do tempo.
+
+### 2.3. Arquitetura Alvo Final (SQL PostgreSQL) e Migração
+
+Tendo em vista o crescimento do sistema e complexidade relacional (como faturamento avançado, cruzamento profundo de dados estatísticos), a versão madura migrará para **PostgreSQL**.
+
+**Esquema Relacional Inicial (PostgreSQL):**
+
+- Tabela `patients`: `id` (UUID, PK), `full_name` (VARCHAR), `cpf` (VARCHAR, UNIQUE), `birth_date` (DATE), `status` (VARCHAR).
+- Tabela `clinical_records`: `id` (UUID, PK), `patient_id` (UUID, FK), `record_type` (ENUM), `notes` (TEXT), `recorded_at` (TIMESTAMP), `professional_id` (FK).
+- Tabela `attachments`: `id` (UUID, PK), `patient_id` (UUID, FK), `storage_url` (VARCHAR), `document_type` (VARCHAR).
+
+**Estratégia de Migração (NoSQL -> SQL PostgreSQL):**
+
+1. **Modelagem e Preparo (Data Mapping):** Criar os esquemas SQL DDL que absorvam os dados em árvore do Firestore para um modelo achatado / relacional.
+2. **Dual-Write (Fase de Transição):** A API (Functions/Backend) passa a gravar os dados de entrada simultaneamente no Firestore e no PostgreSQL para evitar disparidade.
+3. **ETL Carga Histórica (Extract, Transform, Load):** Scripts massivos rodando em background (ex: Dataflow ou Jobs de servidor) leem o JSON legado do Firestore e inserem nas tabelas relacionais em lotes (Batch processing).
+4. **API Cutover (Chaveamento):** Com dados equalizados, os endpoints do frontend passam a apontar definitivamente para a API do PostgreSQL. O Firestore desliga-se como DB principal, podendo se manter apenas para serviços dependentes de WebSockets (Chat, Realtime Dashboards).
 
 ## 3. Matriz de Segurança e Controle de Acesso Baseado em Papéis (RBAC)
 
