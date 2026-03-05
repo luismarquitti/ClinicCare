@@ -30,25 +30,25 @@ export function Financeiro() {
 
     return (
         <div className="w-full max-w-[1440px] mx-auto pb-24 md:pb-8 relative min-h-screen slide-in">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 pb-6 border-b border-gray-200 dark:border-gray-800">
                 <div>
-                    <h1 className="text-3xl font-bold text-text-main dark:text-white tracking-tight">Painel Financeiro</h1>
-                    <p className="text-text-muted dark:text-gray-400 mt-1">Gestão de Fluxo de Caixa e Lançamentos (Visualização Base / Mock Integrado)</p>
+                    <h1 className="text-4xl font-black text-text-main dark:text-white tracking-tighter uppercase">Fluxo de Caixa</h1>
+                    <p className="text-sm font-medium tracking-wide text-text-muted dark:text-gray-400 mt-2 uppercase">Visão consolidada do período</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                     <button
                         onClick={() => setSettingsOpen(true)}
-                        className="flex items-center gap-2 bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-text-main dark:text-white px-4 py-2.5 rounded-full font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                        className="flex items-center gap-2 bg-transparent text-text-main dark:text-white px-0 py-2 font-bold tracking-widest text-xs uppercase hover:opacity-70 transition-opacity border-b-2 border-transparent hover:border-text-main dark:hover:border-white"
                     >
-                        <span className="material-symbols-outlined text-[20px]">settings</span>
-                        <span className="hidden sm:inline">Configurações</span>
+                        <span className="material-symbols-outlined text-[16px]">tune</span>
+                        <span className="hidden sm:inline">Configurar</span>
                     </button>
                     <button
                         onClick={handleOpenNew}
-                        className="hidden md:flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-full font-medium hover:bg-primary/90 transition-shadow shadow-md hover:shadow-lg active:scale-95"
+                        className="hidden md:flex items-center gap-2 bg-text-main dark:bg-white text-white dark:text-text-main px-6 py-3 rounded-none font-bold tracking-widest text-xs uppercase hover:opacity-90 transition-opacity active:scale-95"
                     >
-                        <span className="material-symbols-outlined text-[20px]">add</span>
-                        Nova Transação
+                        <span className="material-symbols-outlined text-[18px]">add</span>
+                        Novo Lançamento
                     </button>
                 </div>
             </div>

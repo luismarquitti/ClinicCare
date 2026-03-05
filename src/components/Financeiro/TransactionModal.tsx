@@ -74,105 +74,105 @@ export function TransactionModal({ transaction, onClose }: Props) {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-surface-dark w-full max-w-lg rounded-2xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-surface-light/50 dark:bg-surface-dark/50">
-                    <h3 className="text-lg font-bold text-text-main dark:text-white">
-                        {transaction ? 'Editar Transação' : 'Nova Transação'}
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 md:p-0">
+            <div className="bg-white dark:bg-background-dark border-4 border-text-main dark:border-white w-full md:w-[600px] h-full md:h-auto md:max-h-[90vh] rounded-none shadow-2xl flex flex-col slide-in">
+                <div className="px-8 py-6 border-b-2 border-gray-200 dark:border-gray-800 flex justify-between items-center">
+                    <h3 className="text-2xl font-black text-text-main dark:text-white tracking-tighter uppercase">
+                        {transaction ? 'Editar Lançamento' : 'Novo Lançamento'}
                     </h3>
-                    <button onClick={onClose} className="text-text-muted hover:text-text-main transition-colors p-1 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <span className="material-symbols-outlined text-[20px]">close</span>
+                    <button onClick={onClose} className="text-text-main dark:text-white hover:opacity-70 transition-opacity">
+                        <span className="material-symbols-outlined text-[28px]">close</span>
                     </button>
                 </div>
 
-                <div className="overflow-y-auto p-6 custom-scrollbar text-left">
-                    <form id="transaction-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="overflow-y-auto p-8 custom-scrollbar text-left flex-1">
+                    <form id="transaction-form" onSubmit={handleSubmit(onSubmit)} className="space-y-8">
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Tipo</label>
-                                <select {...register('type')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    <option value="EXPENSE">Despesa</option>
-                                    <option value="INCOME">Receita</option>
+                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Natureza</label>
+                                <select {...register('type')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none uppercase transition-colors appearance-none">
+                                    <option value="EXPENSE">Saída (-)</option>
+                                    <option value="INCOME">Entrada (+)</option>
                                 </select>
-                                {errors.type && <span className="text-xs text-danger mt-1">{errors.type.message}</span>}
+                                {errors.type && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.type.message}</span>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Valor</label>
-                                <input type="number" step="0.01" {...register('amount', { valueAsNumber: true })} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="0.00" />
-                                {errors.amount && <span className="text-xs text-danger mt-1">{errors.amount.message}</span>}
+                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Valor Total</label>
+                                <input type="number" step="0.01" {...register('amount', { valueAsNumber: true })} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-3xl font-black tracking-tighter outline-none transition-colors" placeholder="0.00" />
+                                {errors.amount && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.amount.message}</span>}
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Descrição</label>
-                            <input type="text" {...register('description')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="Ex: Conta de Luz, Honorários" />
-                            {errors.description && <span className="text-xs text-danger mt-1">{errors.description.message}</span>}
+                            <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Histórico / Descrição</label>
+                            <input type="text" {...register('description')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none transition-colors" placeholder="" />
+                            {errors.description && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.description.message}</span>}
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Cliente / Fornecedor</label>
-                            <input type="text" {...register('payeeOrPayer')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="Ex: Enel, Residente João" />
-                            {errors.payeeOrPayer && <span className="text-xs text-danger mt-1">{errors.payeeOrPayer.message}</span>}
+                            <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Favorecido / Pagador</label>
+                            <input type="text" {...register('payeeOrPayer')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none transition-colors" placeholder="" />
+                            {errors.payeeOrPayer && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.payeeOrPayer.message}</span>}
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Data</label>
-                                <input type="date" {...register('date')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none" />
-                                {errors.date && <span className="text-xs text-danger mt-1">{errors.date.message}</span>}
+                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Competência</label>
+                                <input type="date" {...register('date')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none" />
+                                {errors.date && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.date.message}</span>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Status</label>
-                                <select {...register('status')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    <option value="PENDING">Pendente</option>
-                                    <option value="PAID">Pago / Recebido</option>
-                                    <option value="OVERDUE">Atrasado</option>
+                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Situação</label>
+                                <select {...register('status')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none uppercase transition-colors appearance-none text-sm">
+                                    <option value="PENDING">PENDENTE</option>
+                                    <option value="PAID">PAGO / EFETIVADO</option>
+                                    <option value="OVERDUE">EM ATRASO</option>
                                 </select>
-                                {errors.status && <span className="text-xs text-danger mt-1">{errors.status.message}</span>}
+                                {errors.status && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.status.message}</span>}
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Categoria</label>
-                                <select {...register('categoryId')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    <option value="">Selecione...</option>
+                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Classificação</label>
+                                <select {...register('categoryId')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none  text-sm uppercase">
+                                    <option value="">A CLASSIFICAR</option>
                                     {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
-                                {errors.categoryId && <span className="text-xs text-danger mt-1">{errors.categoryId.message}</span>}
+                                {errors.categoryId && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.categoryId.message}</span>}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-text-main dark:text-white mb-1 ml-1">Conta</label>
-                                <select {...register('accountId')} className="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                                    <option value="">Selecione...</option>
+                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Fonte Fundo</label>
+                                <select {...register('accountId')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none text-sm uppercase">
+                                    <option value="">CONTA NÃO DEFINIDA</option>
                                     {accounts.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
-                                {errors.accountId && <span className="text-xs text-danger mt-1">{errors.accountId.message}</span>}
+                                {errors.accountId && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.accountId.message}</span>}
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-2 mt-4 px-2">
-                            <input type="checkbox" id="isRecurring" {...register('isRecurring')} className="w-4 h-4 rounded text-primary focus:ring-primary" />
-                            <label htmlFor="isRecurring" className="text-sm font-medium text-text-main dark:text-white cursor-pointer select-none">Repetir transação (Recorrente)</label>
+                        <div className="flex items-center gap-3 pt-4">
+                            <input type="checkbox" id="isRecurring" {...register('isRecurring')} className="w-5 h-5 rounded-none border-2 border-text-main dark:border-white text-text-main bg-transparent focus:ring-0 checked:bg-text-main checked:border-text-main appearance-none cursor-pointer" />
+                            <label htmlFor="isRecurring" className="text-xs font-bold tracking-widest text-text-main dark:text-white uppercase cursor-pointer select-none">Evento Recorrente</label>
                         </div>
 
                     </form>
                 </div>
 
-                <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-between bg-surface-light dark:bg-surface-dark mt-auto">
+                <div className="px-8 py-6 border-t-2 border-gray-200 dark:border-gray-800 flex justify-between items-center bg-transparent mt-auto">
                     {transaction ? (
-                        <button type="button" onClick={handleDelete} className="px-5 py-2.5 bg-danger/10 text-danger rounded-lg hover:bg-danger/20 transition-colors font-medium relative group">
-                            Excluir
-                            <span className="material-symbols-outlined text-[18px] opacity-0 group-hover:opacity-100 transition-opacity absolute right-2 top-1/2 -translate-y-1/2 -translate-x-full group-hover:translate-x-0">delete</span>
+                        <button type="button" onClick={handleDelete} className="text-xs font-bold tracking-widest text-danger uppercase hover:opacity-70 transition-opacity flex items-center gap-2">
+                            <span className="material-symbols-outlined text-[16px]">delete</span>
+                            Destruir Registro
                         </button>
                     ) : <div></div>}
-                    <div className="flex gap-3">
-                        <button type="button" onClick={onClose} className="px-5 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800 text-text-main dark:text-white rounded-lg transition-colors font-medium border border-gray-200 dark:border-gray-700">
-                            Cancelar
+                    <div className="flex gap-4">
+                        <button type="button" onClick={onClose} className="px-6 py-3 bg-transparent text-text-main dark:text-white font-bold tracking-widest text-xs uppercase hover:opacity-70 transition-opacity">
+                            Descartar
                         </button>
-                        <button type="submit" form="transaction-form" className="px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium shadow-sm active:scale-95">
-                            Salvar Confirmações
+                        <button type="submit" form="transaction-form" className="px-8 py-3 bg-text-main dark:bg-white text-white dark:text-text-main font-bold tracking-widest text-xs uppercase hover:opacity-90 transition-opacity active:scale-95 rounded-none shadow-none">
+                            Consolidar
                         </button>
                     </div>
                 </div>

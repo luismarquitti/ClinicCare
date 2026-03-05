@@ -24,18 +24,17 @@ export function FilterBar() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row flex-wrap gap-4 mb-6 bg-white dark:bg-surface-dark p-4 rounded-xl border border-gray-100 dark:border-gray-700 items-center">
-            <div className="flex items-center gap-2 font-medium text-text-main dark:text-white mr-2">
-                <span className="material-symbols-outlined text-text-muted">filter_list</span>
-                Filtros:
+        <div className="flex flex-col md:flex-row flex-wrap gap-6 mb-10 py-6 border-y-2 border-gray-200 dark:border-gray-800 items-start md:items-end">
+            <div className="flex items-center gap-2 font-black text-text-main dark:text-white mr-4 tracking-tighter uppercase text-sm">
+                Filtros
             </div>
 
-            <div className="flex flex-col">
-                <label className="text-xs text-text-muted mb-1 ml-1">Tipo</label>
+            <div className="flex flex-col flex-1 min-w-[120px]">
+                <label className="text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Tipo</label>
                 <select
                     value={filters.type}
                     onChange={e => setFilters({ type: e.target.value as any })}
-                    className="border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary dark:bg-surface-dark dark:text-white transition-colors"
+                    className="border-b-2 border-gray-200 dark:border-gray-700 bg-transparent rounded-none px-0 py-2 text-sm font-medium outline-none focus:border-text-main dark:focus:border-white transition-colors appearance-none cursor-pointer"
                 >
                     <option value="ALL">Todos os Tipos</option>
                     <option value="INCOME">Receitas</option>
@@ -43,24 +42,24 @@ export function FilterBar() {
                 </select>
             </div>
 
-            <div className="flex flex-col">
-                <label className="text-xs text-text-muted mb-1 ml-1">Categoria</label>
+            <div className="flex flex-col flex-1 min-w-[150px]">
+                <label className="text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Categoria</label>
                 <select
                     value={filters.categoryId}
                     onChange={e => setFilters({ categoryId: e.target.value })}
-                    className="border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary dark:bg-surface-dark dark:text-white transition-colors"
+                    className="border-b-2 border-gray-200 dark:border-gray-700 bg-transparent rounded-none px-0 py-2 text-sm font-medium outline-none focus:border-text-main dark:focus:border-white transition-colors appearance-none cursor-pointer"
                 >
                     <option value="ALL">Todas as Categorias</option>
                     {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                 </select>
             </div>
 
-            <div className="flex flex-col">
-                <label className="text-xs text-text-muted mb-1 ml-1">Status</label>
+            <div className="flex flex-col flex-1 min-w-[150px]">
+                <label className="text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Status</label>
                 <select
                     value={filters.status}
                     onChange={e => setFilters({ status: e.target.value as any })}
-                    className="border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary dark:bg-surface-dark dark:text-white transition-colors"
+                    className="border-b-2 border-gray-200 dark:border-gray-700 bg-transparent rounded-none px-0 py-2 text-sm font-medium outline-none focus:border-text-main dark:focus:border-white transition-colors appearance-none cursor-pointer"
                 >
                     <option value="ALL">Qualquer Status</option>
                     <option value="PAID">Pago / Recebido</option>
@@ -69,23 +68,23 @@ export function FilterBar() {
                 </select>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-4">
                 <div className="flex flex-col">
-                    <label className="text-xs text-text-muted mb-1 ml-1">Data Inicial</label>
+                    <label className="text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Início</label>
                     <input
                         type="date"
                         value={startStr}
                         onChange={e => handleDateChange('start', e.target.value)}
-                        className="border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary dark:bg-surface-dark dark:text-white transition-colors"
+                        className="border-b-2 border-gray-200 dark:border-gray-700 bg-transparent rounded-none px-0 py-2 text-sm font-medium outline-none focus:border-text-main dark:focus:border-white transition-colors cursor-pointer"
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-xs text-text-muted mb-1 ml-1">Data Final</label>
+                    <label className="text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Fim</label>
                     <input
                         type="date"
                         value={endStr}
                         onChange={e => handleDateChange('end', e.target.value)}
-                        className="border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary dark:bg-surface-dark dark:text-white transition-colors"
+                        className="border-b-2 border-gray-200 dark:border-gray-700 bg-transparent rounded-none px-0 py-2 text-sm font-medium outline-none focus:border-text-main dark:focus:border-white transition-colors cursor-pointer"
                     />
                 </div>
             </div>
