@@ -10,6 +10,15 @@ O Módulo Financeiro visa modernizar o controle de fluxo de caixa da clínica. O
 - **Disposição Mobile (Supervisão Rápida):** Dashboard sintetizado em Cards de rolagem horizontal (Swipe). Lista de transações agrupada por data. O botão flutuante (FAB) de "Nova Transação" fica fixo inferior à direita.
 - **Interação Crítica (CRUD):** As operações de criação, edição e exclusão não devem redirecionar a rotas diferentes. Devem utilizar um Modal central no Desktop e um Bottom Sheet (englobando tela inteira se necessário) no Mobile visando minimizar a carga cognitiva e manter o contexto da lista. Filtros aplicados atualizam imediatamente os indicadores (KPIs) superior.
 
+### 2.1 Design Direction (Refined Minimalist Editorial)
+
+Guiado pelos preceitos da skill de design (`frontend-design`), o módulo financeiro abdica do estilo genérico SaaS (gradientes decorativos, bordas excessivamente arredondadas, badges em pílula com fundos claros) en favor de um visual **Refined Minimalist Editorial**.
+
+- **Typography-led:** Valores monetários utilizam numerais com pesos expressivos (fontes sem serifa pesadas) justapostos contra textos de suporte finos e rastreados (uppercase tracked-out).
+- **Estrutura sem container:** As grades de dados (DataGrids) eliminam "cards" contendo linhas internas em troca de estruturas ancoradas apenas por alinhamento e separadores horizontais consistentes. Form controls substituem caixas completas por contornos limpos (borders/underlines).
+- **Indicadores de Status (Status Indicators):** Estado visual das transações utiliza variações pontuais ou apenas código de cor mínimo e stark (ex: *dot text* de alto contraste) em vez dos tradicionais backrounds de pílula soft.
+- **DFII Score:** O design atinge métrica superior a 12 (Excelente).
+
 ## 3. Especificação Técnica e Modelagem
 
 Para isolar as transações do faturamento fixo (`billingItems`), modelaremos entidades novas no Firestore voltadas para fluxo de caixa.

@@ -42,6 +42,13 @@ O ClinicCare foi projetado de forma modular, permitindo que cada área da instit
 
 ---
 
+## 📚 Documentação Oficial
+
+Toda a documentação do projeto (requisitos, arquitetura, design e guias) está centralizada na pasta `doc/`.
+👉 **[Acessar o Índice de Documentação](./doc/index.md)**
+
+---
+
 ## 🚀 Tecnologias Essenciais
 
 - **Core**: [React 19](https://reactjs.org/) + [Vite 6](https://vitejs.dev/)

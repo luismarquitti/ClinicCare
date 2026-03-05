@@ -8,11 +8,42 @@ O objetivo exclusivo deste sistema é modernizar e centralizar as operações cl
 
 ## Estrutura da Documentação
 
-Nesta pasta `doc/`, você encontrará guias essenciais para entender a aplicação como um todo:
+Nesta pasta `doc/`, reunimos toda a documentação da aplicação dividida nas seguintes áreas:
 
-- [Arquitetura e Fluxo da Aplicação](./architecture.md): Entenda como a aplicação está estruturada, seus módulos e o fluxo de dados principal. Inclui diagramas de Casos de Uso e o funcionamento de camadas.
-- [Modelagem de Dados](./data_model.md): Documentação rigorosa das coleções do banco de dados NoSQL (Firebase/Firestore) utilizadas na aplicação, além de diagramas lógicos.
-- [Workflow e Firebase](./firebase_workflow.md): Instruções locais de ambiente para desenvolvimento, estratégias de branch, testes locais e deploy contínuo integrado ao Firebase.
+### 1. Planejamento de Produto (`planejamento/`)
+
+- [Product Requirements Document (PRD)](./planejamento/PRD.md)
+- [Roadmap do Produto](./planejamento/Product_Roadmap.md)
+- [Especificações de UX/UI](./planejamento/Specs_UX_UI.md)
+
+### 2. Arquitetura e Engenharia (`arquitetura/`)
+
+- [System Design](./arquitetura/System_Design.md)
+- [Arquitetura e Fluxo da Aplicação](./arquitetura/architecture.md)
+- [Modelagem de Dados](./arquitetura/data_model.md)
+- [Conformidade e Segurança](./arquitetura/Conformidade_e_Seguranca.md)
+- [Revisão Arquitetural de Modernização (Março 2026)](./arquitetura/Architecture_Review_Mar_2026.md)
+
+### 3. Guias e Setup (`guias/`)
+
+- [Technical Roadmap and Setup](./guias/Technical_Roadmap_and_Setup.md)
+- [Workflow e Firebase](./guias/firebase_workflow.md)
+
+### 4. Especificações Técnicas (`specs/`)
+
+Contém as especificações técnicas (SPECs) organizadas por módulo.
+
+- [Módulo Financeiro](./specs/financeiro/SPEC.md)
+
+### 5. Architectural Decision Records (`adr/`)
+
+Registro do histórico de decisões de arquitetura e engenharia do repositório.
+
+- [Índice de ADRs](./adr/README.md)
+
+### 6. Anotações (`notes/`)
+
+- [Anotações e Ideias Gerais](./notes/NOTES.md)
 
 ## Stack Tecnológico Principal
 
