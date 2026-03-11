@@ -15,9 +15,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Data Store & State Management' (Protocol in workflow.md)
 
 ## Phase 3: Core KPI Components
-- [ ] Task: Implement Occupancy KPI Card
-    - [ ] Write unit tests for `OccupancyCard` (mocking store data).
-    - [ ] Implement the card component with real-time occupancy metrics and drill-down navigation.
+- [x] Task: Implement Occupancy KPI Card 9bd5759
+    - [x] Write unit tests for `OccupancyCard` (mocking store data).
+    - [x] Implement the card component with real-time occupancy metrics and drill-down navigation.
 - [ ] Task: Implement Financial KPI Card
     - [ ] Write unit tests for `FinancialCard` (mocking store data).
     - [ ] Implement the card component with income/expense summaries and drill-down navigation.
