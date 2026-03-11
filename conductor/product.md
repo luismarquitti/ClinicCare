@@ -28,6 +28,6 @@ ClinicCare transforms clinical management by replacing fragmented processes with
 - **AI Lab (Beta):** Document processing and insight generation using Gemini Flash 2.0.
 
 ## 🚀 Strategic Roadmap
-- **Current Phase:** Core architecture, Financial, and Clinical Care modules are operational.
+- **Current Phase:** Core architecture, Financial, Clinical Care, and Analytics Dashboard modules are operational.
 - **Near-Term:** Deepening AI integration for automated clinical summaries.
 - **Future:** Development of a PWA/Mobile app for on-the-go care management.
