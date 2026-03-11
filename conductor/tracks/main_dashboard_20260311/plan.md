@@ -7,12 +7,12 @@
     - [x] Write unit tests for route and shell rendering.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Base Layout' (Protocol in workflow.md)
 
-## Phase 2: Data Store & State Management
+## Phase 2: Data Store & State Management [checkpoint: 8ec4a4c]
 - [x] Task: Implement Dashboard Zustand Store e3c242f
     - [x] Create `src/store/useDashboardStore.ts`.
     - [x] Write tests for initial state and data fetching logic (mocking Firebase).
     - [x] Implement `fetchDashboardStats` using `onSnapshot` from the `dashboard_stats` collection.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Data Store & State Management' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Data Store & State Management' (Protocol in workflow.md)
 
 ## Phase 3: Core KPI Components
 - [ ] Task: Implement Occupancy KPI Card
