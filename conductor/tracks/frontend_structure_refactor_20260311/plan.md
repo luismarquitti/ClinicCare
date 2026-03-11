@@ -8,11 +8,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Global Style Foundation' (Protocol in workflow.md)
 
 ## Phase 2: Component Modularization
-- [ ] Task: Refactor UI Components
-    - [ ] Create modular folders for core UI components (e.g., `Navbar`, `Layout`, `MetricCard`).
-    - [ ] Extract styles into co-located `styles.ts` files for each.
-    - [ ] Update internal and external imports.
-    - [ ] Verify each component with its existing or new regression tests.
+- [x] Task: Refactor UI Components eb71c5a
+    - [x] Create modular folders for core UI components (e.g., `Navbar`, `Layout`, `MetricCard`).
+    - [x] Extract styles into co-located `styles.ts` files for each.
+    - [x] Update internal and external imports.
+    - [x] Verify each component with its existing or new regression tests.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Component Modularization' (Protocol in workflow.md)
 
 ## Phase 3: Page Modularization
