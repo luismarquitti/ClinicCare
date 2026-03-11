@@ -14,14 +14,14 @@
     - [x] Implement `fetchDashboardStats` using `onSnapshot` from the `dashboard_stats` collection.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Data Store & State Management' (Protocol in workflow.md)
 
-## Phase 3: Core KPI Components
+## Phase 3: Core KPI Components [checkpoint: d925496]
 - [x] Task: Implement Occupancy KPI Card 9bd5759
     - [x] Write unit tests for `OccupancyCard` (mocking store data).
     - [x] Implement the card component with real-time occupancy metrics and drill-down navigation.
 - [x] Task: Implement Financial KPI Card 143916a
     - [x] Write unit tests for `FinancialCard` (mocking store data).
     - [x] Implement the card component with income/expense summaries and drill-down navigation.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Core KPI Components' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Core KPI Components' (Protocol in workflow.md)
 
 ## Phase 4: Quick-Action Widgets
 - [ ] Task: Implement Quick-Action Widget Layout
