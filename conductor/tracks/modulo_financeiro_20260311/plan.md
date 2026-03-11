@@ -20,7 +20,7 @@
   - [x] Integrate filters with Zustand state.
 - [x] **Task: Conductor - User Manual Verification 'Phase 2: Dashboard & Filters UI' (Protocol in workflow.md)**
 
-## Phase 3: Transaction CRUD
+## Phase 3: Transaction CRUD [checkpoint: 31fa858]
 - [x] **Task: Transaction DataGrid** 1c2b387
   - [x] Implement dense table for transactions grouped by date.
   - [x] Apply "Stark Status Indicators" (color dots).
@@ -29,7 +29,7 @@
   - [x] Use Modal for Desktop and Bottom Sheet for Mobile.
 - [x] **Task: Deletion Flow** 573cb26
   - [x] Implement confirmation dialog for deletions.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 3: Transaction CRUD' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 3: Transaction CRUD' (Protocol in workflow.md)**
 
 ## Phase 4: Advanced Features & Reporting
 - [ ] **Task: Account & Category Management**
