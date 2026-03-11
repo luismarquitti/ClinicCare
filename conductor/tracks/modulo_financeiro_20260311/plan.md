@@ -1,8 +1,8 @@
 # Implementation Plan: Módulo Financeiro (Cash Flow Management)
 
 ## Phase 1: Backend & Base State
-- [ ] **Task: Core Type Definitions**
-  - [ ] Define `Account`, `Category`, and `Transaction` types in `src/types/financial.ts`.
+- [x] **Task: Core Type Definitions** c63384d
+  - [x] Define `Account`, `Category`, and `Transaction` types in `src/types/financial.ts`.
 - [ ] **Task: Firebase Security & Collections**
   - [ ] Implement RBAC-aware rules in `firestore.rules`.
   - [ ] Create initial collections and mock data in Firestore.
