@@ -11,14 +11,14 @@
   - [x] Implement `fetchAccounts`, `fetchCategories`, and `fetchTransactions` using `onSnapshot`.
 - [x] **Task: Conductor - User Manual Verification 'Phase 1: Backend & Base State' (Protocol in workflow.md)**
 
-## Phase 2: Dashboard & Filters UI
+## Phase 2: Dashboard & Filters UI [checkpoint: 0ba6ad7]
 - [x] **Task: Financial Header & KPIs** 77b2736
   - [x] Implement header displaying Total Income, Expenses, and Balance based on filters.
   - [x] Apply "Refined Minimalist Editorial" styling (typography-led).
 - [x] **Task: Reactive Controls** 77b2736
   - [x] Create filter bar for Categories, Dates, and Status.
   - [x] Integrate filters with Zustand state.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 2: Dashboard & Filters UI' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 2: Dashboard & Filters UI' (Protocol in workflow.md)**
 
 ## Phase 3: Transaction CRUD
 - [ ] **Task: Transaction DataGrid**
