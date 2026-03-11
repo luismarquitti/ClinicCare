@@ -21,9 +21,9 @@
 - [x] **Task: Conductor - User Manual Verification 'Phase 2: Dashboard & Filters UI' (Protocol in workflow.md)**
 
 ## Phase 3: Transaction CRUD
-- [ ] **Task: Transaction DataGrid**
-  - [ ] Implement dense table for transactions grouped by date.
-  - [ ] Apply "Stark Status Indicators" (color dots).
+- [x] **Task: Transaction DataGrid** 1c2b387
+  - [x] Implement dense table for transactions grouped by date.
+  - [x] Apply "Stark Status Indicators" (color dots).
 - [ ] **Task: Transaction Modals/Sheets**
   - [ ] Create reactive form (React Hook Form + Zod) for CRUD.
   - [ ] Use Modal for Desktop and Bottom Sheet for Mobile.
