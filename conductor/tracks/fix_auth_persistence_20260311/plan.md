@@ -1,6 +1,6 @@
 # Implementation Plan: fix_auth_persistence_20260311
 
-## Phase 1: Store & Firebase Service Setup
+## Phase 1: Store & Firebase Service Setup [checkpoint: 539258c]
 Focus on updating the global state and the base Firebase service to support auth persistence.
 
 - [x] Task: Update Zustand store (`src/store/index.ts`) (c5efde1)
@@ -9,7 +9,7 @@ Focus on updating the global state and the base Firebase service to support auth
 - [x] Task: Update Firebase service (`src/services/firebase.ts`) (4821639)
     - [x] Write tests to verify auth persistence configuration.
     - [x] Implement `setPersistence(auth, browserLocalPersistence)` in the Firebase initialization.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Store & Firebase Service Setup' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Store & Firebase Service Setup' (Protocol in workflow.md)
 
 ## Phase 2: App Integration & UI
 Integrate the auth listener and display the loading state to the user.
