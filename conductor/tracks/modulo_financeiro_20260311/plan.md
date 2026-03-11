@@ -34,6 +34,6 @@
 ## Phase 4: Advanced Features & Reporting
 - [x] **Task: Account & Category Management** 3576e96
   - [x] Create separate CRUD for managing bank accounts and custom categories.
-- [ ] **Task: Basic Exporting**
-  - [ ] Implement CSV export function for the filtered transaction list.
+- [x] **Task: Basic Exporting** 7024b00
+  - [x] Implement CSV export function for the filtered transaction list.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 4: Advanced Features & Reporting' (Protocol in workflow.md)**
