@@ -32,8 +32,8 @@
 - [x] **Task: Conductor - User Manual Verification 'Phase 3: Transaction CRUD' (Protocol in workflow.md)**
 
 ## Phase 4: Advanced Features & Reporting
-- [ ] **Task: Account & Category Management**
-  - [ ] Create separate CRUD for managing bank accounts and custom categories.
+- [x] **Task: Account & Category Management** 3576e96
+  - [x] Create separate CRUD for managing bank accounts and custom categories.
 - [ ] **Task: Basic Exporting**
   - [ ] Implement CSV export function for the filtered transaction list.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 4: Advanced Features & Reporting' (Protocol in workflow.md)**
