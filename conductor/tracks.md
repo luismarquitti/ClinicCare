@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Implement Módulo Financeiro (Cash Flow Management)**
+- [~] **Track: Implement Módulo Financeiro (Cash Flow Management)**
   *Link: [./tracks/modulo_financeiro_20260311/](./tracks/modulo_financeiro_20260311/)*

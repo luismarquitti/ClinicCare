@@ -3,12 +3,12 @@
 ## Phase 1: Backend & Base State
 - [x] **Task: Core Type Definitions** c63384d
   - [x] Define `Account`, `Category`, and `Transaction` types in `src/types/financial.ts`.
-- [ ] **Task: Firebase Security & Collections**
-  - [ ] Implement RBAC-aware rules in `firestore.rules`.
-  - [ ] Create initial collections and mock data in Firestore.
-- [ ] **Task: Zustand Store Integration**
-  - [ ] Create `src/store/useFinancialStore.ts`.
-  - [ ] Implement `fetchAccounts`, `fetchCategories`, and `fetchTransactions` using `onSnapshot`.
+- [x] **Task: Firebase Security & Collections** c63384d
+  - [x] Implement RBAC-aware rules in `firestore.rules`.
+  - [x] Create initial collections and mock data in Firestore.
+- [x] **Task: Zustand Store Integration** 104a578
+  - [x] Create `src/store/useFinancialStore.ts`.
+  - [x] Implement `fetchAccounts`, `fetchCategories`, and `fetchTransactions` using `onSnapshot`.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 1: Backend & Base State' (Protocol in workflow.md)**
 
 ## Phase 2: Dashboard & Filters UI
