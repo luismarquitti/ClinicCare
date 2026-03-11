@@ -14,9 +14,9 @@ Focus on updating the global state and the base Firebase service to support auth
 ## Phase 2: App Integration & UI
 Integrate the auth listener and display the loading state to the user.
 
-- [ ] Task: Implement Auth Listener in `src/App.tsx`
-    - [ ] Write tests for the `onAuthStateChanged` integration in `App.tsx`.
-    - [ ] Implement `useEffect` with `onAuthStateChanged` to update the Zustand store and toggle `isLoadingAuth`.
+- [x] Task: Implement Auth Listener in `src/App.tsx` (d2d4539)
+    - [x] Write tests for the `onAuthStateChanged` integration in `App.tsx`.
+    - [x] Implement `useEffect` with `onAuthStateChanged` to update the Zustand store and toggle `isLoadingAuth`.
 - [ ] Task: Implement Top Loading Bar & Auth Guard
     - [ ] Write tests for the loading bar visibility and redirect logic.
     - [ ] Implement a top loading bar component using Tailwind CSS.
