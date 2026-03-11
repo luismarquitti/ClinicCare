@@ -171,4 +171,17 @@ export interface WorkOrder {
   partsUsed?: { inventoryItemId: string, quantity: number }[];
 }
 
+export interface DashboardStats {
+  occupancy: {
+    totalResidents: number;
+    occupiedBeds: number;
+    totalBeds: number;
+  };
+  financial: {
+    monthlyIncome: number;
+    monthlyExpenses: number;
+    pendingBilling: number;
+  };
+}
+
 export * from './financial';
