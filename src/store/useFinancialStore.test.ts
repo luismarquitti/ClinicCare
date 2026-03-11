@@ -8,7 +8,7 @@ vi.mock('../services/firebase', () => ({
 }));
 vi.mock('firebase/firestore', () => ({
     collection: vi.fn(),
-    onSnapshot: vi.fn(),
+    onSnapshot: vi.fn(() => vi.fn()),
     addDoc: vi.fn(),
     updateDoc: vi.fn(),
     doc: vi.fn(),
@@ -68,5 +68,81 @@ describe('useFinancialStore', () => {
         const state = useFinancialStore.getState();
         expect(state.filteredTransactions()).toHaveLength(2); // The 10-01 and 10-05 ones
         expect(state.filteredBalance()).toBe(700); // 1000 - 300
+    });
+
+    it('adds a transaction', async () => {
+        const { addDoc, collection } = await import('firebase/firestore');
+        const newTx = { amount: 50, type: 'EXPENSE' as const, description: 'Snack' } as any;
+        await useFinancialStore.getState().addTransaction(newTx);
+        expect(addDoc).toHaveBeenCalled();
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'transactions');
+    });
+
+    it('updates a transaction', async () => {
+        const { updateDoc, doc } = await import('firebase/firestore');
+        await useFinancialStore.getState().updateTransaction('1', { amount: 1500 });
+        expect(updateDoc).toHaveBeenCalled();
+        expect(doc).toHaveBeenCalledWith(expect.anything(), 'transactions', '1');
+    });
+
+    it('deletes a transaction', async () => {
+        const { deleteDoc, doc } = await import('firebase/firestore');
+        await useFinancialStore.getState().deleteTransaction('1');
+        expect(deleteDoc).toHaveBeenCalled();
+        expect(doc).toHaveBeenCalledWith(expect.anything(), 'transactions', '1');
+    });
+
+    it('adds an account', async () => {
+        const { addDoc, collection } = await import('firebase/firestore');
+        const newAcc = { name: 'New Bank', type: 'BANK_ACCOUNT' } as any;
+        await useFinancialStore.getState().addAccount(newAcc);
+        expect(addDoc).toHaveBeenCalled();
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'accounts');
+    });
+
+    it('updates an account', async () => {
+        const { updateDoc, doc } = await import('firebase/firestore');
+        await useFinancialStore.getState().updateAccount('acc1', { name: 'Updated Bank' });
+        expect(updateDoc).toHaveBeenCalled();
+        expect(doc).toHaveBeenCalledWith(expect.anything(), 'accounts', 'acc1');
+    });
+
+    it('deletes an account', async () => {
+        const { deleteDoc, doc } = await import('firebase/firestore');
+        await useFinancialStore.getState().deleteAccount('acc1');
+        expect(deleteDoc).toHaveBeenCalled();
+        expect(doc).toHaveBeenCalledWith(expect.anything(), 'accounts', 'acc1');
+    });
+
+    it('adds a category', async () => {
+        const { addDoc, collection } = await import('firebase/firestore');
+        const newCat = { name: 'New Cat', type: 'INCOME' } as any;
+        await useFinancialStore.getState().addCategory(newCat);
+        expect(addDoc).toHaveBeenCalled();
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'categories');
+    });
+
+    it('updates a category', async () => {
+        const { updateDoc, doc } = await import('firebase/firestore');
+        await useFinancialStore.getState().updateCategory('cat1', { name: 'Updated Cat' });
+        expect(updateDoc).toHaveBeenCalled();
+        expect(doc).toHaveBeenCalledWith(expect.anything(), 'categories', 'cat1');
+    });
+
+    it('deletes a category', async () => {
+        const { deleteDoc, doc } = await import('firebase/firestore');
+        await useFinancialStore.getState().deleteCategory('cat1');
+        expect(deleteDoc).toHaveBeenCalled();
+        expect(doc).toHaveBeenCalledWith(expect.anything(), 'categories', 'cat1');
+    });
+
+    it('initializes listeners', async () => {
+        const { onSnapshot, collection } = await import('firebase/firestore');
+        const unsubscribe = useFinancialStore.getState().initializeListeners();
+        expect(onSnapshot).toHaveBeenCalledTimes(3);
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'accounts');
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'categories');
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'transactions');
+        unsubscribe();
     });
 });
