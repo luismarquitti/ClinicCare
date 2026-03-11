@@ -1,0 +1,8 @@
+{
+  "track_id": "enforce_conductor_truth_20260311",
+  "type": "chore",
+  "status": "new",
+  "created_at": "2026-03-11T14:30:00Z",
+  "updated_at": "2026-03-11T14:30:00Z",
+  "description": "Enforce Conductor as the absolute single source of truth for all new feature specifications, implementation plans, and active development tracks."
+}
