@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useDashboardStore } from '../store/useDashboardStore';
-import { OccupancyCard } from '../components/Dashboard/OccupancyCard';
-import { FinancialCard } from '../components/Dashboard/FinancialCard';
-import { QuickActions } from '../components/Dashboard/QuickActions';
+import { OccupancyCard } from '../components/dashboard/OccupancyCard';
+import { FinancialCard } from '../components/dashboard/FinancialCard';
+import { QuickActions } from '../components/dashboard/QuickActions';
 
 const containerVariants = {
   hidden: { opacity: 0 },

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useFinancialStore } from '../../store/useFinancialStore';
-import { DashboardMetrics } from '../../components/Financeiro/DashboardMetrics';
-import { FilterBar } from '../../components/Financeiro/FilterBar';
-import { TransactionList } from '../../components/Financeiro/TransactionList';
-import { TransactionModal } from '../../components/Financeiro/TransactionModal';
-import { SettingsModal } from '../../components/Financeiro/SettingsModal';
+import { DashboardMetrics } from '../../components/financeiro/DashboardMetrics';
+import { FilterBar } from '../../components/financeiro/FilterBar';
+import { TransactionList } from '../../components/financeiro/TransactionList';
+import { TransactionModal } from '../../components/financeiro/TransactionModal';
+import { SettingsModal } from '../../components/financeiro/SettingsModal';
 import { Transaction } from '../../types';
 
 export function Financeiro() {

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAppStore } from './store';
-import { Layout } from './components/Layout';
+import { Layout } from './components/ui/Layout';
 import { Login } from './pages/Login';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
