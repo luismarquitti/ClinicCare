@@ -9,7 +9,7 @@
 
 ## ☁️ Backend & Infrastructure (BaaS)
 - **Platform:** [Google Firebase](https://firebase.google.com/)
-- **Authentication:** Firebase Auth (RBAC via Custom Claims).
+- **Authentication:** Firebase Auth (RBAC via Custom Claims) with browser-local session persistence.
 - **Database:** Cloud Firestore (NoSQL, Real-time).
 - **Storage:** Firebase Storage (Resident documents and photos).
 - **Hosting:** Firebase Hosting (CDN-backed, global distribution).
