@@ -1,10 +1,10 @@
 # Implementation Plan: Frontend Structure Refactor
 
 ## Phase 1: Global Style Foundation
-- [ ] Task: Create Global Style Tokens
-    - [ ] Create `src/styles/global.ts`.
-    - [ ] Define shared tokens for Layout, Typography, and Colors based on `product-guidelines.md`.
-    - [ ] Write a smoke test to verify global tokens export correctly.
+- [x] Task: Create Global Style Tokens 1ec59b0
+    - [x] Create `src/styles/global.ts`.
+    - [x] Define shared tokens for Layout, Typography, and Colors based on `product-guidelines.md`.
+    - [x] Write a smoke test to verify global tokens export correctly.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Global Style Foundation' (Protocol in workflow.md)
 
 ## Phase 2: Component Modularization
