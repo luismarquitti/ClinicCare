@@ -22,7 +22,9 @@ export default defineConfig(({ mode }) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     test: {
+      globals: true,
       environment: 'jsdom',
+      setupFiles: ['./src/test/setup.ts'],
     },
   };
 });
