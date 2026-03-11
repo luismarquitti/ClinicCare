@@ -3,9 +3,9 @@
 ## Phase 1: Store & Firebase Service Setup
 Focus on updating the global state and the base Firebase service to support auth persistence.
 
-- [ ] Task: Update Zustand store (`src/store/index.ts`)
-    - [ ] Write tests for `isLoadingAuth`, `user` state, and `setAuthLoading` action.
-    - [ ] Implement `isLoadingAuth` (default `true`) and `setAuthLoading` in the store.
+- [x] Task: Update Zustand store (`src/store/index.ts`) (c5efde1)
+    - [x] Write tests for `isLoadingAuth`, `user` state, and `setAuthLoading` action.
+    - [x] Implement `isLoadingAuth` (default `true`) and `setAuthLoading` in the store.
 - [ ] Task: Update Firebase service (`src/services/firebase.ts`)
     - [ ] Write tests to verify auth persistence configuration.
     - [ ] Implement `setPersistence(auth, browserLocalPersistence)` in the Firebase initialization.
