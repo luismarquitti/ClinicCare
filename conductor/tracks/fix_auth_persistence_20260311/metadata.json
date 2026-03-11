@@ -1,0 +1,8 @@
+{
+  "track_id": "fix_auth_persistence_20260311",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-11T12:00:00Z",
+  "updated_at": "2026-03-11T12:00:00Z",
+  "description": "Implement persistent authentication across re-renders using Firebase and Zustand. First, update 'src/store/index.ts' to add an 'isLoadingAuth' state (defaulting to true) and a 'setAuthLoading' action. Second, verify or update 'src/services/firebase.ts' to explicitly set auth persistence to 'browserLocalPersistence'. Finally, update 'src/App.tsx' to include a useEffect hook that calls Firebase's 'onAuthStateChanged'. While 'isLoadingAuth' is true, return a loading spinner UI. Once Firebase resolves the session, update the Zustand store with the user data (or null), set 'isLoadingAuth' to false, and allow the router to render the correct protected or public routes."
+}

@@ -14,5 +14,10 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Refactor React application for modularization and style extraction**
+- [~] **Track: Refactor React application for modularization and style extraction**
   *Link: [./tracks/frontend_structure_refactor_20260311/](./tracks/frontend_structure_refactor_20260311/)*
+
+---
+
+- [ ] **Track: Implement persistent authentication across re-renders using Firebase and Zustand**
+  *Link: [./tracks/fix_auth_persistence_20260311/](./tracks/fix_auth_persistence_20260311/)*
