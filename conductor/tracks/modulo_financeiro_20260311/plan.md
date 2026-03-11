@@ -31,9 +31,9 @@
   - [x] Implement confirmation dialog for deletions.
 - [x] **Task: Conductor - User Manual Verification 'Phase 3: Transaction CRUD' (Protocol in workflow.md)**
 
-## Phase 4: Advanced Features & Reporting
+## Phase 4: Advanced Features & Reporting [checkpoint: 0f333a6]
 - [x] **Task: Account & Category Management** 3576e96
   - [x] Create separate CRUD for managing bank accounts and custom categories.
 - [x] **Task: Basic Exporting** 7024b00
   - [x] Implement CSV export function for the filtered transaction list.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 4: Advanced Features & Reporting' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 4: Advanced Features & Reporting' (Protocol in workflow.md)**
