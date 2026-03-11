@@ -16,11 +16,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Component Modularization' (Protocol in workflow.md)
 
 ## Phase 3: Page Modularization
-- [ ] Task: Refactor Application Pages
-    - [ ] Create modular folders for all pages (e.g., `Dashboard`, `Residents`, `Financeiro`).
-    - [ ] Extract styles into co-located `styles.ts` files for each.
-    - [ ] Update route imports in `src/App.tsx`.
-    - [ ] Verify each page renders correctly via manual verification.
+- [x] Task: Refactor Application Pages 9c5c8ca
+    - [x] Create modular folders for all pages (e.g., `Dashboard`, `Residents`, `Financeiro`).
+    - [x] Extract styles into co-located `styles.ts` files for each.
+    - [x] Update route imports in `src/App.tsx`.
+    - [x] Verify each page renders correctly via manual verification.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Page Modularization' (Protocol in workflow.md)
 
 ## Phase 4: Final Integrity & Cleanup
