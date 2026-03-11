@@ -1,0 +1,76 @@
+export const styles = {
+  container: 'max-w-[1400px] mx-auto h-full flex flex-col xl:flex-row gap-6',
+  leftCol: 'flex-1 flex flex-col min-w-0 xl:max-w-[60%] 2xl:max-w-[65%]',
+  actionsBar: 'flex flex-wrap items-center justify-between gap-4 mb-6',
+  searchWrapper: 'relative flex-1 min-w-[280px]',
+  searchIconWrapper: 'absolute left-3 top-1/2 -translate-y-1/2 text-text-muted dark:text-gray-400',
+  searchInput: 'w-full pl-10 pr-4 py-2.5 bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-text-main dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary placeholder:text-text-muted/70 transition-all',
+  addButton: 'flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm',
+  tableWrapper: 'bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm flex-1 flex flex-col',
+  tableScroll: 'overflow-x-auto',
+  table: 'w-full text-left border-collapse',
+  thead: 'bg-background-light/50 dark:bg-background-dark/50 border-b border-gray-200 dark:border-gray-700',
+  th: 'px-6 py-4 text-xs font-semibold text-text-muted uppercase tracking-wider',
+  tbody: 'divide-y divide-gray-100 dark:divide-gray-800',
+  tr: (isSelected: boolean) => `group transition-colors cursor-pointer border-l-4 ${
+    isSelected 
+      ? 'bg-primary/5 border-l-primary dark:bg-primary/10' 
+      : 'hover:bg-background-light dark:hover:bg-surface-dark/80 border-l-transparent'
+  }`,
+  avatar: 'h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold',
+  residentName: 'text-sm font-medium text-text-main dark:text-white',
+  residentSub: 'text-xs text-text-muted lg:hidden',
+  tdMuted: 'px-6 py-4 text-sm text-text-muted hidden sm:table-cell',
+  statusBadge: (isActive: boolean) => `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+    isActive 
+      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' 
+      : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+  }`,
+  statusDot: (isActive: boolean) => `h-1.5 w-1.5 rounded-full ${isActive ? 'bg-green-500' : 'bg-red-500'}`,
+  chevron: (isSelected: boolean) => `material-symbols-outlined text-[20px] transition-colors ${isSelected ? 'text-primary' : 'text-text-muted group-hover:text-primary'}`,
+  emptyState: 'px-6 py-8 text-center text-text-muted',
+  pagination: 'p-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center bg-background-light/30 dark:bg-background-dark/30 mt-auto',
+  paginationText: 'text-xs text-text-muted',
+  paginationButtons: 'flex gap-2',
+  pageButton: 'p-1 rounded hover:bg-background-light dark:hover:bg-surface-dark text-text-muted disabled:opacity-50',
+  
+  rightCol: 'w-full xl:w-[450px] 2xl:w-[500px] flex flex-col gap-6',
+  summaryCard: 'bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm relative overflow-hidden',
+  summaryGradient: 'absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-primary/20 to-primary/5',
+  summaryContent: 'relative flex flex-col items-center',
+  largeAvatar: 'h-28 w-28 rounded-full border-4 border-white dark:border-surface-dark bg-primary/10 text-primary flex items-center justify-center text-4xl font-bold shadow-md mb-4',
+  summaryName: 'text-xl font-bold text-text-main dark:text-white text-center',
+  summaryDate: 'text-text-muted text-sm mb-4',
+  tagList: 'flex flex-wrap justify-center gap-2 mb-6',
+  allergyTag: 'px-3 py-1 rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-xs font-semibold border border-red-100 dark:border-red-800/30 flex items-center gap-1',
+  comorbidityTag: 'px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20',
+  statGrid: 'grid grid-cols-3 gap-4 w-full border-t border-gray-200 dark:border-gray-700 pt-4',
+  statItem: 'text-center',
+  statLabel: 'text-xs text-text-muted uppercase tracking-wider font-semibold',
+  statValue: 'text-lg font-bold text-text-main dark:text-white',
+  
+  detailsCard: 'bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm flex-1 flex flex-col min-h-[400px]',
+  tabsHeader: 'flex border-b border-gray-200 dark:border-gray-700',
+  tabButton: (isActive: boolean) => `flex-1 py-4 text-sm font-medium transition-colors focus:outline-none ${
+    isActive ? 'text-primary border-b-2 border-primary bg-primary/5' : 'text-text-muted hover:bg-gray-50 dark:hover:bg-surface-dark'
+  }`,
+  tabContent: 'p-6 flex-1 overflow-y-auto',
+  sectionTitle: 'text-sm font-bold text-text-main dark:text-white mb-3 flex items-center gap-2',
+  vitalsGrid: 'grid grid-cols-2 gap-3',
+  vitalCard: 'bg-background-light dark:bg-background-dark p-3 rounded-lg border border-gray-200 dark:border-gray-700',
+  vitalLabel: 'text-xs text-text-muted',
+  vitalValue: 'text-base font-semibold text-text-main dark:text-white',
+  vitalUnit: 'text-xs font-normal text-text-muted',
+  timeline: 'relative pl-4 border-l-2 border-gray-200 dark:border-gray-700 space-y-6',
+  timelineItem: 'relative',
+  timelineDot: (isLatest: boolean) => `absolute -left-[21px] top-1 h-3 w-3 rounded-full border-2 border-white dark:border-surface-dark ${isLatest ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'}`,
+  timelineDate: 'text-xs text-text-muted mb-0.5',
+  timelineTitle: 'text-sm font-medium text-text-main dark:text-white',
+  timelineNotes: 'text-sm text-text-muted mt-1',
+  timelineFooter: 'mt-2 flex items-center gap-2',
+  userIcon: 'h-5 w-5 rounded-full bg-primary/20 text-[10px] flex items-center justify-center text-primary font-bold',
+  fullRecordButton: 'w-full mt-6 py-2 text-sm text-primary font-medium hover:bg-primary/5 rounded-lg transition-colors border border-dashed border-primary/30',
+  infoLabel: 'text-text-muted text-xs',
+  infoValue: 'text-text-main dark:text-white font-medium',
+  emptyDetail: 'hidden xl:flex w-[450px] 2xl:w-[500px] flex-col items-center justify-center bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-8 text-center',
+};
