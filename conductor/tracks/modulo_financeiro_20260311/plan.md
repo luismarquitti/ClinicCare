@@ -24,11 +24,11 @@
 - [x] **Task: Transaction DataGrid** 1c2b387
   - [x] Implement dense table for transactions grouped by date.
   - [x] Apply "Stark Status Indicators" (color dots).
-- [ ] **Task: Transaction Modals/Sheets**
-  - [ ] Create reactive form (React Hook Form + Zod) for CRUD.
-  - [ ] Use Modal for Desktop and Bottom Sheet for Mobile.
-- [ ] **Task: Deletion Flow**
-  - [ ] Implement confirmation dialog for deletions.
+- [x] **Task: Transaction Modals/Sheets** 573cb26
+  - [x] Create reactive form (React Hook Form + Zod) for CRUD.
+  - [x] Use Modal for Desktop and Bottom Sheet for Mobile.
+- [x] **Task: Deletion Flow** 573cb26
+  - [x] Implement confirmation dialog for deletions.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 3: Transaction CRUD' (Protocol in workflow.md)**
 
 ## Phase 4: Advanced Features & Reporting
