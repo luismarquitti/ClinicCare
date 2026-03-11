@@ -19,10 +19,15 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Implement persistent authentication across re-renders using Firebase and Zustand**
+- [x] **Track: Implement persistent authentication across re-renders using Firebase and Zustand**
   *Link: [./tracks/fix_auth_persistence_20260311/](./tracks/fix_auth_persistence_20260311/)*
 
 ---
 
 - [ ] **Track: Enforce Conductor as the absolute single source of truth for all project documentation and workflows.**
 *Link: [./tracks/enforce_conductor_truth_20260311/](./tracks/enforce_conductor_truth_20260311/)*
+
+---
+
+- [ ] **Track: Install and configure Storybook for component documentation and isolated development.**
+*Link: [./tracks/setup_ui_storybook_20260311/](./tracks/setup_ui_storybook_20260311/)*
