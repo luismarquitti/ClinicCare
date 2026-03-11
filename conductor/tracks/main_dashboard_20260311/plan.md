@@ -1,11 +1,11 @@
 # Implementation Plan: Main Dashboard
 
-## Phase 1: Project Scaffolding & Base Layout
+## Phase 1: Project Scaffolding & Base Layout [checkpoint: 8e1558a]
 - [x] Task: Define Dashboard Route and Page Shell fdbd324
     - [x] Create `src/pages/Dashboard.tsx` with a basic "Refined Minimalist" layout.
     - [x] Add the `/dashboard` route to `src/App.tsx`.
     - [x] Write unit tests for route and shell rendering.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Base Layout' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Base Layout' (Protocol in workflow.md)
 
 ## Phase 2: Data Store & State Management
 - [ ] Task: Implement Dashboard Zustand Store
