@@ -40,6 +40,7 @@ interface AppState {
   setTheme: (theme: 'light' | 'dark') => void;
   toggleTheme: () => void;
   setAuthLoading: (loading: boolean) => void;
+  setUser: (user: User | null) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 
@@ -110,35 +111,6 @@ export const useAppStore = create<AppState>((set, get) => ({
   ],
 
   initializeListeners: () => {
-    import('firebase/auth').then(({ onAuthStateChanged }) => {
-      import('firebase/firestore').then(({ doc, getDoc }) => {
-        onAuthStateChanged(auth, async (firebaseUser) => {
-          if (firebaseUser) {
-            try {
-              const userDocRef = doc(db, 'users', firebaseUser.uid);
-              const userDoc = await getDoc(userDocRef);
-              const userData = userDoc.exists() ? userDoc.data() : { role: 'saude' as Role };
-
-              set({
-                user: {
-                  uid: firebaseUser.uid,
-                  email: firebaseUser.email || '',
-                  displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
-                  role: userData.role as Role
-                }
-              });
-            } catch (err) {
-              console.error('Failed to fetch user role:', err);
-              // Fallback
-              set({ user: { uid: firebaseUser.uid, email: firebaseUser.email || '', displayName: 'User', role: 'saude' } });
-            }
-          } else {
-            set({ user: null });
-          }
-        });
-      });
-    });
-
     const unsubResidents = onSnapshot(collection(db, 'residents'), (snapshot) => {
       set({ residents: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Resident)) });
     });
@@ -218,6 +190,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ theme: newTheme });
   },
   setAuthLoading: (loading) => set({ isLoadingAuth: loading }),
+  setUser: (user) => set({ user }),
 
   login: async (email, password) => {
     // Note: the login action signature changed, requiring a small update to Login.tsx as well
