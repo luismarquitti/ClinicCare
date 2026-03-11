@@ -7,3 +7,5 @@ coverage/
 .env*
 !.env.example
 .agent/skills/*
+*storybook.log
+storybook-static
