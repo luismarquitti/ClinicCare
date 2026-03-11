@@ -90,41 +90,41 @@ export function TransactionModal({ transaction, onClose }: Props) {
 
                         <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Natureza</label>
-                                <select {...register('type')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none uppercase transition-colors appearance-none">
+                                <label htmlFor="tx-type" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Natureza</label>
+                                <select id="tx-type" {...register('type')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none uppercase transition-colors appearance-none">
                                     <option value="EXPENSE">Saída (-)</option>
                                     <option value="INCOME">Entrada (+)</option>
                                 </select>
                                 {errors.type && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.type.message}</span>}
                             </div>
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Valor Total</label>
-                                <input type="number" step="0.01" {...register('amount', { valueAsNumber: true })} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-3xl font-black tracking-tighter outline-none transition-colors" placeholder="0.00" />
+                                <label htmlFor="tx-amount" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Valor Total</label>
+                                <input id="tx-amount" type="number" step="0.01" {...register('amount', { valueAsNumber: true })} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-3xl font-black tracking-tighter outline-none transition-colors" placeholder="0.00" />
                                 {errors.amount && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.amount.message}</span>}
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Histórico / Descrição</label>
-                            <input type="text" {...register('description')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none transition-colors" placeholder="" />
+                            <label htmlFor="tx-description" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Histórico / Descrição</label>
+                            <input id="tx-description" type="text" {...register('description')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none transition-colors" placeholder="" />
                             {errors.description && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.description.message}</span>}
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Favorecido / Pagador</label>
-                            <input type="text" {...register('payeeOrPayer')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none transition-colors" placeholder="" />
+                            <label htmlFor="tx-payee" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Favorecido / Pagador</label>
+                            <input id="tx-payee" type="text" {...register('payeeOrPayer')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white text-lg font-bold outline-none transition-colors" placeholder="" />
                             {errors.payeeOrPayer && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.payeeOrPayer.message}</span>}
                         </div>
 
                         <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Competência</label>
-                                <input type="date" {...register('date')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none" />
+                                <label htmlFor="tx-date" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Competência</label>
+                                <input id="tx-date" type="date" {...register('date')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none" />
                                 {errors.date && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.date.message}</span>}
                             </div>
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Situação</label>
-                                <select {...register('status')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none uppercase transition-colors appearance-none text-sm">
+                                <label htmlFor="tx-status" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Situação</label>
+                                <select id="tx-status" {...register('status')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none uppercase transition-colors appearance-none text-sm">
                                     <option value="PENDING">PENDENTE</option>
                                     <option value="PAID">PAGO / EFETIVADO</option>
                                     <option value="OVERDUE">EM ATRASO</option>
@@ -135,16 +135,16 @@ export function TransactionModal({ transaction, onClose }: Props) {
 
                         <div className="grid grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Classificação</label>
-                                <select {...register('categoryId')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none  text-sm uppercase">
+                                <label htmlFor="tx-category" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Classificação</label>
+                                <select id="tx-category" {...register('categoryId')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none  text-sm uppercase">
                                     <option value="">A CLASSIFICAR</option>
                                     {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                                 </select>
                                 {errors.categoryId && <span className="text-xs text-danger font-bold mt-1 tracking-widest">{errors.categoryId.message}</span>}
                             </div>
                             <div>
-                                <label className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Fonte Fundo</label>
-                                <select {...register('accountId')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none text-sm uppercase">
+                                <label htmlFor="tx-account" className="block text-xs font-bold tracking-widest text-text-muted uppercase mb-2">Fonte Fundo</label>
+                                <select id="tx-account" {...register('accountId')} className="w-full px-0 py-3 bg-transparent border-b-2 border-gray-200 dark:border-gray-800 focus:border-text-main dark:focus:border-white font-bold outline-none transition-colors appearance-none text-sm uppercase">
                                     <option value="">CONTA NÃO DEFINIDA</option>
                                     {accounts.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                                 </select>
