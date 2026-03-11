@@ -16,9 +16,25 @@ import { HR } from './pages/HR';
 import { Documentation } from './pages/Documentation';
 import { Toaster, toast } from 'react-hot-toast';
 import React, { useEffect, useRef } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from './services/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { Role } from './types';
+
+function LoadingBar() {
+  return (
+    <div className="fixed top-0 left-0 w-full h-1 z-50 overflow-hidden bg-blue-100">
+      <div className="h-full bg-blue-600 animate-progress origin-left"></div>
+    </div>
+  );
+}
 
 function ProtectedRoute({ children, allowedRoles, useLayout = true }: { children: React.ReactNode, allowedRoles?: string[], useLayout?: boolean }) {
-  const user = useAppStore(state => state.user);
+  const { user, isLoadingAuth } = useAppStore();
+
+  if (isLoadingAuth) {
+    return null; // Don't redirect until we know the auth state
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -32,7 +48,7 @@ function ProtectedRoute({ children, allowedRoles, useLayout = true }: { children
 }
 
 export default function App() {
-  const { notifications, user, initializeListeners, theme } = useAppStore();
+  const { notifications, user, initializeListeners, theme, isLoadingAuth, setAuthLoading, setUser } = useAppStore();
   const prevNotificationsLength = useRef(notifications.length);
 
   useEffect(() => {
@@ -44,10 +60,44 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
+    // Auth Listener
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+      setAuthLoading(true);
+      if (firebaseUser) {
+        try {
+          const userDocRef = doc(db, 'users', firebaseUser.uid);
+          const userDoc = await getDoc(userDocRef);
+          const userData = userDoc.exists() ? userDoc.data() : { role: 'saude' as Role };
+
+          setUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email || '',
+            displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
+            role: userData.role as Role
+          });
+        } catch (err) {
+          console.error('Failed to fetch user role:', err);
+          setUser({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email || '',
+            displayName: 'User',
+            role: 'saude'
+          });
+        }
+      } else {
+        setUser(null);
+      }
+      setAuthLoading(false);
+    });
+
     // Start listening to Firebase real-time snapshot events
-    const unsubscribe = initializeListeners();
-    return () => unsubscribe();
-  }, [initializeListeners]);
+    const unsubscribeListeners = initializeListeners();
+
+    return () => {
+      unsubscribeAuth();
+      unsubscribeListeners();
+    };
+  }, [initializeListeners, setAuthLoading, setUser]);
 
   useEffect(() => {
     if (notifications.length > prevNotificationsLength.current) {
@@ -65,6 +115,7 @@ export default function App() {
   return (
     <Router>
       <Toaster position="top-right" />
+      {isLoadingAuth && <LoadingBar />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
