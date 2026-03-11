@@ -11,7 +11,7 @@ Focus on updating the global state and the base Firebase service to support auth
     - [x] Implement `setPersistence(auth, browserLocalPersistence)` in the Firebase initialization.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Store & Firebase Service Setup' (Protocol in workflow.md)
 
-## Phase 2: App Integration & UI
+## Phase 2: App Integration & UI [checkpoint: 3f175fb]
 Integrate the auth listener and display the loading state to the user.
 
 - [x] Task: Implement Auth Listener in `src/App.tsx` (d2d4539)
@@ -22,4 +22,4 @@ Integrate the auth listener and display the loading state to the user.
     - [x] Implement a top loading bar component using Tailwind CSS.
     - [x] Update the main layout to render the loading bar when `isLoadingAuth` is `true`.
     - [x] Ensure the app handles redirects if the auth check fails.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: App Integration & UI' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: App Integration & UI' (Protocol in workflow.md)
