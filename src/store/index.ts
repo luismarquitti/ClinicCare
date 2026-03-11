@@ -31,6 +31,7 @@ interface AppState {
   assets: Asset[];
   workOrders: WorkOrder[];
   salaryAdvances: SalaryAdvance[];
+  isLoadingAuth: boolean;
 
   // Listeners initialization
   initializeListeners: () => () => void; // Returns an unsubscribe function
@@ -38,6 +39,7 @@ interface AppState {
   // Actions
   setTheme: (theme: 'light' | 'dark') => void;
   toggleTheme: () => void;
+  setAuthLoading: (loading: boolean) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 
@@ -95,6 +97,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   assets: [],
   workOrders: [],
   salaryAdvances: [],
+  isLoadingAuth: true,
   employees: [
     { id: '1', name: 'Dra. Silva', role: 'Médica', status: 'on_duty' },
     { id: '2', name: 'Enf. João', role: 'Enfermeiro', status: 'on_duty' },
@@ -214,6 +217,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     localStorage.setItem('theme', newTheme);
     set({ theme: newTheme });
   },
+  setAuthLoading: (loading) => set({ isLoadingAuth: loading }),
 
   login: async (email, password) => {
     // Note: the login action signature changed, requiring a small update to Login.tsx as well
