@@ -1,6 +1,6 @@
 # Implementation Plan: Módulo Financeiro (Cash Flow Management)
 
-## Phase 1: Backend & Base State
+## Phase 1: Backend & Base State [checkpoint: 1e0fe0f]
 - [x] **Task: Core Type Definitions** c63384d
   - [x] Define `Account`, `Category`, and `Transaction` types in `src/types/financial.ts`.
 - [x] **Task: Firebase Security & Collections** c63384d
@@ -9,7 +9,7 @@
 - [x] **Task: Zustand Store Integration** 104a578
   - [x] Create `src/store/useFinancialStore.ts`.
   - [x] Implement `fetchAccounts`, `fetchCategories`, and `fetchTransactions` using `onSnapshot`.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 1: Backend & Base State' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 1: Backend & Base State' (Protocol in workflow.md)**
 
 ## Phase 2: Dashboard & Filters UI
 - [ ] **Task: Financial Header & KPIs**
