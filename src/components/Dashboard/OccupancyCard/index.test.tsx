@@ -1,6 +1,6 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { OccupancyCard } from '../OccupancyCard';
+import { OccupancyCard } from './index';
 import { useDashboardStore } from '../../../store/useDashboardStore';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';

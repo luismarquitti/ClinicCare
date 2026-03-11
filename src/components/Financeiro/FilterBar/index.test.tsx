@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { FilterBar } from '../FilterBar';
+import { FilterBar } from './index';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import React from 'react';
 

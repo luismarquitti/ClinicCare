@@ -1,6 +1,6 @@
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { QuickActions } from '../QuickActions';
+import { render, screen, cleanup } from '@testing-library/react';
+import { describe, it, expect, afterEach } from 'vitest';
+import { QuickActions } from './index';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 

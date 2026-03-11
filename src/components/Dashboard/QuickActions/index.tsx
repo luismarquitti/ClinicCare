@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { styles } from './styles';
 
 export function QuickActions() {
   const actions = [
@@ -10,18 +11,18 @@ export function QuickActions() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className={styles.grid}>
       {actions.map((action) => (
         <Link
           key={action.path}
           to={action.path}
           aria-label={action.label}
-          className={`flex items-center gap-4 p-6 transition-all duration-300 active:scale-95 group ${action.color}`}
+          className={styles.actionLink(action.color)}
         >
-          <span className="material-symbols-outlined text-[24px]">
+          <span className={styles.icon}>
             {action.icon}
           </span>
-          <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+          <span className={styles.label}>
             {action.label}
           </span>
         </Link>

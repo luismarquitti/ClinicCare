@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { SettingsModal } from '../SettingsModal';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { SettingsModal } from './index';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import React from 'react';
 
@@ -35,15 +35,16 @@ describe('SettingsModal', () => {
         fireEvent.change(screen.getByPlaceholderText('Ex: Banco do Brasil'), { target: { value: 'New Bank' } });
         fireEvent.click(screen.getByText('Adicionar Recurso'));
 
-        expect(addAccount).toHaveBeenCalledWith(expect.objectContaining({
-            name: 'New Bank'
-        }));
+        await waitFor(() => {
+            expect(addAccount).toHaveBeenCalledWith(expect.objectContaining({
+                name: 'New Bank'
+            }));
+        });
     });
 
     it('switches tabs and allows adding a category', async () => {
         render(<SettingsModal onClose={onClose} />);
         
-        // Find the "Categorias" button specifically
         const categoriesTab = screen.getAllByText('Categorias').find(el => el.tagName === 'BUTTON');
         fireEvent.click(categoriesTab!);
         
@@ -52,8 +53,10 @@ describe('SettingsModal', () => {
         fireEvent.change(screen.getByPlaceholderText('Ex: Medicamentos'), { target: { value: 'New Cat' } });
         fireEvent.click(screen.getByText('Salvar Categoria'));
 
-        expect(addCategory).toHaveBeenCalledWith(expect.objectContaining({
-            name: 'New Cat'
-        }));
+        await waitFor(() => {
+            expect(addCategory).toHaveBeenCalledWith(expect.objectContaining({
+                name: 'New Cat'
+            }));
+        });
     });
 });

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { DashboardMetrics } from '../DashboardMetrics';
+import { DashboardMetrics } from './index';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import React from 'react';
 
