@@ -9,6 +9,8 @@ import { Transaction } from '../../types';
 
 export function Financeiro() {
     const initializeListeners = useFinancialStore(state => state.initializeListeners);
+    const transactions = useFinancialStore(state => state.filteredTransactions());
+    const categories = useFinancialStore(state => state.categories);
     const [modalOpen, setModalOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [editingTx, setEditingTx] = useState<Transaction | undefined>(undefined);
@@ -17,6 +19,36 @@ export function Financeiro() {
         const unsub = initializeListeners();
         return () => unsub();
     }, [initializeListeners]);
+
+    const handleExportCSV = () => {
+        const getCategoryName = (id: string) => categories.find(c => c.id === id)?.name || 'Desconhecida';
+        
+        const headers = ['Data', 'Descricao', 'Categoria', 'Favorecido/Pagador', 'Tipo', 'Valor', 'Status'];
+        const rows = transactions.map(tx => [
+            new Date(tx.date).toLocaleDateString('pt-BR'),
+            tx.description,
+            getCategoryName(tx.categoryId),
+            tx.payeeOrPayer,
+            tx.type === 'INCOME' ? 'Receita' : 'Despesa',
+            tx.amount.toFixed(2),
+            tx.status
+        ]);
+
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row => row.join(','))
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', `financeiro_export_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const handleOpenNew = () => {
         setEditingTx(undefined);
@@ -36,6 +68,13 @@ export function Financeiro() {
                     <p className="text-sm font-medium tracking-wide text-text-muted dark:text-gray-400 mt-2 uppercase">Visão consolidada do período</p>
                 </div>
                 <div className="flex items-center gap-4">
+                    <button
+                        onClick={handleExportCSV}
+                        className="flex items-center gap-2 bg-transparent text-text-main dark:text-white px-0 py-2 font-bold tracking-widest text-xs uppercase hover:opacity-70 transition-opacity border-b-2 border-transparent hover:border-text-main dark:hover:border-white"
+                    >
+                        <span className="material-symbols-outlined text-[16px]">download</span>
+                        <span className="hidden sm:inline">Exportar CSV</span>
+                    </button>
                     <button
                         onClick={() => setSettingsOpen(true)}
                         className="flex items-center gap-2 bg-transparent text-text-main dark:text-white px-0 py-2 font-bold tracking-widest text-xs uppercase hover:opacity-70 transition-opacity border-b-2 border-transparent hover:border-text-main dark:hover:border-white"
