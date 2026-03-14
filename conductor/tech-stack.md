@@ -2,6 +2,7 @@
 
 ## ⚛️ Frontend Architecture
 - **Framework:** [React 19](https://react.dev/)
+- **Package Manager:** [Yarn Classic (v1.22+)](https://classic.yarnpkg.com/) for deterministic dependency management.
 - **Build Tool:** [Vite 6](https://vitejs.dev/)
 - **Language:** [TypeScript 5+](https://www.typescriptlang.org/)
 - **State Management:** [Zustand](https://docs.pmnd.rs/zustand/) for lightweight, predictable global state.
