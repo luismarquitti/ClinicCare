@@ -31,3 +31,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 - [ ] **Track: Install and configure Storybook for component documentation and isolated development.**
 *Link: [./tracks/setup_ui_storybook_20260311/](./tracks/setup_ui_storybook_20260311/)*
+
+---
+
+- [x] **Track: Enforce Yarn as Package Manager**
+*Link: [./tracks/enforce-yarn-usage_20260714/](./tracks/enforce-yarn-usage_20260714/)*
