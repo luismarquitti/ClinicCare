@@ -43,14 +43,14 @@ ClinicCare/
 ### Prerequisites
 
 - Node.js 18+
-- npm or yarn
-- Firebase CLI (`npm install -g firebase-tools`)
+- Yarn Classic (v1.22+)
+- Firebase CLI (`yarn global add firebase-tools`)
 
 ### Installation
 
 ```bash
 # Install dependencies
-npm install
+yarn install
 
 # Login to Firebase
 firebase login
@@ -63,13 +63,13 @@ firebase use <project-id>
 
 ```bash
 # Start development server
-npm run dev
+yarn dev
 
 # Run tests
-npm test
+yarn test
 
 # Build for production
-npm run build
+yarn build
 ```
 
 ## Firebase Configuration
@@ -120,24 +120,24 @@ npm run build
 
 ```bash
 # Run all tests
-npm test
+yarn test
 
 # Run tests with watch mode
-npm test -- --watch
+yarn test -- --watch
 ```
 
 ### Test Coverage
 
 ```bash
 # Generate coverage report
-npm run coverage
+yarn coverage
 ```
 
 ## Deployment
 
 ```bash
 # Deploy to Firebase Hosting
-npm run deploy
+yarn deploy
 ```
 
 ## Environment Variables
