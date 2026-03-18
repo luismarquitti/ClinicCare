@@ -1,0 +1,2685 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Product and Architecture Documentation for ClinicCare">
+      
+      
+      
+      
+        <link rel="prev" href="../Conformidade_e_Seguranca/">
+      
+      
+        <link rel="next" href="../architecture/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>System Design e Especificações Técnicas - ClinicCare - ClinicCare Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-design-e-especificacoes-tecnicas-cliniccare" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="ClinicCare Docs" class="md-header__button md-logo" aria-label="ClinicCare Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ClinicCare Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              System Design e Especificações Técnicas - ClinicCare
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ClinicCare Docs" class="md-nav__button md-logo" aria-label="ClinicCare Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ClinicCare Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 Hub de Documentação - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../adr/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adr
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Adr
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0001-use-zustand-with-firebase-for-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0001: Use Zustand with Firebase onSnapshot for State
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0002-feature-sliced-architecture-and-ddd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0002: Adoção de Feature-Sliced Design e Domain-Driven Design (Frontend)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0003-cqrs-and-event-sourcing-for-clinical-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0003: Aplicação de CQRS e Event Sourcing para Processos Críticos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0004-data-fetching-and-state-management-isolation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0004: Isolamento de Data Fetching e Limitação de Global Listeners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Review_Mar_2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Revisão Arquitetural e Propostas de Modernização - Março de 2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Conformidade_e_Seguranca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conformidade Regulatória e Segurança - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design e Especificações Técnicas - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design e Especificações Técnicas - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-arquitetura-geral-de-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Arquitetura Geral de Software
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Arquitetura Geral de Software">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-frontend-ecosystem-spa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Frontend Ecosystem (SPA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-backend-ecosystem-baas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Backend Ecosystem (BaaS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-multi-tenancy-e-customizacao-domiciliar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Multi-tenancy e Customização Domiciliar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-modulo-de-chatbot-e-integracao-webhook-whatsapp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Módulo de Chatbot e Integração Webhook (WhatsApp)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-esquema-do-banco-de-dados-firestore-nosql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Esquema do Banco de Dados (Firestore NoSQL)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Esquema do Banco de Dados (Firestore NoSQL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#colecoes-core-atuais-e-previstas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coleções Core (Atuais e Previstas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-detalhamento-de-estrutura-dos-pacientes-mvp-nosql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Detalhamento de Estrutura dos Pacientes (MVP NoSQL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-arquitetura-alvo-final-sql-postgresql-e-migracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Arquitetura Alvo Final (SQL PostgreSQL) e Migração
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-matriz-de-seguranca-e-controle-de-acesso-baseado-em-papeis-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Matriz de Segurança e Controle de Acesso Baseado em Papéis (RBAC)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Matriz de Segurança e Controle de Acesso Baseado em Papéis (RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roles-do-sistema-e-feature-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles do Sistema e Feature Flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firebase-security-rules-draft-diretrizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firebase Security Rules (Draft / Diretrizes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura e Fluxo da Aplicação
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelagem de Dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guias/Technical_Roadmap_and_Setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClinicCare Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guias/firebase_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow de Desenvolvimento e Firebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/NOTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anotações para Ideias em Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/BACKLOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backlog — ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/EPICOS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Índice de Épicos — ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/PRD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Product Requirements Document (PRD) - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/Product_Roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap e Plano de Execução - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/Specs_UX_UI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Especificações de UX/UI e Design System - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/pm_analysis_report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClinicCare: Product Management Analysis Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Epicos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Epicos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_1" id="__nav_6_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 foundation auth
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 foundation auth
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/01-foundation-auth/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Fundação, Auth & Onboarding B2B
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/01-foundation-auth/SPRINT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPRINT PLAN — Épico 01: Fundação, Auth & Onboarding B2B
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/01-foundation-auth/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 01: Fundação, Auth & Onboarding B2B
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_2" id="__nav_6_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 ehr emar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 ehr emar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/02-ehr-emar/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Gestão Clínica — EHR & eMAR Móvel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/02-ehr-emar/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 02: Gestão Clínica — EHR & eMAR Móvel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_3" id="__nav_6_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 operacional
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 operacional
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/03-operacional/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Operação & Manutenção
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/03-operacional/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 03: Operação & Manutenção
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_4" id="__nav_6_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 financeiro
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04 financeiro
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/04-financeiro/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Gestão Financeira Completa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/04-financeiro/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 04: Gestão Financeira Completa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_5" id="__nav_6_7_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 ai chatbot
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    05 ai chatbot
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/05-ai-chatbot/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: IA, Chatbot & Escalabilidade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_6" id="__nav_6_7_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mvp v1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mvp v1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/mvp-v1/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: MVP Inicial (Administração e Residentes)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planejamento/epicos/mvp-v1/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS: Breakdown Técnico — MVP Inicial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dashboard
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/dashboard/SPEC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPEC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financeiro
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financeiro
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../specs/financeiro/SPEC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Especificação Técnica: Módulo Financeiro (ClinicCare)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-arquitetura-geral-de-software" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Arquitetura Geral de Software
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Arquitetura Geral de Software">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-frontend-ecosystem-spa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Frontend Ecosystem (SPA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-backend-ecosystem-baas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. Backend Ecosystem (BaaS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-multi-tenancy-e-customizacao-domiciliar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Multi-tenancy e Customização Domiciliar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-modulo-de-chatbot-e-integracao-webhook-whatsapp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Módulo de Chatbot e Integração Webhook (WhatsApp)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-esquema-do-banco-de-dados-firestore-nosql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Esquema do Banco de Dados (Firestore NoSQL)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Esquema do Banco de Dados (Firestore NoSQL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#colecoes-core-atuais-e-previstas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coleções Core (Atuais e Previstas)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-detalhamento-de-estrutura-dos-pacientes-mvp-nosql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Detalhamento de Estrutura dos Pacientes (MVP NoSQL)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-arquitetura-alvo-final-sql-postgresql-e-migracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Arquitetura Alvo Final (SQL PostgreSQL) e Migração
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-matriz-de-seguranca-e-controle-de-acesso-baseado-em-papeis-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Matriz de Segurança e Controle de Acesso Baseado em Papéis (RBAC)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Matriz de Segurança e Controle de Acesso Baseado em Papéis (RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#roles-do-sistema-e-feature-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles do Sistema e Feature Flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firebase-security-rules-draft-diretrizes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firebase Security Rules (Draft / Diretrizes)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="system-design-e-especificacoes-tecnicas-cliniccare">System Design e Especificações Técnicas - ClinicCare</h1>
+<h2 id="1-arquitetura-geral-de-software">1. Arquitetura Geral de Software</h2>
+<p>O ClinicCare utiliza uma arquitetura <em>Cloud-Native</em> e <em>Serverless</em> rodando puramente na nuvem gerenciada do Google Cloud ecosystem (Firebase).</p>
+<h3 id="11-frontend-ecosystem-spa">1.1. Frontend Ecosystem (SPA)</h3>
+<ul>
+<li><strong>Framework:</strong> React 18+ com TypeScript.</li>
+<li><strong>State Management:</strong> Zustand (leve, rápido, modular) para estado global não-persistido (ex: configuração de UI) e biblioteca de Server-State (TanStack Query) ou Hooks nativos do Firebase para estado assíncrono.</li>
+<li><strong>Styling:</strong> CSS puro, SCSS ou TailwindCSS (configurado no builder), priorizando componentização modular estrita.</li>
+<li><strong>Roteamento:</strong> React Router DOM (v6+).</li>
+<li><strong>Build Tool:</strong> Vite.js (Performance de build excelente).</li>
+<li><strong>Arquitetura Modular (Feature-Sliced):</strong> Códigos divididos por domínio/funcionalidade. Cada módulo gerencia suas próprias rotas, estados e componentes, visando alta coesão e baixo acoplamento para facilitar testes, reuso e provisionamento por "Feature Flags" baseados no tipo de usuário/cliente.</li>
+</ul>
+<h3 id="12-backend-ecosystem-baas">1.2. Backend Ecosystem (BaaS)</h3>
+<ul>
+<li><strong>Authentication:</strong> Firebase Auth (Email/Senha, Provedores Sociais corporativos).</li>
+<li><strong>Database:</strong> Cloud Firestore (NoSQL, Serverless, Realtime-capable).</li>
+<li><strong>Storage:</strong> Firebase Cloud Storage (Armazenamento em buckets para anexos, exames PDF, fotos de patrimônio).</li>
+<li><strong>Serverless Compute:</strong> Firebase Cloud Functions (Node.js/TypeScript) para lógicas complexas de backend (ex: processamento de pagamentos, consolidação financeira noturna, envio de e-mails em massa, integrações externas).</li>
+<li><strong>Integração de IA (LLMs):</strong> Uso do Google Gemini, inicialmente implementado via Firebase Extensions nativas (MVP) para simplificar orquestração e acelerar o desenvolvimento, com avaliação futura para Cloud Functions customizadas caso a lógica exija maior precisão.</li>
+<li><strong>Hosting:</strong> Firebase Hosting (distribuição global estática e super veloz via CDN).</li>
+</ul>
+<h3 id="13-multi-tenancy-e-customizacao-domiciliar">1.3. Multi-tenancy e Customização Domiciliar</h3>
+<ul>
+<li>A aplicação suportará o conceito avançado de <em>Multi-tenancy</em> para prover diferentes versões ou features a múltiplas clínicas ou clientes.</li>
+<li>Configurações por cliente (branding, feature flags, perfis de relatórios) serão suportadas gerando múltiplos sites ou ambientes no Firebase Hosting a partir do mesmo domínio base ou base code principal via <code>.env.cliente</code> (configurações em build time) associadas a checks em <em>runtime</em>.</li>
+<li><strong>Avaliação de Ferramentas de Scaffolding/Orquestração:</strong> No fluxo de build de novos ambientes ou processos complexos de integração, usaremos pipelines de CI/CD rigorosos e avaliaremos ferramentas complementares de mercado estruturadas para scaffolding ou orquestração (se aplicável ao escopo de microserviços/deploy as a service) como o "Conductor" para auxílio na gestão do ciclo de vida de deploys variados.</li>
+</ul>
+<h3 id="14-modulo-de-chatbot-e-integracao-webhook-whatsapp">1.4. Módulo de Chatbot e Integração Webhook (WhatsApp)</h3>
+<ul>
+<li><strong>Backend Webhook:</strong> Cloud Functions atuando como endpoint para o Webhook oficial da WhatsApp Cloud API (Meta).</li>
+<li><strong>Autenticação de Mensageria:</strong> Para fins de RBAC, os usuários interagirão via WhatsApp. O sistema validará a identidade associando o número de telefone de origem do WhatsApp ao <code>phoneNumber</code> preestabelecido da conta do colaborador no Firebase Auth, cruzando as Custom Claims existentes para saber se o remetente tem permissão de executar comandos clínicos ou apenas financeiros.</li>
+<li><strong>Fluxo Multimodal (Visão):</strong> Imagens enviadas para o assistente (ex: faturas, remédios) são processadas pelo Gemini Vision. Após a confirmação e resposta da IA, a imagem é descartada temporalmente se não houver um requisito legal de armazenamento.</li>
+</ul>
+<h2 id="2-esquema-do-banco-de-dados-firestore-nosql">2. Esquema do Banco de Dados (Firestore NoSQL)</h2>
+<p>Por se tratar de NoSQL, o banco será estruturado com uso equilibrado de Sub-coleções para hierarquia forte e Coleções-Root para pesquisas globais.</p>
+<h3 id="colecoes-core-atuais-e-previstas">Coleções Core (Atuais e Previstas)</h3>
+<ul>
+<li><code>clinics</code> / <code>organizations</code> (Futuro Multi-tenant)</li>
+<li>ID da clínica, razão social, CNPJ.</li>
+<li><code>users</code> / <code>employees</code></li>
+<li>Auth UID, nome, CRM/Coren, cargo, role, ativo/inativo.</li>
+<li><code>patients</code> / <code>residents</code> (Dados Demográficos e Administrativos)</li>
+<li><strong>Obrigatórios:</strong> <code>id</code>, <code>fullName</code>, <code>birthDate</code>, <code>biologicalSex</code>, <code>status</code> (ACTIVE/DISCHARGED).</li>
+<li><strong>Opcionais:</strong> <code>cpf</code>, <code>rg</code>, <code>address</code>, <code>contactPhone</code>, <code>emergencyContact</code>, <code>bedId</code> (caso internado/residente), <code>profilePictureUrl</code>.</li>
+<li><code>clinical_records</code> (Submódulo Clínico Separado)</li>
+<li>Isolado dos dados demográficos para garantir segurança e focado no cuidado de saúde.</li>
+<li>Coleção agrupando: <code>evolutions</code> (Anotações diárias), <code>eMAR_records</code> (Doses administradas), <code>vital_signs</code> (Sinais vitais), <code>allergies</code> (Alergias documentadas).</li>
+<li>Arquivos e anexos (PDFs, laudos médicos) são representados como referências de URL (armazenados de forma segura no Cloud Storage).</li>
+<li><code>prescriptions</code></li>
+<li>Documentos vinculados a <code>patientId</code> indicando a terapêutica ativa.</li>
+<li><strong>Cloud Functions Alert:</strong> Triggers na criação (<code>onCreate</code>) destas prescrições disparam filas assíncronas de agendamento (<code>eMAR_scheduled_tasks</code>), utilizando Google Cloud Tasks/Scheduler para gerar pendências ativas nos painéis móveis da enfermagem.</li>
+<li><code>invoices</code> (Financeiro)</li>
+<li><code>patientId</code>, montante, data de vencimento, status (PAGO, ABERTO, ATRASADO), itens da fatura, referência ao mês/ano.</li>
+<li><code>maintenance_orders</code> / <code>assets</code> (Manutenção)</li>
+<li>Equipamentos cadastrados, QR Codes vinculados.</li>
+<li>Ordens de serviço: Reclamante, equipamento, tipo de defeito, status de calibração, prioridade.</li>
+</ul>
+<h3 id="22-detalhamento-de-estrutura-dos-pacientes-mvp-nosql">2.2. Detalhamento de Estrutura dos Pacientes (MVP NoSQL)</h3>
+<ul>
+<li><strong>Pacientes (Demográfico):</strong> Campos baseados primordialmente em Strings (IDs, Nomes, Documentos, Contatos), Timestamp (Datas de Nascimento) e Enums (Status).</li>
+<li><strong>Módulo Clínico:</strong> Estrutura altamente aninhada (sub-coleções do Firestore) documentando o estado histórico do paciente, com arrays para informações simples (tipo sanguíneo, tags de alerta). O schema do Firestore foca em otimizar a leitura sequencial do prontuário por linha do tempo.</li>
+</ul>
+<h3 id="23-arquitetura-alvo-final-sql-postgresql-e-migracao">2.3. Arquitetura Alvo Final (SQL PostgreSQL) e Migração</h3>
+<p>Tendo em vista o crescimento do sistema e complexidade relacional (como faturamento avançado, cruzamento profundo de dados estatísticos), a versão madura migrará para <strong>PostgreSQL</strong>.</p>
+<p><strong>Esquema Relacional Inicial (PostgreSQL):</strong></p>
+<ul>
+<li>Tabela <code>patients</code>: <code>id</code> (UUID, PK), <code>full_name</code> (VARCHAR), <code>cpf</code> (VARCHAR, UNIQUE), <code>birth_date</code> (DATE), <code>status</code> (VARCHAR).</li>
+<li>Tabela <code>clinical_records</code>: <code>id</code> (UUID, PK), <code>patient_id</code> (UUID, FK), <code>record_type</code> (ENUM), <code>notes</code> (TEXT), <code>recorded_at</code> (TIMESTAMP), <code>professional_id</code> (FK).</li>
+<li>Tabela <code>attachments</code>: <code>id</code> (UUID, PK), <code>patient_id</code> (UUID, FK), <code>storage_url</code> (VARCHAR), <code>document_type</code> (VARCHAR).</li>
+</ul>
+<p><strong>Estratégia de Migração (NoSQL -&gt; SQL PostgreSQL):</strong></p>
+<ol>
+<li><strong>Modelagem e Preparo (Data Mapping):</strong> Criar os esquemas SQL DDL que absorvam os dados em árvore do Firestore para um modelo achatado / relacional.</li>
+<li><strong>Dual-Write (Fase de Transição):</strong> A API (Functions/Backend) passa a gravar os dados de entrada simultaneamente no Firestore e no PostgreSQL para evitar disparidade.</li>
+<li><strong>ETL Carga Histórica (Extract, Transform, Load):</strong> Scripts massivos rodando em background (ex: Dataflow ou Jobs de servidor) leem o JSON legado do Firestore e inserem nas tabelas relacionais em lotes (Batch processing).</li>
+<li><strong>API Cutover (Chaveamento):</strong> Com dados equalizados, os endpoints do frontend passam a apontar definitivamente para a API do PostgreSQL. O Firestore desliga-se como DB principal, podendo se manter apenas para serviços dependentes de WebSockets (Chat, Realtime Dashboards).</li>
+</ol>
+<h2 id="3-matriz-de-seguranca-e-controle-de-acesso-baseado-em-papeis-rbac">3. Matriz de Segurança e Controle de Acesso Baseado em Papéis (RBAC)</h2>
+<p>O sistema de acesso determina fortemente os firewalls de proteção aos dados de saúde do paciente (LGPD). As <em>custom claims</em> do Firebase ID Token serão utilizadas para a definição dos roles.</p>
+<h3 id="roles-do-sistema-e-feature-flags">Roles do Sistema e Feature Flags</h3>
+<p>Além dos acessos aos dados base (RBAC), empregaremos <strong>Feature Flags</strong>. As Flags definirão <em>"o que o usuário pode ver vs. o que ele pode fazer"</em> no nível da interface dependendo do plano do cliente (Clinic) ou permissão customizada de sua role.</p>
+<ul>
+<li><strong><code>SUPER_ADMIN</code>:</strong> Controle total sobre parametrizações e permissões de usuários. Acesso financeiro geral.</li>
+<li><strong><code>HEALTH_PRO</code>:</strong> Permissão de leitura/escrita em prontuários (EHR), sinais vitais, eMAR. Bloqueado para áreas financeiras ou de gestão estrutural não relacionadas ao cuidado.</li>
+<li><strong><code>FINANCIAL</code>:</strong> Leitura/escrita em Invoices, Custos e Mensalidades. Acesso restrito (mínimo necessário) aos dados demográficos dos pacientes e nenhum acesso às notas/evoluções clínicas (Privacy Shield).</li>
+<li><strong><code>MAINTENANCE</code>:</strong> Acesso exclusivo ao módulo de frotas, patrimônios, predial e abertura/fechamento de Ordens de Serviço. Nenhuma visão global de lista de pacientes além do que for estritamente reportado num chamado.</li>
+</ul>
+<h3 id="firebase-security-rules-draft-diretrizes">Firebase Security Rules (Draft / Diretrizes)</h3>
+<p>Todas as queries no Firestore devem, <em>by-design</em>, vir acompanhadas das travas de regras no backend:</p>
+<pre><code class="language-javascript">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Função utilitária
+    function hasRole(roleName) {
+      return request.auth.token[roleName] == true;
+    }
+
+    match /patients/{patientId} {
+      // Médicos e admins podem ver registros de pacientes. Financeiro apenas ler demográfico.
+      allow read: if request.auth != null &amp;&amp; (hasRole('HEALTH_PRO') || hasRole('SUPER_ADMIN') || hasRole('FINANCIAL'));
+      allow write: if request.auth != null &amp;&amp; (hasRole('HEALTH_PRO') || hasRole('SUPER_ADMIN'));
+
+      match /evolutions/{evDoc} {
+        // Financeiro NÃO pode ler a evolução detalhada.
+        allow read, write: if request.auth != null &amp;&amp; (hasRole('HEALTH_PRO') || hasRole('SUPER_ADMIN'));
+      }
+    }
+
+    match /invoices/{invoiceId} {
+      // Apenas grupo financeiro controla faturamento
+      allow read, write: if request.auth != null &amp;&amp; (hasRole('FINANCIAL') || hasRole('SUPER_ADMIN'));
+    }
+  }
+}
+</code></pre>
+<p>A arquitetura se baseia numa postura de <strong>"Default Deny"</strong> em que explicitamente nós conferimos os acessos de acordo com a mínima necessidade funcional provada pela role do usuário.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.indexes", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

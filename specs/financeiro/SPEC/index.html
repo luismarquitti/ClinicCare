@@ -1,0 +1,2606 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Product and Architecture Documentation for ClinicCare">
+      
+      
+      
+      
+        <link rel="prev" href="../../dashboard/SPEC/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>Especificação Técnica: Módulo Financeiro (ClinicCare) - ClinicCare Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#especificacao-tecnica-modulo-financeiro-cliniccare" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../../.." title="ClinicCare Docs" class="md-header__button md-logo" aria-label="ClinicCare Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ClinicCare Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Especificação Técnica: Módulo Financeiro (ClinicCare)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ClinicCare Docs" class="md-nav__button md-logo" aria-label="ClinicCare Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ClinicCare Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🏥 Hub de Documentação - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../adr/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adr
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Adr
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../adr/0001-use-zustand-with-firebase-for-state/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0001: Use Zustand with Firebase onSnapshot for State
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../adr/0002-feature-sliced-architecture-and-ddd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0002: Adoção de Feature-Sliced Design e Domain-Driven Design (Frontend)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../adr/0003-cqrs-and-event-sourcing-for-clinical-records/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0003: Aplicação de CQRS e Event Sourcing para Processos Críticos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../adr/0004-data-fetching-and-state-management-isolation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0004: Isolamento de Data Fetching e Limitação de Global Listeners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arquitetura/Architecture_Review_Mar_2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Revisão Arquitetural e Propostas de Modernização - Março de 2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arquitetura/Conformidade_e_Seguranca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conformidade Regulatória e Segurança - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arquitetura/System_Design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design e Especificações Técnicas - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arquitetura/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura e Fluxo da Aplicação
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arquitetura/data_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelagem de Dados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guias
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guias
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guias/Technical_Roadmap_and_Setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClinicCare Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../guias/firebase_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflow de Desenvolvimento e Firebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes/NOTES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anotações para Ideias em Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/BACKLOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backlog — ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/EPICOS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Índice de Épicos — ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/PRD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Product Requirements Document (PRD) - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/Product_Roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap e Plano de Execução - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/Specs_UX_UI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Especificações de UX/UI e Design System - ClinicCare
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/pm_analysis_report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ClinicCare: Product Management Analysis Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Epicos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Epicos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_1" id="__nav_6_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 foundation auth
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    01 foundation auth
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/01-foundation-auth/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Fundação, Auth & Onboarding B2B
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/01-foundation-auth/SPRINT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPRINT PLAN — Épico 01: Fundação, Auth & Onboarding B2B
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/01-foundation-auth/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 01: Fundação, Auth & Onboarding B2B
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_2" id="__nav_6_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 ehr emar
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    02 ehr emar
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/02-ehr-emar/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Gestão Clínica — EHR & eMAR Móvel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/02-ehr-emar/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 02: Gestão Clínica — EHR & eMAR Móvel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_3" id="__nav_6_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 operacional
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    03 operacional
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/03-operacional/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Operação & Manutenção
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/03-operacional/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 03: Operação & Manutenção
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_4" id="__nav_6_7_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 financeiro
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    04 financeiro
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/04-financeiro/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: Gestão Financeira Completa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/04-financeiro/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS — Épico 04: Gestão Financeira Completa
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_5" id="__nav_6_7_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 ai chatbot
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    05 ai chatbot
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/05-ai-chatbot/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: IA, Chatbot & Escalabilidade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7_6" id="__nav_6_7_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mvp v1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Mvp v1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/mvp-v1/FEATURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feature: MVP Inicial (Administração e Residentes)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../planejamento/epicos/mvp-v1/TASKS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TASKS: Breakdown Técnico — MVP Inicial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Specs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Specs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dashboard
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dashboard/SPEC/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPEC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Financeiro
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Financeiro
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Especificação Técnica: Módulo Financeiro (ClinicCare)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Especificação Técnica: Módulo Financeiro (ClinicCare)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-e-alinhamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral e Alinhamento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requisitos-de-design-adaptativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requisitos de Design Adaptativo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Requisitos de Design Adaptativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-design-direction-refined-minimalist-editorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Design Direction (Refined Minimalist Editorial)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-especificacao-tecnica-e-modelagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Especificação Técnica e Modelagem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Especificação Técnica e Modelagem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#colecoes-do-firestore-srctypesfinancialts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coleções do Firestore (src/types/financial.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estado-global-zustand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estado Global (Zustand)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-matriz-de-seguranca-firestorerules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Matriz de Segurança (firestore.rules)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-planejamento-agil-sprints-e-tarefas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Planejamento Ágil (Sprints e Tarefas)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-criterios-de-aceite-dod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Critérios de Aceite (DoD)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-visao-geral-e-alinhamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Visão Geral e Alinhamento
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-requisitos-de-design-adaptativo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Requisitos de Design Adaptativo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Requisitos de Design Adaptativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-design-direction-refined-minimalist-editorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Design Direction (Refined Minimalist Editorial)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-especificacao-tecnica-e-modelagem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Especificação Técnica e Modelagem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Especificação Técnica e Modelagem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#colecoes-do-firestore-srctypesfinancialts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coleções do Firestore (src/types/financial.ts)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estado-global-zustand" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estado Global (Zustand)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-matriz-de-seguranca-firestorerules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Matriz de Segurança (firestore.rules)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-planejamento-agil-sprints-e-tarefas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Planejamento Ágil (Sprints e Tarefas)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-criterios-de-aceite-dod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Critérios de Aceite (DoD)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="especificacao-tecnica-modulo-financeiro-cliniccare">Especificação Técnica: Módulo Financeiro (ClinicCare)</h1>
+<h2 id="1-visao-geral-e-alinhamento">1. Visão Geral e Alinhamento</h2>
+<p>O Módulo Financeiro visa modernizar o controle de fluxo de caixa da clínica. O objetivo é permitir que o departamento financeiro e os administradores (<code>FINANCIAL</code>, <code>SUPER_ADMIN</code>) gerenciem contas, cartões, receitas e despesas com categorização detalhada, gerenciamento de recorrências e projeção de caixa. Esta feature não mira o usuário externo, operando estritamente dentro da segurança demarcada pelo RBAC do Firebase, garantindo agilidade operacional sem expor dados clínicos.</p>
+<h2 id="2-requisitos-de-design-adaptativo">2. Requisitos de Design Adaptativo</h2>
+<ul>
+<li><strong>Disposição Web (Desktop - Foco Principal):</strong> Tela principal dividida. Dashboard (KPIs: Saldo no Período, Receitas, Despesas, A Pagar) fixado na parte superior com gráficos rápidos. Tabela (DataGrid) densa de movimentações do mês atual em tela cheia na parte inferior. Layout horizontal para Filtros Avançados (Categorias, Tipos, Período, Status).</li>
+<li><strong>Disposição Mobile (Supervisão Rápida):</strong> Dashboard sintetizado em Cards de rolagem horizontal (Swipe). Lista de transações agrupada por data. O botão flutuante (FAB) de "Nova Transação" fica fixo inferior à direita.</li>
+<li><strong>Interação Crítica (CRUD):</strong> As operações de criação, edição e exclusão não devem redirecionar a rotas diferentes. Devem utilizar um Modal central no Desktop e um Bottom Sheet (englobando tela inteira se necessário) no Mobile visando minimizar a carga cognitiva e manter o contexto da lista. Filtros aplicados atualizam imediatamente os indicadores (KPIs) superior.</li>
+</ul>
+<h3 id="21-design-direction-refined-minimalist-editorial">2.1 Design Direction (Refined Minimalist Editorial)</h3>
+<p>Guiado pelos preceitos da skill de design (<code>frontend-design</code>), o módulo financeiro abdica do estilo genérico SaaS (gradientes decorativos, bordas excessivamente arredondadas, badges em pílula com fundos claros) en favor de um visual <strong>Refined Minimalist Editorial</strong>.</p>
+<ul>
+<li><strong>Typography-led:</strong> Valores monetários utilizam numerais com pesos expressivos (fontes sem serifa pesadas) justapostos contra textos de suporte finos e rastreados (uppercase tracked-out).</li>
+<li><strong>Estrutura sem container:</strong> As grades de dados (DataGrids) eliminam "cards" contendo linhas internas em troca de estruturas ancoradas apenas por alinhamento e separadores horizontais consistentes. Form controls substituem caixas completas por contornos limpos (borders/underlines).</li>
+<li><strong>Indicadores de Status (Status Indicators):</strong> Estado visual das transações utiliza variações pontuais ou apenas código de cor mínimo e stark (ex: <em>dot text</em> de alto contraste) em vez dos tradicionais backrounds de pílula soft.</li>
+<li><strong>DFII Score:</strong> O design atinge métrica superior a 12 (Excelente).</li>
+</ul>
+<h2 id="3-especificacao-tecnica-e-modelagem">3. Especificação Técnica e Modelagem</h2>
+<p>Para isolar as transações do faturamento fixo (<code>billingItems</code>), modelaremos entidades novas no Firestore voltadas para fluxo de caixa.</p>
+<h3 id="colecoes-do-firestore-srctypesfinancialts">Coleções do Firestore (<code>src/types/financial.ts</code>)</h3>
+<pre><code class="language-typescript">// Contas bancárias e Cartões
+interface Account {
+  id: string; // Gerado pelo Firestore
+  name: string; // Ex: 'Bradesco Clínica', 'Cartão Corporativo Nu'
+  type: 'BANK_ACCOUNT' | 'CREDIT_CARD' | 'CASH';
+  initialBalance: number;
+  currentBalance: number;
+  createdAt: string; // ISO String
+}
+
+// Categorias de transações
+interface Category {
+  id: string;
+  name: string; // Ex: 'Suprimentos Médicos', 'Folha de Pagamento'
+  type: 'INCOME' | 'EXPENSE';
+  color: string; // Hex color para o MD3
+}
+
+// Lançamentos e Transações
+interface Transaction {
+  id: string;
+  accountId: string; // Referência a Account
+  categoryId: string; // Referência a Category
+  amount: number;
+  type: 'INCOME' | 'EXPENSE';
+  status: 'PAID' | 'PENDING' | 'OVERDUE';
+  date: string; // ISO ou Timestamp
+  description: string;
+  payeeOrPayer: string; // Fornecedor ou Cliente/Paciente
+  isRecurring: boolean; // Flag se originou de recorrência
+  recurringGroupId?: string; // Para agrupar parcelas/mensalidades geradas juntas
+  createdAt: string;
+}
+</code></pre>
+<h3 id="estado-global-zustand">Estado Global (Zustand)</h3>
+<p>Criar o arquivo <code>src/store/useFinancialStore.ts</code>:</p>
+<ul>
+<li><strong>State:</strong> <code>accounts: Account[]</code>, <code>categories: Category[]</code>, <code>transactions: Transaction[]</code>, <code>filters: { dateRange, type, categoryId, status }</code>.</li>
+<li><strong>Actions:</strong></li>
+<li><code>fetchAccounts</code>, <code>fetchCategories</code>, <code>fetchTransactions(filters)</code> via <code>onSnapshot</code>.</li>
+<li><code>addTransaction</code>, <code>updateTransaction</code>, <code>deleteTransaction</code>.</li>
+<li><strong>Computed Properties/Getters:</strong> <code>filteredBalance()</code>, <code>filteredIncome()</code>, <code>filteredExpense()</code>, para injetar diretamente no Dashboard reduzindo processamento nos componentes.</li>
+</ul>
+<h2 id="4-matriz-de-seguranca-firestorerules">4. Matriz de Segurança (firestore.rules)</h2>
+<p>O acesso aos dados monetários é ultra sensível. Ninguém no grupo de enfermagem (<code>HEALTH_PRO</code>) ou outro colaborador comum deve ler esses dados. Ajustar <code>firestore.rules</code>:</p>
+<pre><code class="language-javascript">match /accounts/{accountId} {
+  allow read, write: if request.auth != null &amp;&amp; (hasRole('FINANCIAL') || hasRole('SUPER_ADMIN'));
+}
+
+match /categories/{categoryId} {
+  // Leitura geral para popular selects, mas escrita trancada.
+  allow read: if request.auth != null;
+  allow write: if request.auth != null &amp;&amp; (hasRole('FINANCIAL') || hasRole('SUPER_ADMIN'));
+}
+
+match /transactions/{transactionId} {
+  allow read, write: if request.auth != null &amp;&amp; (hasRole('FINANCIAL') || hasRole('SUPER_ADMIN'));
+}
+</code></pre>
+<h2 id="5-planejamento-agil-sprints-e-tarefas">5. Planejamento Ágil (Sprints e Tarefas)</h2>
+<ul>
+<li><strong>Sprint 1 (Backend &amp; Base State):</strong></li>
+<li>Tarefa: Criar tipagens no <code>src/types/</code>.</li>
+<li>Tarefa: Criar coleções mockup no Firestore e regras de segurança (<code>firestore.rules</code>).</li>
+<li>
+<p>Tarefa: Estruturar as actions e o listener do <code>useFinancialStore</code> integrado ao Firebase.</p>
+</li>
+<li>
+<p><strong>Sprint 2 (Dashboard &amp; Filtros Base UI):</strong></p>
+</li>
+<li>Tarefa: Layoutização das métricas do cabeçalho da página Financial (Total Receitas, Despesas, Saldo Baseado no Filtro).</li>
+<li>
+<p>Tarefa: Criar a barra de controles/filtros reativos (Categorias, Mês Atual) alimentando o Zustand.</p>
+</li>
+<li>
+<p><strong>Sprint 3 (CRUD de Transações):</strong></p>
+</li>
+<li>Tarefa: Tabela/Listagem de despesas da <code>Transaction</code> com estados de Pagamento.</li>
+<li>Tarefa: Modal reativo integrado ao formulário (React Hook Form + Zod) para criação e edição, incluindo busca de Categorias/Contas.</li>
+<li>
+<p>Tarefa: Ação de exclusão com alerta (Dialog de confirmação).</p>
+</li>
+<li>
+<p><strong>Sprint 4 (Contas, Categorias e Relatórios Módulo Avançado):</strong></p>
+</li>
+<li>Tarefa: CRUD isolado para criar novas Contas ou Cartões e definir cores de Categorias.</li>
+<li>Tarefa: Função de exportação de um relatório básico no formato de CSV/PDF pegando as transações da tela filtrada atual.</li>
+</ul>
+<h2 id="6-criterios-de-aceite-dod">6. Critérios de Aceite (DoD)</h2>
+<ul>
+<li>Todas as consultas utilizam hooks do <code>Zustand</code> de forma real-time (<code>onSnapshot</code>).</li>
+<li>Os componentes de Tabela ou Dashboard superior reagem no máximo em menos de 1 segundo à mudança de um filtro.</li>
+<li>Protótipo atestado nos Chrome DevTools tanto na visão &gt;1024px (Web) quanto na visão 390px (Mobile Bottom Sheet).</li>
+<li>Regras de Segurança validadas não permitindo visualização por usuários sem 'FINANCIAL' ou 'SUPER_ADMIN' claim.</li>
+<li>Validação estrita por <code>zod</code> em formulários de valor monetário (não permitindo transações zeradas onde não aplicável).</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.indexes", "navigation.sections", "navigation.top", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
