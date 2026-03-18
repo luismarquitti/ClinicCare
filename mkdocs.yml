@@ -1,0 +1,14 @@
+site_name: ClinicCare Docs
+site_description: Product and Architecture Documentation for ClinicCare
+docs_dir: doc
+theme:
+  name: material
+  features:
+    - navigation.indexes
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+  language: pt-BR
+plugins:
+  - search
