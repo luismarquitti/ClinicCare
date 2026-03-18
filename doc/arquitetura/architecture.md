@@ -1,3 +1,6 @@
+---
+title: "Arquitetura e Fluxo da Aplicação"
+---
 # Arquitetura e Fluxo da Aplicação
 
 O ClinicCare adota uma arquitetura baseada em **SPA (Single Page Application)** com o Frontend diretamente integrado a recursos Serverless do **Firebase**.

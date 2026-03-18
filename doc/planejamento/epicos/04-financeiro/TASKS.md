@@ -1,3 +1,6 @@
+---
+title: "TASKS — Épico 04: Gestão Financeira Completa"
+---
 # TASKS — Épico 04: Gestão Financeira Completa
 
 **Épico:** 04 — Gestão Financeira Completa

@@ -1,3 +1,6 @@
+---
+title: "Feature: Gestão Clínica — EHR & eMAR Móvel"
+---
 # Feature: Gestão Clínica — EHR & eMAR Móvel
 
 **Épico:** 02 — Gestão Clínica — EHR & eMAR Móvel

@@ -1,3 +1,6 @@
+---
+title: "ADR-0003: Aplicação de CQRS e Event Sourcing para Processos Críticos"
+---
 # ADR-0003: Aplicação de CQRS e Event Sourcing para Processos Críticos
 
 ## Status

@@ -1,3 +1,6 @@
+---
+title: "Backlog — ClinicCare"
+---
 # Backlog — ClinicCare
 
 > Visão kanban do produto. Gerado e mantido pelo workflow `/planning`.
@@ -20,6 +23,11 @@
 
 | Épico | Feature | Link | Prioridade |
 |-------|---------|------|-----------|
+| 06 - MVP | Landing Page Institucional B2B | [FEATURE.md](./epicos/mvp-v1/FEATURE.md) | Altíssima |
+| 06 - MVP | Login Persistente (Admin/Proprietário) | [FEATURE.md](./epicos/mvp-v1/FEATURE.md) | Altíssima |
+| 06 - MVP | App Bar Global com Navegação | [FEATURE.md](./epicos/mvp-v1/FEATURE.md) | Altíssima |
+| 06 - MVP | Dashboard Financeiro Funcional | [FEATURE.md](./epicos/mvp-v1/FEATURE.md) | Altíssima |
+| 06 - MVP | CRUD Completo de Residentes | [FEATURE.md](./epicos/mvp-v1/FEATURE.md) | Altíssima |
 | 02 - Clínico | Prontuário Eletrônico (EHR) — Cadastro de Pacientes | [FEATURE.md](./epicos/02-ehr-emar/FEATURE.md) | Alta |
 | 02 - Clínico | EHR — Evoluções Diárias e Sinais Vitais | [FEATURE.md](./epicos/02-ehr-emar/FEATURE.md) | Alta |
 | 02 - Clínico | Motor de Prescrições → Doses Agendadas (eMAR) | [FEATURE.md](./epicos/02-ehr-emar/FEATURE.md) | Alta |

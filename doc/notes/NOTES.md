@@ -1,3 +1,6 @@
+---
+title: "Anotações para Ideias em Geral"
+---
 # Anotações para Ideias em Geral
 
 ## Estrutura do projeto

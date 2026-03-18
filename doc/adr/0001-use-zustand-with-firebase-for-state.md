@@ -1,3 +1,6 @@
+---
+title: "ADR-0001: Use Zustand with Firebase onSnapshot for State"
+---
 # ADR-0001: Use Zustand with Firebase onSnapshot for State
 
 ## Status

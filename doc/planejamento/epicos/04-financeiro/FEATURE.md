@@ -1,3 +1,6 @@
+---
+title: "Feature: Gestão Financeira Completa"
+---
 # Feature: Gestão Financeira Completa
 
 **Épico:** 04 — Gestão Financeira Completa

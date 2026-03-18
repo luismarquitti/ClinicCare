@@ -1,3 +1,6 @@
+---
+title: "Índice de Épicos — ClinicCare"
+---
 # Índice de Épicos — ClinicCare
 
 > Fonte da verdade para todos os épicos do produto. Cada épico corresponde a uma fase do [Product_Roadmap.md](./Product_Roadmap.md).
@@ -14,6 +17,7 @@
 | 03 | Operação & Manutenção | Fase 3 (Mês 4) | 🔍 In Review | [epicos/03-operacional/](./epicos/03-operacional/) | — |
 | 04 | Gestão Financeira Completa | Fase 4 (Mês 5) | 🔍 In Review | [epicos/04-financeiro/](./epicos/04-financeiro/) | — |
 | 05 | IA, Chatbot & Escalabilidade | Fase 5 (Mês 6+) | 📋 Backlog | [epicos/05-ai-chatbot/](./epicos/05-ai-chatbot/) | — |
+| 06 | MVP Inicial (Admin e Residentes)| Fase 1 a 4 | 📋 Backlog | [epicos/mvp-v1/](./epicos/mvp-v1/) | — |
 
 > **Nota (2026-03-13):** Épicos 01–04 tiveram implementação acelerada. Todos possuem módulos funcionais no `main`. Status "In Review" indica que o código existe mas gaps de segurança e testes precisam ser corrigidos antes de marcar como "Done". Ver [project_status_report.md](../../.gemini/antigravity/brain/project_status_report.md) e [BACKLOG.md](./BACKLOG.md) para a lista completa de gaps.
 
@@ -85,6 +89,16 @@ Assistente Virtual IA via Gemini, integração WhatsApp Business, análise predi
 **Próximos passos:** Planejar via `/planning` após MVP estável.
 
 **Personas principais:** Todos os usuários (chatbot), Família do Residente
+
+---
+
+### Épico 06 — MVP Inicial (Administração e Residentes)
+Entrega focada em demonstrar o valor inicial da plataforma para os Administradores e Proprietários da Clínica. Compila funcionalidades da Fundação (Auth), Clínico (Residentes) e Financeiro.
+
+**Implementado:** Em definição.
+**Pendente (gaps):** Estruturação da Landing, Login Persistente com UI fluida, App Bar de Navegação Global, refino de Residentes e Dashboard Financeiro completo.
+
+**Personas principais:** Administrador Geral da Clínica, Proprietários
 
 ---
 

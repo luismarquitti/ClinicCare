@@ -1,3 +1,6 @@
+---
+title: "Conformidade Regulatória e Segurança - ClinicCare"
+---
 # Conformidade Regulatória e Segurança - ClinicCare
 
 O processamento de dados de saúde envolve regimentos legais estritos no âmbito nacional e internacional. Como a plataforma abrigará Prontuários Eletrônicos (PHI - Protected Health Information) e registros operacionais de estruturas de saúde como ILPIs, a segurança é o pilar não negociável do produto.

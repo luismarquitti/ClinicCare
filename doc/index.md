@@ -1,60 +1,51 @@
-# Documentação Técnica - ClinicCare
+---
+title: "🏥 Hub de Documentação - ClinicCare"
+---
+# 🏥 Hub de Documentação - ClinicCare
 
-Bem-vindo à documentação oficial do **ClinicCare**, um Sistema de Gestão de Clínicas e Lares de Idosos. Esta documentação é destinada a toda a equipe técnica e de gestão (Desenvolvedores Júnior a Sênior, Tech Leads, Scrum Masters, Product Owners, etc).
+Bem-vindo(a) ao hub oficial de conhecimento do **ClinicCare**, o Sistema de Gestão de Clínicas e Lares de Idosos. Esta documentação funciona como um portal direcionando você rapidamente para os recursos e seções mais adequadas ao seu papel no projeto.
 
-## Objetivo
+---
 
-O objetivo exclusivo deste sistema é modernizar e centralizar as operações clínicas, financeiras, de RH, manutenção e controle de estoque de uma instituição de saúde.
+## 🧭 O que você procura?
 
-## Estrutura da Documentação
+Selecione a área que melhor descreve o seu foco ou atuação:
 
-Nesta pasta `doc/`, reunimos toda a documentação da aplicação dividida nas seguintes áreas:
+### 📈 Produto, Stakeholders e Agilidade (`planejamento/`)
+Esta seção contém toda a visão de negócio, desde o problema que estamos resolvendo até o detalhamento de escopo, regras de negócio e jornada de evolução (roadmap).
+- **[Product Requirements Document (PRD)](./planejamento/PRD.md)**: A origem de tudo. Entenda o propósito, visão em alto nível e objetivos estratégicos do ClinicCare.
+- **[Roadmap e Visão de Evolução](./planejamento/Product_Roadmap.md)**: Acompanhe as versões planejadas e as métricas de sucesso.
+- **[Acompanhamento de Backlog e Épicos](./planejamento/BACKLOG.md)**: Visão macro do estado do desenvolvimento.
 
-### 1. Planejamento de Produto (`planejamento/`)
+### 💻 Engenharia, Arquitetura e Tech Leads (`arquitetura/` e `adr/`)
+A fundação técnica do ClinicCare. Encontre diagramas arquiteturais, modelagem de dados e decisões-chave registradas.
+- **[System Design & Architecture](./arquitetura/System_Design.md)**: Entenda as camadas do sistema (React, Vite, Firebase).
+- **[Acesso a Dados (State & Firebase)](./arquitetura/data_model.md)**: Como gerenciamos leitura, escrita e estado global via *Zustand*.
+- **[Histórico de Decisões Técnicas (ADRs)](./adr/README.md)**: O registro de *por que* usamos cada tecnologia (ex: Arquitetura Feature-Sliced, Data-fetching Isolado).
+- **[Conformidade e Segurança](./arquitetura/Conformidade_e_Seguranca.md)**: Padrões estritos exigidos em uma HealthTech.
 
-- [Product Requirements Document (PRD)](./planejamento/PRD.md)
-- [Roadmap do Produto](./planejamento/Product_Roadmap.md)
-- [Especificações de UX/UI](./planejamento/Specs_UX_UI.md)
+### 🚀 Guias de Desenvolvimento e Onboarding (`guias/`)
+Manual essencial para iniciar a codificar e entender os fluxos diários do time técnico.
+- **[Technical Setup](./guias/Technical_Roadmap_and_Setup.md)**: Prepare seu ambiente para rodar o projeto local.
+- **[Firebase Workflow](./guias/firebase_workflow.md)**: Como manusear o Database, Functions e Hosting em desenvolvimento.
 
-### 2. Arquitetura e Engenharia (`arquitetura/`)
+### 📝 Especificações Técnicas e Módulos (`specs/`)
+O aprofundamento de cada "micro-projeto" dentro do ecossistema ClinicCare.
+- **[Módulo Financeiro](./specs/financeiro/SPEC.md)**: Detalhamento de faturas, integração de pagamentos e fluxos de contabilidade.
+- **[Dashboard e Relatórios](./specs/dashboard/SPEC.md)**: KPIs essenciais do painel de administração.
 
-- [System Design](./arquitetura/System_Design.md)
-- [Arquitetura e Fluxo da Aplicação](./arquitetura/architecture.md)
-- [Modelagem de Dados](./arquitetura/data_model.md)
-- [Conformidade e Segurança](./arquitetura/Conformidade_e_Seguranca.md)
-- [Revisão Arquitetural de Modernização (Março 2026)](./arquitetura/Architecture_Review_Mar_2026.md)
+---
 
-### 3. Guias e Setup (`guias/`)
+## 🛠 Stack Tecnológico Principal
 
-- [Technical Roadmap and Setup](./guias/Technical_Roadmap_and_Setup.md)
-- [Workflow e Firebase](./guias/firebase_workflow.md)
+| Camada | Tecnologia Principal |
+|--------|----------------------|
+| **Frontend/UI** | React 19, TypeScript, Vite, TailwindCSS (v4) |
+| **State Management** | Zustand |
+| **Backend (BaaS)** | Firebase (Auth, Firestore, Hosting, Functions) |
+| **Rotas** | React Router DOM |
+| **UI Kit / Ícones** | Radix (Shadcn/UI), Lucide React, Recharts |
 
-### 4. Especificações Técnicas (`specs/`)
+---
 
-Contém as especificações técnicas (SPECs) organizadas por módulo.
-
-- [Módulo Financeiro](./specs/financeiro/SPEC.md)
-
-### 5. Architectural Decision Records (`adr/`)
-
-Registro do histórico de decisões de arquitetura e engenharia do repositório.
-
-- [Índice de ADRs](./adr/README.md)
-
-### 6. Anotações (`notes/`)
-
-- [Anotações e Ideias Gerais](./notes/NOTES.md)
-
-## Stack Tecnológico Principal
-
-- **Frontend/UI**: React 19, Vite, TailwindCSS (v4), Zustand (Gestão de Estado Global).
-- **Backend/Database**: Firebase (Authentication, Cloud Firestore, Hosting, etc).
-- **Linguagem**: TypeScript.
-- **Roteamento**: React Router DOM.
-- **Gráficos e UI**: Recharts, Lucide React (ícones), React Hot Toast, Motion.
-
-## Regras e Padrões Iniciais
-
-1. **TypeScript First**: Todo código inserido deve ter tipagem, aproveitando a pasta `src/types/index.ts`.
-2. **Global State Mínimo para Componentes**: Componentes acessam estado pelo Zustand (`src/store/index.ts`).
-3. **Módulos Independentes**: A lógica de UI e a lógica de acesso a dados via Zustand devem permanecer desacopladas.
+> **Dica Rápida:** Utilize a barra de busca no canto superior (`Ctrl + K` ou `Cmd + K`) para encontrar instantaneamente informações sobre qualquer componente, regra de negócio ou função!

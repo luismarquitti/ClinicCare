@@ -1,3 +1,6 @@
+---
+title: "Workflow de Desenvolvimento e Firebase"
+---
 # Workflow de Desenvolvimento e Firebase
 
 Este documento detalha o roteiro de configuração local, emulação, ciclo de vida do desenvolvimento no Git e Deploy contínuo no Firebase para o projeto **ClinicCare**.

@@ -1,3 +1,6 @@
+---
+title: "System Design e Especificações Técnicas - ClinicCare"
+---
 # System Design e Especificações Técnicas - ClinicCare
 
 ## 1. Arquitetura Geral de Software

@@ -1,3 +1,6 @@
+---
+title: "Especificação Técnica: Módulo Financeiro (ClinicCare)"
+---
 # Especificação Técnica: Módulo Financeiro (ClinicCare)
 
 ## 1. Visão Geral e Alinhamento

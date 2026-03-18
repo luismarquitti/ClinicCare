@@ -1,3 +1,6 @@
+---
+title: "SPRINT PLAN — Épico 01: Fundação, Auth & Onboarding B2B"
+---
 # SPRINT PLAN — Épico 01: Fundação, Auth & Onboarding B2B
 
 **Gerado em:** 2026-03-13

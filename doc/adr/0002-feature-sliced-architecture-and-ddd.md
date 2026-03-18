@@ -1,3 +1,6 @@
+---
+title: "ADR-0002: Adoção de Feature-Sliced Design e Domain-Driven Design (Frontend)"
+---
 # ADR-0002: Adoção de Feature-Sliced Design e Domain-Driven Design (Frontend)
 
 ## Status

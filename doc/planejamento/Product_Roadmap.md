@@ -1,3 +1,6 @@
+---
+title: "Roadmap e Plano de Execução - ClinicCare"
+---
 # Roadmap e Plano de Execução - ClinicCare
 
 Este roadmap projeta a jornada do ClinicCare de uma base fundacional até um produto de software de grande escala com preditibilidade de IA. O escopo está segmentado em entregáveis (Sprints/Fases).

@@ -1,3 +1,6 @@
+---
+title: "Feature: Fundação, Auth & Onboarding B2B"
+---
 # Feature: Fundação, Auth & Onboarding B2B
 
 **Épico:** 01 — Fundação, Auth & Onboarding B2B

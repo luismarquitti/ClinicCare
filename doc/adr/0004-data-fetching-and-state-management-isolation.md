@@ -1,3 +1,6 @@
+---
+title: "ADR-0004: Isolamento de Data Fetching e Limitação de Global Listeners"
+---
 # ADR-0004: Isolamento de Data Fetching e Limitação de Global Listeners
 
 ## Status

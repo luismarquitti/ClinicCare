@@ -1,3 +1,6 @@
+---
+title: "TASKS — Épico 02: Gestão Clínica — EHR & eMAR Móvel"
+---
 # TASKS — Épico 02: Gestão Clínica — EHR & eMAR Móvel
 
 **Épico:** 02 — Gestão Clínica — EHR & eMAR Móvel

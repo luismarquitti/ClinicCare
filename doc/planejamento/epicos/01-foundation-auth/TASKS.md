@@ -1,3 +1,6 @@
+---
+title: "TASKS — Épico 01: Fundação, Auth & Onboarding B2B"
+---
 # TASKS — Épico 01: Fundação, Auth & Onboarding B2B
 
 **Épico:** 01 — Fundação, Auth & Onboarding B2B

@@ -1,3 +1,6 @@
+---
+title: "ClinicCare: Product Management Analysis Report"
+---
 # ClinicCare: Product Management Analysis Report
 
 Data da Análise: Março de 2026

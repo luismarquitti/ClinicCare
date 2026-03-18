@@ -1,3 +1,6 @@
+---
+title: "Architecture Decision Records"
+---
 # Architecture Decision Records
 
 This directory contains Architecture Decision Records (ADRs) for ClinicCare.

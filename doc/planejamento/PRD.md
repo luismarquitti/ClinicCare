@@ -1,3 +1,6 @@
+---
+title: "Product Requirements Document (PRD) - ClinicCare"
+---
 # Product Requirements Document (PRD) - ClinicCare
 
 ## 1. Visão do Produto

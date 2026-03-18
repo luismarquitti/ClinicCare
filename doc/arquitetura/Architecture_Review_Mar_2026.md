@@ -1,3 +1,6 @@
+---
+title: "Revisão Arquitetural e Propostas de Modernização - Março de 2026"
+---
 # Revisão Arquitetural e Propostas de Modernização - Março de 2026
 
 Este documento foi gerado a partir do workflow `architecture-review.workflow` com o cenário base (React, Firebase, Zustand). O objetivo é garantir escalabilidade, resiliência e mitigação de débitos técnicos para o produto ClinicCare.
