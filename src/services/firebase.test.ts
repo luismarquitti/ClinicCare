@@ -20,6 +20,10 @@ vi.mock('firebase/storage', () => ({
   getStorage: vi.fn()
 }));
 
+vi.mock('firebase/functions', () => ({
+  getFunctions: vi.fn()
+}));
+
 describe('Firebase Service - Auth Persistence', () => {
   it('should call setPersistence with browserLocalPersistence', async () => {
     // Trigger module load

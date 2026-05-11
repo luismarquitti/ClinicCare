@@ -1,4 +1,32 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+// Mock firebase/auth
+vi.mock('firebase/auth', () => ({
+  getAuth: vi.fn(() => ({})),
+  setPersistence: vi.fn(() => Promise.resolve()),
+  onAuthStateChanged: vi.fn(),
+  browserLocalPersistence: 'browserLocalPersistence'
+}));
+
+vi.mock('firebase/app', () => ({
+  initializeApp: vi.fn(() => ({}))
+}));
+
+vi.mock('firebase/firestore', () => ({
+  getFirestore: vi.fn(),
+  collection: vi.fn(),
+  onSnapshot: vi.fn(),
+  doc: vi.fn()
+}));
+
+vi.mock('firebase/storage', () => ({
+  getStorage: vi.fn()
+}));
+
+vi.mock('firebase/functions', () => ({
+  getFunctions: vi.fn()
+}));
+
 import { useAppStore } from './index';
 
 describe('useAppStore - Auth Persistence', () => {

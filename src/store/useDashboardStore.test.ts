@@ -18,12 +18,23 @@ vi.mock('firebase/app', () => ({
 vi.mock('firebase/auth', () => ({
   getAuth: vi.fn(() => ({})),
   setPersistence: vi.fn(() => Promise.resolve()),
+  onAuthStateChanged: vi.fn(),
   browserLocalPersistence: {},
 }));
 
 // Mock firebase/storage
 vi.mock('firebase/storage', () => ({
   getStorage: vi.fn(() => ({})),
+}));
+
+// Mock firebase/functions
+vi.mock('firebase/functions', () => ({
+  getFunctions: vi.fn(),
+}));
+
+// Mock firebase/storage
+vi.mock('firebase/storage', () => ({
+  getStorage: vi.fn(),
 }));
 
 describe('useDashboardStore', () => {
