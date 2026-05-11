@@ -1,7 +1,13 @@
 {
   "emulators": {
+    "firestore": {
+      "port": 8080
+    },
     "dataconnect": {
       "dataDir": "dataconnect/.dataconnect/pgliteData"
+    },
+    "ui": {
+      "enabled": true
     }
   },
   "firestore": {

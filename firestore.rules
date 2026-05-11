@@ -1,72 +1,199 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Funções utilitárias assumindo o uso de Custom Claims
-    function isAuthenticated() { return request.auth != null; }
-    function getUserRole() {
-      // Como o requirement pede todo usuário novo como admin:
-      // se a role não existir no token, assumimos admin.
-      return request.auth.token.role != null ? request.auth.token.role : 'admin';
-    }
-    function isAdmin() { return isAuthenticated() && getUserRole() == 'admin'; }
-    function isSaude() { return isAuthenticated() && getUserRole() == 'saude'; }
-    function isFinanceiro() { return isAuthenticated() && getUserRole() == 'financeiro'; }
-    function isManutencao() { return isAuthenticated() && getUserRole() == 'manutencao'; }
 
-    // Regras por coleção
+    // -------------------------------------------------------------------------
+    // Auth helpers
+    // -------------------------------------------------------------------------
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Returns null when the role claim is absent — no privileged fallback.
+    function getRole() {
+      return isAuthenticated() ? request.auth.token.get('role', null) : null;
+    }
+
+    function hasRole(role) {
+      return isAuthenticated() && getRole() == role;
+    }
+
+    function isSuperAdmin() { return hasRole('superAdmin'); }
+    function isAdmin()      { return hasRole('admin'); }
+    function isClinical()   { return hasRole('clinico'); }
+    function isTech()       { return hasRole('tecnico'); }
+    function isFinancial()  { return hasRole('financeiro'); }
+    function isHR()         { return hasRole('rh'); }
+
+    // Convenience composites
+    function isPrivileged()       { return isSuperAdmin() || isAdmin(); }
+    function canAccessClinical()  { return isPrivileged() || isClinical(); }
+    function canAccessFinancial() { return isPrivileged() || isFinancial(); }
+    function canAccessOps()       { return isPrivileged() || isTech(); }
+    function canAccessHR()        { return isPrivileged() || isHR(); }
+
+    // -------------------------------------------------------------------------
+    // Users
+    // -------------------------------------------------------------------------
+
     match /users/{userId} {
       allow read: if isAuthenticated();
-      // O admin pode alterar qualquer info, o própio usuário pode editar o própio perfil
-      allow write: if isAdmin() || request.auth.uid == userId;
-    }
-    
-    match /residents/{document=**} {
-      allow read: if isAuthenticated() && (isAdmin() || isSaude() || isFinanceiro());
-      allow write: if isAdmin() || isSaude();
+      allow write: if isPrivileged() || request.auth.uid == userId;
     }
 
-    match /vitalSigns/{document=**} {
-      allow read, write: if isAdmin() || isSaude();
-    }
-    
-    match /evolutionRecords/{document=**} {
-      allow read, write: if isAdmin() || isSaude();
+    // -------------------------------------------------------------------------
+    // Clinical — residentes, prontuário, sinais vitais, medicações, eMAR
+    // -------------------------------------------------------------------------
+
+    match /residents/{residentId} {
+      allow read: if canAccessClinical() || isFinancial();
+      allow write: if canAccessClinical();
     }
 
-    match /medications/{document=**} {
-      allow read, write: if isAdmin() || isSaude();
+    match /residents/{residentId}/{subcollection=**} {
+      allow read, write: if canAccessClinical();
     }
 
-    match /administrations/{document=**} {
-      allow read, write: if isAdmin() || isSaude();
+    match /vitalSigns/{docId} {
+      allow read, write: if canAccessClinical();
     }
 
-    match /billingItems/{document=**} {
-      allow read, write: if isAdmin() || isFinanceiro();
+    match /evolutionRecords/{docId} {
+      allow read, write: if canAccessClinical();
     }
 
-    match /accounts/{document=**} {
-      allow read, write: if isAdmin() || isFinanceiro();
+    match /medications/{docId} {
+      allow read, write: if canAccessClinical();
     }
 
-    match /categories/{document=**} {
+    match /administrations/{docId} {
+      allow read, write: if canAccessClinical();
+    }
+
+    // Prescrições e eMAR — planejado para Fase 2 (issues #11, #12)
+    match /prescricoes/{docId} {
+      allow read, write: if canAccessClinical();
+    }
+
+    match /emar/{pacienteId}/doses/{doseId} {
+      allow read, write: if canAccessClinical();
+    }
+
+    // Alertas clínicos gerados por Cloud Functions — somente leitura para clínicos
+    match /alertasClinicas/{residenteId} {
+      allow read: if canAccessClinical();
+      allow write: if false; // Admin SDK (Cloud Functions) bypasses rules
+    }
+
+    // -------------------------------------------------------------------------
+    // Financeiro
+    // -------------------------------------------------------------------------
+
+    match /billingItems/{docId} {
+      allow read, write: if canAccessFinancial();
+    }
+
+    match /accounts/{docId} {
+      allow read, write: if canAccessFinancial();
+    }
+
+    match /transactions/{docId} {
+      allow read, write: if canAccessFinancial();
+    }
+
+    match /expenses/{docId} {
+      allow read, write: if canAccessFinancial();
+    }
+
+    // Faturas de residentes — planejado para Fase 3 (issue #14)
+    match /faturas/{docId} {
+      allow read, write: if canAccessFinancial();
+    }
+
+    // Categorias são lidas por todos os módulos autenticados
+    match /categories/{docId} {
       allow read: if isAuthenticated();
-      allow write: if isAdmin() || isFinanceiro();
+      allow write: if canAccessFinancial();
     }
 
-    match /transactions/{document=**} {
-      allow read, write: if isAdmin() || isFinanceiro();
+    // Histórico de preços — compartilhado entre financeiro e operacional
+    match /priceHistories/{docId} {
+      allow read, write: if canAccessFinancial() || canAccessOps();
     }
 
-    match /maintenanceLogs/{document=**} {
-      allow read, write: if isAdmin() || isManutencao();
+    // -------------------------------------------------------------------------
+    // Operacional — inventário, manutenção, ativos, compras
+    // -------------------------------------------------------------------------
+
+    match /inventoryItems/{docId} {
+      // Clínicos precisam ler inventário (ex: verificar disponibilidade de insumos)
+      allow read: if canAccessOps() || isClinical();
+      allow write: if canAccessOps();
     }
 
-    match /notifications/{document=**} {
-      // Todos podem ler, sistemas criam.
+    match /inventoryItems/{docId}/{subcollection=**} {
+      allow read: if canAccessOps() || isClinical();
+      allow write: if canAccessOps();
+    }
+
+    match /maintenanceLogs/{docId} {
+      allow read, write: if canAccessOps();
+    }
+
+    match /workOrders/{docId} {
+      allow read, write: if canAccessOps();
+    }
+
+    match /assets/{docId} {
+      // Clínicos podem precisar ver equipamentos médicos disponíveis
+      allow read: if canAccessOps() || isClinical();
+      allow write: if canAccessOps();
+    }
+
+    match /shoppingLists/{docId} {
+      allow read, write: if canAccessOps() || canAccessFinancial();
+    }
+
+    // -------------------------------------------------------------------------
+    // RH / Colaboradores
+    // -------------------------------------------------------------------------
+
+    match /employees/{docId} {
+      allow read: if canAccessHR();
+      // Escrita restrita a privilegiados; atribuição de roles vai via Cloud Function
+      allow write: if isPrivileged();
+    }
+
+    match /salaryAdvances/{docId} {
+      allow read: if canAccessHR() || canAccessFinancial();
+      allow write: if isPrivileged() || isHR();
+    }
+
+    // -------------------------------------------------------------------------
+    // Convites — gerenciados exclusivamente por Cloud Functions (Admin SDK)
+    // -------------------------------------------------------------------------
+
+    match /invites/{token} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Logs de auditoria — append-only via Cloud Functions
+    // -------------------------------------------------------------------------
+
+    match /auditLogs/{logId} {
+      allow read: if isPrivileged();
+      allow write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Notificações
+    // -------------------------------------------------------------------------
+
+    match /notifications/{docId} {
       allow read: if isAuthenticated();
-      allow write: if isAdmin() || isSaude() || isManutencao() || isFinanceiro();
+      allow write: if canAccessClinical() || isTech() || isFinancial();
     }
   }
 }
