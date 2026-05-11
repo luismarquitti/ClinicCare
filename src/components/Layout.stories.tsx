@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Layout } from './Layout';
+import { Layout } from './ui/Layout';
 import { MemoryRouter } from 'react-router-dom';
 
 const meta = {

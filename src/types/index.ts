@@ -1,4 +1,4 @@
-export type Role = 'admin' | 'saude' | 'financeiro' | 'manutencao' | 'rh';
+export type Role = 'superAdmin' | 'admin' | 'clinico' | 'tecnico' | 'financeiro' | 'rh' | 'saude' | 'manutencao';
 
 export interface User {
   uid: string;
@@ -85,8 +85,11 @@ export interface MaintenanceLog {
 export interface Employee {
   id: string;
   name: string;
+  email: string;
   role: string; // e.g. 'Enfermeiro', 'Médico', 'Recepcionista'
+  systemRole: Role;
   status: 'on_duty' | 'off_duty' | 'vacation' | 'leave';
+  accountStatus: 'active' | 'pending' | 'inactive';
   contact?: string;
   baseSalary?: number;
   hireDate?: string;
