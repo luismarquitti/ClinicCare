@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Navbar } from './Navbar';
+import { Navbar } from './ui/Navbar';
 import { MemoryRouter } from 'react-router-dom';
 
 const meta = {

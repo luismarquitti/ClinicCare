@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { User, Resident, Role, VitalSign, EvolutionRecord, Medication, MedicationAdministration, BillingItem, MaintenanceLog, Employee, InventoryItem, ExpenseItem, ShoppingList, PriceHistory, Asset, WorkOrder, SalaryAdvance } from '../types';
-import { db, auth } from '../services/firebase';
+import { db, auth, functions } from '../services/firebase';
 import { collection, onSnapshot, addDoc, updateDoc, doc, Timestamp, setDoc } from 'firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
 
 export interface Notification {
   id: string;
@@ -71,6 +72,9 @@ interface AppState {
   updateWorkOrderStatus: (id: string, status: WorkOrder['status'], completedAt?: string, cost?: number) => Promise<void>;
 
   addEmployee: (employee: Omit<Employee, 'id'>) => Promise<void>;
+  inviteEmployee: (data: { email: string; systemRole: Role; name?: string }) => Promise<void>;
+  updateEmployeeRole: (userId: string, role: Role) => Promise<void>;
+  toggleEmployeeAccountStatus: (userId: string, status: 'active' | 'inactive') => Promise<void>;
   updateEmployee: (id: string, employee: Partial<Employee>) => Promise<void>;
   addSalaryAdvance: (advance: Omit<SalaryAdvance, 'id'>) => Promise<void>;
   updateSalaryAdvanceStatus: (id: string, status: SalaryAdvance['status']) => Promise<void>;
@@ -100,9 +104,9 @@ export const useAppStore = create<AppState>((set, get) => ({
   salaryAdvances: [],
   isLoadingAuth: true,
   employees: [
-    { id: '1', name: 'Dra. Silva', role: 'Médica', status: 'on_duty' },
-    { id: '2', name: 'Enf. João', role: 'Enfermeiro', status: 'on_duty' },
-    { id: '3', name: 'Maria Souza', role: 'Técnica', status: 'off_duty' }
+    { id: '1', name: 'Dra. Silva', email: 'dra.silva@cliniccare.com', role: 'Médica', systemRole: 'clinico', status: 'on_duty', accountStatus: 'active' },
+    { id: '2', name: 'Enf. João', email: 'joao@cliniccare.com', role: 'Enfermeiro', systemRole: 'clinico', status: 'on_duty', accountStatus: 'active' },
+    { id: '3', name: 'Maria Souza', email: 'maria@cliniccare.com', role: 'Técnica', systemRole: 'clinico', status: 'off_duty', accountStatus: 'active' }
   ],
   inventory: [
     { id: '1', name: 'Dipirona 500mg', category: 'medication', quantity: 50, minQuantity: 100, unit: 'un' },
@@ -327,6 +331,20 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
   updateEmployee: async (id, updated) => {
     await updateDoc(doc(db, 'employees', id), updated);
+  },
+  inviteEmployee: async (data) => {
+    const sendInvite = httpsCallable(functions, 'sendInvite');
+    await sendInvite(data);
+  },
+  updateEmployeeRole: async (userId, role) => {
+    const setUserRole = httpsCallable(functions, 'setUserRole');
+    await setUserRole({ userId, role });
+  },
+  toggleEmployeeAccountStatus: async (userId, status) => {
+    // Assuming a Cloud Function exists or using direct Firestore write as per rules
+    // Based on requirements, we should call a Cloud Function if possible.
+    // If not specified, we update the accountStatus in the employee document.
+    await updateDoc(doc(db, 'employees', userId), { accountStatus: status });
   },
   addSalaryAdvance: async (advance) => {
     await addDoc(collection(db, 'salaryAdvances'), advance);
