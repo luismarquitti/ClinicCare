@@ -195,5 +195,21 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow write: if canAccessClinical() || isTech() || isFinancial();
     }
+
+    // -------------------------------------------------------------------------
+    // Email — gerenciado pela extensão Trigger Email (Admin SDK via Functions)
+    // -------------------------------------------------------------------------
+
+    match /mail/{docId} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Rate limiting — gerenciado exclusivamente por Cloud Functions (Admin SDK)
+    // -------------------------------------------------------------------------
+
+    match /_rateLimits/{key} {
+      allow read, write: if false;
+    }
   }
 }
