@@ -76,7 +76,7 @@ export default function App() {
             role: userData.role as Role
           });
         } catch (err) {
-          console.error('Failed to fetch user role:', err);
+          toast.error('Falha ao carregar perfil do usuário.');
           setUser({
             uid: firebaseUser.uid,
             email: firebaseUser.email || '',

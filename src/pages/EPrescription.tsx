@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppStore } from '../store';
 import { Medication } from '../types';
+import { toast } from 'react-hot-toast';
 
 export function EPrescription() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ export function EPrescription() {
 
   const handleSubmit = async () => {
     if (!formData.name.trim()) {
-      alert("Please enter a medication name.");
+      toast.error("Please enter a medication name.");
       return;
     }
 
@@ -65,8 +66,7 @@ export function EPrescription() {
       });
       navigate(`/residents/${resident.id}`);
     } catch (error) {
-      console.error("Error adding prescription:", error);
-      alert("Failed to add prescription");
+      toast.error("Failed to add prescription");
     } finally {
       setIsSubmitting(false);
     }

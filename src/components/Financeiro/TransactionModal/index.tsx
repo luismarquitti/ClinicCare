@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import { Transaction } from '../../../types';
+import { toast } from 'react-hot-toast';
 import { styles } from './styles';
 
 const transactionSchema = z.object({
@@ -62,8 +63,7 @@ export function TransactionModal({ transaction, onClose }: Props) {
             }
             onClose();
         } catch (err) {
-            console.error(err);
-            alert('Erro ao salvar transação.');
+            toast.error('Erro ao salvar transação.');
         }
     };
 

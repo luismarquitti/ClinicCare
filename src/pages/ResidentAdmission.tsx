@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../store';
 import { Resident } from '../types';
+import { toast } from 'react-hot-toast';
 
 export function ResidentAdmission() {
   const navigate = useNavigate();
@@ -62,8 +63,7 @@ export function ResidentAdmission() {
       await addResident(newResident);
       navigate('/residents');
     } catch (error) {
-      console.error('Error adding resident:', error);
-      alert('Erro ao adicionar residente.');
+      toast.error('Erro ao adicionar residente.');
     }
   };
 

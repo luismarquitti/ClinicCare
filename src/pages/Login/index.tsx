@@ -22,7 +22,6 @@ export function Login() {
         navigate('/dashboard');
       }
     } catch (err: any) {
-      console.error('Login error:', err);
       setError('Falha na autenticação. Verifique seu email e senha.');
     } finally {
       setIsLoading(false);
