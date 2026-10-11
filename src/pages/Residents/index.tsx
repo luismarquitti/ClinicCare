@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../../store';
 import { styles } from './styles';
@@ -29,14 +29,21 @@ export function Residents() {
     return age;
   };
 
-  const getLatestVitals = (residentId: string) => {
-    const vitals = vitalSigns.filter(v => v.residentId === residentId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    return vitals.length > 0 ? vitals[0] : null;
-  };
+  const residentVitals = useMemo(() => {
+    if (!selectedResidentId) return [];
+    return vitalSigns
+      .filter(v => v.residentId === selectedResidentId)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [vitalSigns, selectedResidentId]);
 
-  const getResidentEvolutions = (residentId: string) => {
-    return evolutionRecords.filter(e => e.residentId === residentId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  };
+  const latestVitals = residentVitals.length > 0 ? residentVitals[0] : null;
+
+  const residentEvolutions = useMemo(() => {
+    if (!selectedResidentId) return [];
+    return evolutionRecords
+      .filter(e => e.residentId === selectedResidentId)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [evolutionRecords, selectedResidentId]);
 
   return (
     <div className={styles.container}>
@@ -217,23 +224,23 @@ export function Residents() {
                       <span className="material-symbols-outlined text-primary text-[20px]">monitor_heart</span>
                       Sinais Vitais (Últimos)
                     </h4>
-                    {getLatestVitals(selectedResident.id) ? (
+                    {latestVitals ? (
                       <div className={styles.vitalsGrid}>
                         <div className={styles.vitalCard}>
                           <p className={styles.vitalLabel}>Pressão Arterial</p>
-                          <p className={styles.vitalValue}>{getLatestVitals(selectedResident.id)?.bloodPressure} <span className={styles.vitalUnit}>mmHg</span></p>
+                          <p className={styles.vitalValue}>{latestVitals.bloodPressure} <span className={styles.vitalUnit}>mmHg</span></p>
                         </div>
                         <div className={styles.vitalCard}>
                           <p className={styles.vitalLabel}>Batimentos</p>
-                          <p className={styles.vitalValue}>{getLatestVitals(selectedResident.id)?.heartRate} <span className={styles.vitalUnit}>bpm</span></p>
+                          <p className={styles.vitalValue}>{latestVitals.heartRate} <span className={styles.vitalUnit}>bpm</span></p>
                         </div>
                         <div className={styles.vitalCard}>
                           <p className={styles.vitalLabel}>Temp.</p>
-                          <p className={styles.vitalValue}>{getLatestVitals(selectedResident.id)?.temperature} <span className={styles.vitalUnit}>°C</span></p>
+                          <p className={styles.vitalValue}>{latestVitals.temperature} <span className={styles.vitalUnit}>°C</span></p>
                         </div>
                         <div className={styles.vitalCard}>
                           <p className={styles.vitalLabel}>Saturação</p>
-                          <p className={styles.vitalValue}>{getLatestVitals(selectedResident.id)?.oxygenSaturation} <span className={styles.vitalUnit}>%</span></p>
+                          <p className={styles.vitalValue}>{latestVitals.oxygenSaturation} <span className={styles.vitalUnit}>%</span></p>
                         </div>
                       </div>
                     ) : (
@@ -248,7 +255,7 @@ export function Residents() {
                       Últimos Registros
                     </h4>
                     <div className={styles.timeline}>
-                      {getResidentEvolutions(selectedResident.id).slice(0, 3).map((evo, idx) => (
+                      {residentEvolutions.slice(0, 3).map((evo, idx) => (
                         <div key={evo.id} className={styles.timelineItem}>
                           <div className={styles.timelineDot(idx === 0)}></div>
                           <p className={styles.timelineDate}>{new Date(evo.date).toLocaleString('pt-BR')}</p>
@@ -262,7 +269,7 @@ export function Residents() {
                           </div>
                         </div>
                       ))}
-                      {getResidentEvolutions(selectedResident.id).length === 0 && (
+                      {residentEvolutions.length === 0 && (
                         <p className="text-sm text-text-muted">Nenhuma evolução registrada.</p>
                       )}
                     </div>
