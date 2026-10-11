@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../store';
 import { InventoryItem, ShoppingList, PriceHistory } from '../types';
+import toast from 'react-hot-toast';
 
 export function Inventory() {
-    const { inventory, shoppingLists, priceHistories, addInventoryItem, updateInventoryQuantity } = useAppStore();
+    const { inventory, shoppingLists, priceHistories, addInventoryItem, updateInventoryQuantity, updateShoppingListStatus, addPriceHistory } = useAppStore();
     const [activeTab, setActiveTab] = useState<'estoque' | 'compras' | 'historico'>('estoque');
 
     const medications = inventory.filter(i => i.category === 'medication');
@@ -19,6 +20,7 @@ export function Inventory() {
 
     const [selectedList, setSelectedList] = useState<ShoppingList | null>(null);
     const [isFulfillModalOpen, setIsFulfillModalOpen] = useState(false);
+    const [fulfillData, setFulfillData] = useState<Record<string, { price?: number; provider?: string }>>({});
 
     const [newItem, setNewItem] = useState<Partial<InventoryItem>>({
         name: '',
@@ -70,11 +72,40 @@ export function Inventory() {
 
     const handleFulfillList = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Here we would ideally loop through fulfill items and call logic
-        // For now, let's just mark it closed. (Full implementation can be expanded)
-        if (selectedList) {
-            alert('Funcionalidade de concluir compra enviará dados ao Firebase e atualizará estoque.');
+        if (!selectedList) return;
+
+        try {
+            const promises: Promise<void>[] = [];
+
+            // Update inventory quantities and add price histories
+            selectedList.items.forEach(item => {
+                const invItem = inventory.find(i => i.id === item.inventoryItemId);
+                if (invItem) {
+                    promises.push(updateInventoryQuantity(invItem.id, invItem.quantity + item.quantity));
+
+                    const itemData = fulfillData[item.inventoryItemId];
+                    if (itemData && itemData.price) {
+                        promises.push(addPriceHistory({
+                            inventoryItemId: item.inventoryItemId,
+                            date: new Date().toISOString(),
+                            price: itemData.price,
+                            provider: itemData.provider
+                        }));
+                    }
+                }
+            });
+
+            // Mark list as completed
+            promises.push(updateShoppingListStatus(selectedList.id, 'completed'));
+
+            await Promise.all(promises);
+
+            toast.success('Compra concluída com sucesso!');
             setIsFulfillModalOpen(false);
+            setFulfillData({});
+        } catch (error) {
+            console.error('Error fulfilling list:', error);
+            toast.error('Erro ao concluir compra. Tente novamente.');
         }
     };
 
@@ -506,11 +537,27 @@ export function Inventory() {
                                                     <input
                                                         type="number"
                                                         placeholder="Preço Unitário (R$)"
+                                                        value={fulfillData[item.inventoryItemId]?.price || ''}
+                                                        onChange={(e) => setFulfillData(prev => ({
+                                                            ...prev,
+                                                            [item.inventoryItemId]: {
+                                                                ...prev[item.inventoryItemId],
+                                                                price: Number(e.target.value)
+                                                            }
+                                                        }))}
                                                         className="w-full px-3 py-2 text-sm bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none"
                                                     />
                                                     <input
                                                         type="text"
                                                         placeholder="Fornecedor"
+                                                        value={fulfillData[item.inventoryItemId]?.provider || ''}
+                                                        onChange={(e) => setFulfillData(prev => ({
+                                                            ...prev,
+                                                            [item.inventoryItemId]: {
+                                                                ...prev[item.inventoryItemId],
+                                                                provider: e.target.value
+                                                            }
+                                                        }))}
                                                         className="w-full px-3 py-2 text-sm bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none"
                                                     />
                                                 </div>
