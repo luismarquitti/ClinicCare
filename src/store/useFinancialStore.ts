@@ -22,6 +22,8 @@ interface FinancialState {
     filteredExpense: () => number;
     filteredBalance: () => number;
 
+    getCategoryName: (id: string) => string;
+
     // Listeners
     initializeListeners: () => () => void;
 
@@ -81,6 +83,10 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
         return get().filteredTransactions()
             .filter(t => t.type === 'EXPENSE')
             .reduce((sum, t) => sum + t.amount, 0);
+    },
+
+    getCategoryName: (id: string) => {
+        return get().categories.find(c => c.id === id)?.name || 'Desconhecida';
     },
 
     filteredBalance: () => {

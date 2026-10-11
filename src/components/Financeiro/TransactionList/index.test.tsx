@@ -32,7 +32,8 @@ describe('TransactionList', () => {
         vi.clearAllMocks();
         (useFinancialStore as any).mockImplementation((selector: any) => selector({
             filteredTransactions: () => mockTransactions,
-            categories: [{ id: 'cat1', name: 'Work' }]
+            categories: [{ id: 'cat1', name: 'Work' }],
+            getCategoryName: (id: string) => id === 'cat1' ? 'Work' : 'Desconhecida'
         }));
     });
 

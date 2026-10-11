@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import { Transaction } from '../../../types';
+import { formatCurrency } from '../../../lib/utils';
 import { styles } from './styles';
 
 interface Props {
@@ -9,10 +10,10 @@ interface Props {
 
 export function TransactionList({ onEdit }: Props) {
     const transactions = useFinancialStore(state => state.filteredTransactions());
-    const categories = useFinancialStore(state => state.categories);
+    const getCategoryName = useFinancialStore(state => state.getCategoryName);
 
-    const getCategoryName = (id: string) => categories.find(c => c.id === id)?.name || 'Desconhecida';
-    const formatCurrency = (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+
+
 
     return (
         <div className={styles.container}>
