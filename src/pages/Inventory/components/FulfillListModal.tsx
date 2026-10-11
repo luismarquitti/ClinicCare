@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppStore } from '../../../store';
 import { ShoppingList } from '../../../types';
+import toast from 'react-hot-toast';
 
 interface FulfillListModalProps {
     isOpen: boolean;
@@ -9,15 +10,45 @@ interface FulfillListModalProps {
 }
 
 export function FulfillListModal({ isOpen, onClose, selectedList }: FulfillListModalProps) {
-    const { inventory } = useAppStore();
+    const { inventory, updateInventoryQuantity, updateShoppingListStatus, addPriceHistory } = useAppStore();
+    const [fulfillData, setFulfillData] = useState<Record<string, { price?: number; provider?: string }>>({});
 
     const handleFulfillList = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Here we would ideally loop through fulfill items and call logic
-        // For now, let's just mark it closed. (Full implementation can be expanded)
-        if (selectedList) {
-            alert('Funcionalidade de concluir compra enviará dados ao Firebase e atualizará estoque.');
+        if (!selectedList) return;
+
+        try {
+            const promises: Promise<void>[] = [];
+
+            // Update inventory quantities and add price histories
+            selectedList.items.forEach(item => {
+                const invItem = inventory.find(i => i.id === item.inventoryItemId);
+                if (invItem) {
+                    promises.push(updateInventoryQuantity(invItem.id, invItem.quantity + item.quantity));
+
+                    const itemData = fulfillData[item.inventoryItemId];
+                    if (itemData && itemData.price) {
+                        promises.push(addPriceHistory({
+                            inventoryItemId: item.inventoryItemId,
+                            date: new Date().toISOString(),
+                            price: itemData.price,
+                            provider: itemData.provider
+                        }));
+                    }
+                }
+            });
+
+            // Mark list as completed
+            promises.push(updateShoppingListStatus(selectedList.id, 'completed'));
+
+            await Promise.all(promises);
+
+            toast.success('Compra concluída com sucesso!');
             onClose();
+            setFulfillData({});
+        } catch (error) {
+            console.error('Error fulfilling list:', error);
+            toast.error('Erro ao concluir compra. Tente novamente.');
         }
     };
 
@@ -51,11 +82,27 @@ export function FulfillListModal({ isOpen, onClose, selectedList }: FulfillListM
                                             <input
                                                 type="number"
                                                 placeholder="Preço Unitário (R$)"
+                                                value={fulfillData[item.inventoryItemId]?.price || ''}
+                                                onChange={(e) => setFulfillData(prev => ({
+                                                    ...prev,
+                                                    [item.inventoryItemId]: {
+                                                        ...prev[item.inventoryItemId],
+                                                        price: Number(e.target.value)
+                                                    }
+                                                }))}
                                                 className="w-full px-3 py-2 text-sm bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none"
                                             />
                                             <input
                                                 type="text"
                                                 placeholder="Fornecedor"
+                                                value={fulfillData[item.inventoryItemId]?.provider || ''}
+                                                onChange={(e) => setFulfillData(prev => ({
+                                                    ...prev,
+                                                    [item.inventoryItemId]: {
+                                                        ...prev[item.inventoryItemId],
+                                                        provider: e.target.value
+                                                    }
+                                                }))}
                                                 className="w-full px-3 py-2 text-sm bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary outline-none"
                                             />
                                         </div>

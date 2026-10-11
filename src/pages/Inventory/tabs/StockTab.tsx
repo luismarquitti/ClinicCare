@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../../store';
 import { InventoryItem } from '../../../types';
+import { getStatusColor } from '../../../lib/utils';
 import { AdjustStockModal } from '../components/AdjustStockModal';
 
 export function StockTab() {
     const { inventory } = useAppStore();
     const [isAdjustModalOpen, setIsAdjustModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
-
-    const getStatusColor = (current: number, min: number) => {
-        if (current <= 0) return 'bg-danger/10 text-danger border-danger/20';
-        if (current <= min) return 'bg-warning/10 text-warning border-warning/20';
-        return 'bg-success/10 text-success border-success/20';
-    };
 
     const getStatusText = (current: number, min: number) => {
         if (current <= 0) return 'Sem Estoque';

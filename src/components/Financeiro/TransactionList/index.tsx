@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import { Transaction } from '../../../types';
 import { formatCurrency } from '../../../lib/utils';
@@ -12,8 +12,9 @@ export function TransactionList({ onEdit }: Props) {
     const transactions = useFinancialStore(state => state.filteredTransactions());
     const getCategoryName = useFinancialStore(state => state.getCategoryName);
 
-
-
+    const sortedTransactions = useMemo(() => {
+        return [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }, [transactions]);
 
     return (
         <div className={styles.container}>
@@ -32,7 +33,7 @@ export function TransactionList({ onEdit }: Props) {
                         </tr>
                     </thead>
                     <tbody className={styles.tbody}>
-                        {transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(tx => (
+                        {sortedTransactions.map(tx => (
                             <tr key={tx.id} className={styles.tr}>
                                 <td className={styles.tdDate}>
                                     {new Date(tx.date).toLocaleDateString('pt-BR')}
@@ -76,7 +77,7 @@ export function TransactionList({ onEdit }: Props) {
 
             {/* Mobile View */}
             <div className={styles.mobileWrapper}>
-                {transactions.map(tx => (
+                {sortedTransactions.map(tx => (
                     <div key={tx.id} onClick={() => onEdit(tx)} className={styles.mobileItem}>
                         <div className={styles.mobileHeader}>
                             <div>

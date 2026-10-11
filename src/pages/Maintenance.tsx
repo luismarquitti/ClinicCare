@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../store';
 import { Asset, WorkOrder } from '../types';
+import { getStatusColor } from '../lib/utils';
 
 export function Maintenance() {
   const { assets, workOrders, user, addAsset, updateAsset, addWorkOrder, updateWorkOrderStatus } = useAppStore();
@@ -64,19 +65,6 @@ export function Maintenance() {
       setIsCompleteOrderModalOpen(false);
       setSelectedOrder(null);
       setOrderCompletionCost(0);
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'operating': return 'bg-success/10 text-success';
-      case 'in_repair': return 'bg-warning/10 text-warning';
-      case 'out_of_service': return 'bg-danger/10 text-danger';
-      case 'open': return 'bg-blue-100 text-blue-700';
-      case 'in_progress': return 'bg-warning/10 text-warning';
-      case 'waiting_parts': return 'bg-purple-100 text-purple-700';
-      case 'closed': return 'bg-success/10 text-success';
-      default: return 'bg-gray-100 text-gray-700';
     }
   };
 

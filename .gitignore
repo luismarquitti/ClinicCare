@@ -9,3 +9,6 @@ coverage/
 .agent/skills/*
 *storybook.log
 storybook-static
+.agents_local_backup/
+.claude/
+*.code-workspace

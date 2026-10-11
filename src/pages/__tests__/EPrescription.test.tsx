@@ -2,8 +2,17 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import { EPrescription } from '../EPrescription';
 import { useAppStore } from '../../store';
+
+// Mock react-hot-toast
+vi.mock('react-hot-toast', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+}));
 
 // Mock the store
 vi.mock('../../store', () => ({
@@ -176,7 +185,7 @@ describe('EPrescription Page', () => {
 
     await waitFor(() => {
       expect(console.error).toHaveBeenCalledWith('Error adding prescription:', expect.any(Error));
-      expect(global.alert).toHaveBeenCalledWith('Failed to add prescription');
+      expect(toast.error).toHaveBeenCalledWith('Failed to add prescription');
     });
 
     // Should reset submitting state and not navigate

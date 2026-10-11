@@ -185,11 +185,11 @@ describe('useAppStore', () => {
 
       const { updateAdministrationStatus } = useAppStore.getState();
 
-      // Call with 'recusado'
-      await updateAdministrationStatus('admin-1', 'recusado', 'user-1');
+      // Call with 'nao_administrado'
+      await updateAdministrationStatus('admin-1', 'nao_administrado', 'user-1');
 
       expect(mockUpdateDoc).toHaveBeenCalledWith('administrations/admin-1', expect.objectContaining({
-        status: 'recusado',
+        status: 'nao_administrado',
         administeredBy: 'user-1'
       }));
 
