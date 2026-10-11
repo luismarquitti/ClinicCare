@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import { Transaction } from '../../../types';
 import { styles } from './styles';
@@ -11,7 +11,18 @@ export function TransactionList({ onEdit }: Props) {
     const transactions = useFinancialStore(state => state.filteredTransactions());
     const categories = useFinancialStore(state => state.categories);
 
-    const getCategoryName = (id: string) => categories.find(c => c.id === id)?.name || 'Desconhecida';
+    const categoryMap = useMemo(() => {
+        return categories.reduce((acc, cat) => {
+            acc[cat.id] = cat.name;
+            return acc;
+        }, {} as Record<string, string>);
+    }, [categories]);
+
+    const sortedTransactions = useMemo(() => {
+        return [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }, [transactions]);
+
+    const getCategoryName = (id: string) => categoryMap[id] || 'Desconhecida';
     const formatCurrency = (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 
     return (
@@ -31,7 +42,7 @@ export function TransactionList({ onEdit }: Props) {
                         </tr>
                     </thead>
                     <tbody className={styles.tbody}>
-                        {transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(tx => (
+                        {sortedTransactions.map(tx => (
                             <tr key={tx.id} className={styles.tr}>
                                 <td className={styles.tdDate}>
                                     {new Date(tx.date).toLocaleDateString('pt-BR')}
@@ -75,7 +86,7 @@ export function TransactionList({ onEdit }: Props) {
 
             {/* Mobile View */}
             <div className={styles.mobileWrapper}>
-                {transactions.map(tx => (
+                {sortedTransactions.map(tx => (
                     <div key={tx.id} onClick={() => onEdit(tx)} className={styles.mobileItem}>
                         <div className={styles.mobileHeader}>
                             <div>
