@@ -11,7 +11,7 @@ import { styles } from './styles';
 export function Financeiro() {
     const initializeListeners = useFinancialStore(state => state.initializeListeners);
     const transactions = useFinancialStore(state => state.filteredTransactions());
-    const categories = useFinancialStore(state => state.categories);
+    const getCategoryName = useFinancialStore(state => state.getCategoryName);
     const [modalOpen, setModalOpen] = useState(false);
     const [settingsOpen, setSettingsOpen] = useState(false);
     const [editingTx, setEditingTx] = useState<Transaction | undefined>(undefined);
@@ -22,7 +22,7 @@ export function Financeiro() {
     }, [initializeListeners]);
 
     const handleExportCSV = () => {
-        const getCategoryName = (id: string) => categories.find(c => c.id === id)?.name || 'Desconhecida';
+
         
         const headers = ['Data', 'Descricao', 'Categoria', 'Favorecido/Pagador', 'Tipo', 'Valor', 'Status'];
         const rows = transactions.map(tx => [

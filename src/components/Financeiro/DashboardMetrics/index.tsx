@@ -1,13 +1,14 @@
 import React from 'react';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import { styles } from './styles';
+import { formatCurrency } from '../../../lib/utils';
 
 export function DashboardMetrics() {
     const filteredIncome = useFinancialStore(state => state.filteredIncome());
     const filteredExpense = useFinancialStore(state => state.filteredExpense());
     const filteredBalance = useFinancialStore(state => state.filteredBalance());
 
-    const formatCurrency = (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+
 
     return (
         <div className={styles.grid}>
