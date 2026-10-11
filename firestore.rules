@@ -38,7 +38,7 @@ service cloud.firestore {
     // -------------------------------------------------------------------------
 
     match /users/{userId} {
-      allow read: if isAuthenticated();
+      allow read: if isPrivileged() || request.auth.uid == userId;
       allow write: if isPrivileged() || request.auth.uid == userId;
     }
 

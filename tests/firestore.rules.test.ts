@@ -80,10 +80,16 @@ describe('Usuário não autenticado', () => {
 // ─── Role ausente (claim não definido) ───────────────────────────────────────
 
 describe('Usuário autenticado sem role (claim ausente)', () => {
-  it('consegue ler users (acesso básico autenticado)', async () => {
+  it('consegue ler seu próprio documento em users', async () => {
     await seed('users/u1', { nome: 'Ana' });
     const noRoleDb = testEnv.authenticatedContext('u1', {}).firestore();
     await assertSucceeds(getDoc(doc(noRoleDb, 'users/u1')));
+  });
+
+  it('não consegue ler documento de outros usuários em users', async () => {
+    await seed('users/u2', { nome: 'Beto' });
+    const noRoleDb = testEnv.authenticatedContext('u1', {}).firestore();
+    await assertFails(getDoc(doc(noRoleDb, 'users/u2')));
   });
 
   it('não consegue ler residents', async () => {
