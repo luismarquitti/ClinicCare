@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { User, Resident, Role, VitalSign, EvolutionRecord, Medication, MedicationAdministration, BillingItem, MaintenanceLog, Employee, InventoryItem, ExpenseItem, ShoppingList, PriceHistory, Asset, WorkOrder, SalaryAdvance } from '../types';
 import { db, auth, functions } from '../services/firebase';
-import { collection, onSnapshot, addDoc, updateDoc, doc, Timestamp, setDoc } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, updateDoc, doc, Timestamp, setDoc, query, where } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
 
 export interface Notification {
@@ -136,7 +136,13 @@ export const useAppStore = create<AppState>((set, get) => ({
     const unsubMaintenance = onSnapshot(collection(db, 'maintenanceLogs'), (snapshot) => {
       set({ maintenanceLogs: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as MaintenanceLog)) });
     });
-    const unsubNotifications = onSnapshot(collection(db, 'notifications'), (snapshot) => {
+    const userRole = get().user?.role;
+    const notificationsRef = collection(db, 'notifications');
+    const notificationsQuery = userRole
+      ? query(notificationsRef, where('targetRole', 'in', ['all', userRole]))
+      : notificationsRef;
+
+    const unsubNotifications = onSnapshot(notificationsQuery, (snapshot) => {
       set({ notifications: snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Notification)) });
     });
     const unsubExpenses = onSnapshot(collection(db, 'expenses'), (snapshot) => {

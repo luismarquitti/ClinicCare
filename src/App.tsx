@@ -90,14 +90,18 @@ export default function App() {
       setAuthLoading(false);
     });
 
-    // Start listening to Firebase real-time snapshot events
-    const unsubscribeListeners = initializeListeners();
-
     return () => {
       unsubscribeAuth();
-      unsubscribeListeners();
     };
-  }, [initializeListeners, setAuthLoading, setUser]);
+  }, [setAuthLoading, setUser]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Start listening to Firebase real-time snapshot events only when authenticated
+    const unsubscribeListeners = initializeListeners();
+    return () => unsubscribeListeners();
+  }, [user, initializeListeners]);
 
   useEffect(() => {
     if (notifications.length > prevNotificationsLength.current) {
