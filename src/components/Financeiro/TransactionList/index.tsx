@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useFinancialStore } from '../../../store/useFinancialStore';
 import { Transaction } from '../../../types';
 import { styles } from './styles';
@@ -10,6 +10,10 @@ interface Props {
 export function TransactionList({ onEdit }: Props) {
     const transactions = useFinancialStore(state => state.filteredTransactions());
     const categories = useFinancialStore(state => state.categories);
+
+    const sortedTransactions = useMemo(() => {
+        return [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }, [transactions]);
 
     const getCategoryName = (id: string) => categories.find(c => c.id === id)?.name || 'Desconhecida';
     const formatCurrency = (val: number) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
@@ -31,7 +35,7 @@ export function TransactionList({ onEdit }: Props) {
                         </tr>
                     </thead>
                     <tbody className={styles.tbody}>
-                        {transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map(tx => (
+                        {sortedTransactions.map(tx => (
                             <tr key={tx.id} className={styles.tr}>
                                 <td className={styles.tdDate}>
                                     {new Date(tx.date).toLocaleDateString('pt-BR')}
@@ -64,7 +68,7 @@ export function TransactionList({ onEdit }: Props) {
                                 </td>
                             </tr>
                         ))}
-                        {transactions.length === 0 && (
+                        {sortedTransactions.length === 0 && (
                             <tr>
                                 <td colSpan={7} className={styles.emptyRow}>Nenhuma transação encontrada no período.</td>
                             </tr>
@@ -75,7 +79,7 @@ export function TransactionList({ onEdit }: Props) {
 
             {/* Mobile View */}
             <div className={styles.mobileWrapper}>
-                {transactions.map(tx => (
+                {sortedTransactions.map(tx => (
                     <div key={tx.id} onClick={() => onEdit(tx)} className={styles.mobileItem}>
                         <div className={styles.mobileHeader}>
                             <div>
@@ -98,7 +102,7 @@ export function TransactionList({ onEdit }: Props) {
                         {tx.isRecurring && <span className={styles.mobileRecurringBadge}>Recorrente</span>}
                     </div>
                 ))}
-                {transactions.length === 0 && (
+                {sortedTransactions.length === 0 && (
                     <div className={styles.emptyRow}>Nenhuma transação encontrada.</div>
                 )}
             </div>
