@@ -1,18 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDashboardStore } from '../../../store/useDashboardStore';
+import { formatCurrency } from '../../../lib/utils';
 import { styles } from './styles';
 
 export function FinancialCard() {
   const { stats, loading } = useDashboardStore();
   const { monthlyIncome, monthlyExpenses, pendingBilling } = stats.financial;
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
-  };
 
   if (loading) {
     return (
