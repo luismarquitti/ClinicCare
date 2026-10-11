@@ -233,14 +233,16 @@ export const useAppStore = create<AppState>((set, get) => ({
       new Date(now.getTime() + 1000 * 60 * 60 * 24), // Tomorrow
     ];
 
-    for (const schedule of schedules) {
-      await addDoc(collection(db, 'administrations'), {
-        medicationId: medRef.id,
-        residentId: medication.residentId,
-        scheduledTime: schedule.toISOString(),
-        status: 'pendente'
-      } as Partial<MedicationAdministration>);
-    }
+    await Promise.all(
+      schedules.map((schedule) =>
+        addDoc(collection(db, 'administrations'), {
+          medicationId: medRef.id,
+          residentId: medication.residentId,
+          scheduledTime: schedule.toISOString(),
+          status: 'pendente',
+        } as Partial<MedicationAdministration>)
+      )
+    );
 
     // Cloud Functions should ideally handle the notification creation server-side,
     // but we simulate it here by adding to the notifications collection:
