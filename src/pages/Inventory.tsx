@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../store';
 import { InventoryItem, ShoppingList, PriceHistory } from '../types';
+import { getStatusColor } from '../lib/utils';
 
 export function Inventory() {
     const { inventory, shoppingLists, priceHistories, addInventoryItem, updateInventoryQuantity } = useAppStore();
@@ -76,12 +77,6 @@ export function Inventory() {
             alert('Funcionalidade de concluir compra enviará dados ao Firebase e atualizará estoque.');
             setIsFulfillModalOpen(false);
         }
-    };
-
-    const getStatusColor = (current: number, min: number) => {
-        if (current <= 0) return 'bg-danger/10 text-danger border-danger/20';
-        if (current <= min) return 'bg-warning/10 text-warning border-warning/20';
-        return 'bg-success/10 text-success border-success/20';
     };
 
     const getStatusText = (current: number, min: number) => {
