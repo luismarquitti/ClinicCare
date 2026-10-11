@@ -44,7 +44,14 @@ interface FinancialState {
     deleteCategory: (id: string) => Promise<void>;
 }
 
-export const useFinancialStore = create<FinancialState>((set, get) => ({
+export const useFinancialStore = create<FinancialState>((set, get) => {
+    let lastTransactions: Transaction[] | null = null;
+    let lastFilters: FinancialFilters | null = null;
+    let cachedFilteredTransactions: Transaction[] = [];
+    let cachedIncome = 0;
+    let cachedExpense = 0;
+
+    return {
     accounts: [],
     categories: [],
     transactions: [],
@@ -57,32 +64,58 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
 
     filteredTransactions: () => {
         const { transactions, filters } = get();
-        return transactions.filter(t => {
+        if (lastTransactions === transactions && lastFilters === filters) {
+            return cachedFilteredTransactions;
+        }
+
+        let start = 0;
+        let end = 0;
+        const hasDateRange = !!filters.dateRange;
+        if (hasDateRange && filters.dateRange) {
+            start = new Date(filters.dateRange.start).getTime();
+            end = new Date(filters.dateRange.end).getTime();
+        }
+
+        let income = 0;
+        let expense = 0;
+
+        const filtered = transactions.filter(t => {
             // Apply filters
             if (filters.type !== 'ALL' && t.type !== filters.type) return false;
             if (filters.categoryId !== 'ALL' && t.categoryId !== filters.categoryId) return false;
             if (filters.status !== 'ALL' && t.status !== filters.status) return false;
 
-            if (filters.dateRange) {
+            if (hasDateRange) {
                 const txDate = new Date(t.date).getTime();
-                const start = new Date(filters.dateRange.start).getTime();
-                const end = new Date(filters.dateRange.end).getTime();
                 if (txDate < start || txDate > end) return false;
             }
+
+            if (t.type === 'INCOME') {
+                income += t.amount;
+            } else if (t.type === 'EXPENSE') {
+                expense += t.amount;
+            }
+
             return true;
         });
+
+        lastTransactions = transactions;
+        lastFilters = filters;
+        cachedFilteredTransactions = filtered;
+        cachedIncome = income;
+        cachedExpense = expense;
+
+        return cachedFilteredTransactions;
     },
 
     filteredIncome: () => {
-        return get().filteredTransactions()
-            .filter(t => t.type === 'INCOME')
-            .reduce((sum, t) => sum + t.amount, 0);
+        get().filteredTransactions();
+        return cachedIncome;
     },
 
     filteredExpense: () => {
-        return get().filteredTransactions()
-            .filter(t => t.type === 'EXPENSE')
-            .reduce((sum, t) => sum + t.amount, 0);
+        get().filteredTransactions();
+        return cachedExpense;
     },
 
     getCategoryName: (id: string) => {
@@ -90,9 +123,8 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
     },
 
     filteredBalance: () => {
-        const income = get().filteredIncome();
-        const expense = get().filteredExpense();
-        return income - expense;
+        get().filteredTransactions();
+        return cachedIncome - cachedExpense;
     },
 
     setFilters: (newFilters) => {
@@ -148,4 +180,5 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
     deleteCategory: async (id) => {
         await deleteDoc(doc(db, 'categories', id));
     },
-}));
+    };
+});
