@@ -26,6 +26,14 @@ jobs:
       - name: Build Application
         run: yarn build
 
+      - name: Install Functions dependencies
+        working-directory: functions
+        run: npm ci
+
+      - name: Build Functions
+        working-directory: functions
+        run: npm run build
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -33,3 +41,11 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLINICCARE_APP_LM }}'
           channelId: live
           projectId: cliniccare-app-lm
+
+      - name: Write service account credentials
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_CLINICCARE_APP_LM }}' > /tmp/sa.json
+
+      - name: Deploy Cloud Functions
+        run: npx firebase-tools deploy --only functions --project cliniccare-app-lm
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/sa.json
